@@ -1,4 +1,4 @@
-# $Header: /u/gcmpack/MITgcm/verification/global1x1_tot/input/Attic/data.exf,v 1.1.2.1 2002/04/04 20:09:27 heimbach Exp $
+# $Header: /u/gcmpack/MITgcm/verification/global1x1_tot/input/Attic/data.exf,v 1.1.2.2 2003/08/19 10:37:39 heimbach Exp $
 #
 # *********************
 # External Forcing Data
@@ -52,15 +52,9 @@
  sfluxfile         = 'NCEP_R_emp_92-01_1x1',
  ustressfile       = 'NCEP_R_ustr_92-01_1x1',
  vstressfile       = 'NCEP_R_vstr_92-01_1x1',
- atempfile         = 'PH_atm_atemp_020_016_23',
- aqhfile           = 'PH_atm_humid_020_016_23',
- uwindfile         = 'PH_atm_uwind_020_016_23',
- vwindfile         = 'PH_atm_vwind_020_016_23',
- precipfile        = 'PH_pratesfc_020_016_23',
- lwfluxfile        = 'PH_lwflsfc_020_016_23',
  swfluxfile        = 'NCEP_R_sw_92-01_1x1',
  runofffile	   = 'run-off.bin_1x1',
 #
  exf_iprec         = 32,
  exf_yftype        = 'RL',
- /
+ &

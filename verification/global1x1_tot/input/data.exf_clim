@@ -1,4 +1,4 @@
-# $Header: /u/gcmpack/MITgcm/verification/global1x1_tot/input/Attic/data.exf_clim,v 1.1.2.1 2002/04/04 20:09:27 heimbach Exp $
+# $Header: /u/gcmpack/MITgcm/verification/global1x1_tot/input/Attic/data.exf_clim,v 1.1.2.2 2003/08/19 10:37:39 heimbach Exp $
 #
 # *********************************
 # External Forcing Climatology Data
@@ -27,4 +27,4 @@
 #
  exf_clim_iprec     = 32,
  exf_clim_yftype    = 'RL',
- /
+ &

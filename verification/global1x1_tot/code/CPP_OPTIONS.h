@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/verification/global1x1_tot/code/Attic/CPP_OPTIONS.h,v 1.1.2.1 2002/04/04 20:09:27 heimbach Exp $
+C $Header: /u/gcmpack/MITgcm/verification/global1x1_tot/code/Attic/CPP_OPTIONS.h,v 1.1.2.2 2003/08/19 10:37:39 heimbach Exp $
 C
 
 C 
@@ -145,7 +145,7 @@ C          because the old code did not have no-slip BCs
 #undef  OLD_UV_GEOMETRY
 
 C o Include/exclude exact volume conservation
-#define EXACT_CONSERV
+#undef EXACT_CONSERV
 
 C o Execution environment support options
 #include "CPP_EEOPTIONS.h"
