@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/model/src/Attic/freeze.F,v 1.4 2001/09/26 18:09:15 cnh Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/Attic/freeze.F,v 1.4.12.1 2003/01/20 03:05:55 dimitri Exp $
 C $Name:  $
 
 #include "CPP_OPTIONS.h"
@@ -35,11 +35,13 @@ C     == Routine Arguments ==
 C     !LOCAL VARIABLES:
 C     == Local variables ==
 C     Tfreezing :: Freezing threshold temperature.
+C     Tboiling  :: Upper temperature bound.
       INTEGER i,j
-      _RL Tfreezing
+      _RL Tfreezing, Tboiling
 CEOP
 
       Tfreezing=-1.9
+      Tboiling =35.0
 
 C     Check for water that should have frozen
        DO j=jMin,jMax
@@ -47,6 +49,12 @@ C     Check for water that should have frozen
          IF (gT(i,j,k,bi,bj) .LT. Tfreezing) THEN
           gT(i,j,k,bi,bj)=Tfreezing
          ENDIF
+#ifdef COUPLED_UCLA
+cdm this is a temporary hack and needs to go ASAP!
+         IF (gT(i,j,k,bi,bj) .GT. Tboiling ) THEN
+          gT(i,j,k,bi,bj)=Tboiling
+         ENDIF
+#endif
         ENDDO
        ENDDO
 

@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/pkg/timeave/timeave_statvars.F,v 1.2 2001/05/29 14:01:40 adcroft Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/timeave/timeave_statvars.F,v 1.2.6.1 2003/01/20 03:05:55 dimitri Exp $
 C $Name:  $
 #include "CPP_OPTIONS.h"
 
@@ -17,6 +17,9 @@ C     == Global variables ===
 #include "PARAMS.h"
 #include "DYNVARS.h"
 #include "TIMEAVE_STATV.h"
+#ifdef COUPLED_UCLA
+#include "FFIELDS.h"
+#endif COUPLED_UCLA
 
       LOGICAL  DIFFERENT_MULTIPLE
       EXTERNAL DIFFERENT_MULTIPLE
@@ -48,6 +51,13 @@ C-    Initialize fields for the first call ever
         CALL TIMEAVE_RESET(vttave,    Nr, bi, bj, myThid)
         CALL TIMEAVE_RESET(phiHydtave,Nr,bi, bj, myThid)
         CALL TIMEAVE_RESET(ConvectCountTave,Nr,bi,bj,myThid)
+#ifdef COUPLED_UCLA
+        CALL TIMEAVE_RESET(fuTave,    1,  bi, bj, myThid)
+        CALL TIMEAVE_RESET(fvTave,    1,  bi, bj, myThid)
+        CALL TIMEAVE_RESET(QnetTave,  1,  bi, bj, myThid)
+        CALL TIMEAVE_RESET(QswTave,   1,  bi, bj, myThid)
+        CALL TIMEAVE_RESET(EmPmRTave, 1,  bi, bj, myThid)
+#endif COUPLED_UCLA
         DO K=1,Nr
          TimeAve_half(k,bi,bj)=0.
          TimeAve_full(k,bi,bj)=0.
@@ -68,6 +78,13 @@ C-    Time Averages of single fields
       CALL TIMEAVE_CUMULATE(salttave, salt,  Nr, DDTT, bi, bj, myThid)
       CALL TIMEAVE_CUMULATE(uVeltave, uVel,  Nr, DDTT, bi, bj, myThid)
       CALL TIMEAVE_CUMULATE(vVeltave, vVel,  Nr, DDTT, bi, bj, myThid)
+#ifdef COUPLED_UCLA
+      CALL TIMEAVE_CUMULATE(fuTave,     fu,  1 , DDTT, bi, bj, myThid)
+      CALL TIMEAVE_CUMULATE(fvTave,     fv,  1 , DDTT, bi, bj, myThid)
+      CALL TIMEAVE_CUMULATE(QnetTave, Qnet,  1 , DDTT, bi, bj, myThid)
+      CALL TIMEAVE_CUMULATE(QswTave,   Qsw,  1 , DDTT, bi, bj, myThid)
+      CALL TIMEAVE_CUMULATE(EmPmRTave,EmPmR, 1 , DDTT, bi, bj, myThid)
+#endif COUPLED_UCLA
 
 C-    Time Averages of "double" fields
       CALL TIMEAVE_CUMUL_2V(TTtave, theta, theta, Nr, 0, DDTT, 

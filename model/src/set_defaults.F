@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/model/src/set_defaults.F,v 1.30 2001/09/28 03:25:15 adcroft Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/set_defaults.F,v 1.30.6.1 2003/01/20 03:05:55 dimitri Exp $
 C $Name:  $
 
 #include "CPP_OPTIONS.h"
@@ -131,6 +131,7 @@ C--   Set default "physical" parameters
       implicitViscosity   = .FALSE.
       nonHydrostatic      = .FALSE.
       globalFiles         = .FALSE.
+      useSingleCpuIO      = .FALSE.
       allowFreezing       = .FALSE.
       ivdc_kappa          = 0.D0
       groundAtK1          = .FALSE.

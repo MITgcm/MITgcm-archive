@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/pkg/timeave/timeave_statv_write.F,v 1.2 2001/05/29 14:01:40 adcroft Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/timeave/timeave_statv_write.F,v 1.2.6.1 2003/01/20 03:05:55 dimitri Exp $
 C $Name:  $
 #include "CPP_OPTIONS.h"
 
@@ -16,6 +16,9 @@ C     == Global variables ===
 #include "PARAMS.h"
 #include "DYNVARS.h"
 #include "TIMEAVE_STATV.h"
+#ifdef COUPLED_UCLA
+#include "FFIELDS.h"
+#endif COUPLED_UCLA
 
       LOGICAL  DIFFERENT_MULTIPLE
       EXTERNAL DIFFERENT_MULTIPLE
@@ -60,6 +63,13 @@ C-     Normalize by integrated time
           CALL TIMEAVE_NORMALIZ(VVtave,   TimeAve_half,Nr,bi,bj,myThid)
           CALL TIMEAVE_NORMALIZ(uttave,   TimeAve_half,Nr,bi,bj,myThid)
           CALL TIMEAVE_NORMALIZ(vttave,   TimeAve_half,Nr,bi,bj,myThid)
+#ifdef COUPLED_UCLA
+          CALL TIMEAVE_NORMALIZ(fuTave,   TimeAve_half,1 ,bi,bj,myThid)
+          CALL TIMEAVE_NORMALIZ(fvTave,   TimeAve_half,1 ,bi,bj,myThid)
+          CALL TIMEAVE_NORMALIZ(QnetTave, TimeAve_half,1 ,bi,bj,myThid)
+          CALL TIMEAVE_NORMALIZ(QswTave,  TimeAve_half,1 ,bi,bj,myThid)
+          CALL TIMEAVE_NORMALIZ(EmPmRTave,TimeAve_half,1 ,bi,bj,myThid)
+#endif COUPLED_UCLA
 
           CALL TIMEAVE_NORMALIZ(wVeltave, TimeAve_full,Nr,bi,bj,myThid)
           CALL TIMEAVE_NORMALIZ(phiHydtave,TimeAve_full,Nr,
@@ -97,6 +107,14 @@ c       writeBinaryPrec = precFloat32
         CALL WRITE_FLD_XYZ_RL('PhHytave.',suff,phiHydtave,myIter,myThid)
         CALL WRITE_FLD_XYZ_RL('Convtave.',suff,ConvectCountTave,
      &                        myIter,myThid)
+#ifdef COUPLED_UCLA
+        CALL WRITE_FLD_XY_RL('FUtave.'   ,suff,fuTave   ,myIter,myThid)
+        CALL WRITE_FLD_XY_RL('FVtave.'   ,suff,fvTave   ,myIter,myThid)
+        CALL WRITE_FLD_XY_RL('QNETtave.' ,suff,QnetTave ,myIter,myThid)
+        CALL WRITE_FLD_XY_RL('QSWtave.'  ,suff,QswTave  ,myIter,myThid)
+        CALL WRITE_FLD_XY_RL('EmPmRtave.',suff,EmPmRTave,myIter,myThid)
+#endif COUPLED_UCLA
+
 c       writeBinaryPrec = prevPrec
 C--     Reread IO error counter
         endIOErrCount = IO_ERRCOUNT(myThid)
@@ -139,6 +157,13 @@ C--    Reset the averages to zero
           CALL TIMEAVE_RESET(vttave,   Nr, bi,bj,myThid)
           CALL TIMEAVE_RESET(phiHydtave,Nr,bi,bj,myThid)
           CALL TIMEAVE_RESET(ConvectCountTave,Nr,bi,bj,myThid)
+#ifdef COUPLED_UCLA
+          CALL TIMEAVE_RESET(fuTave,    1,  bi, bj, myThid)
+          CALL TIMEAVE_RESET(fvTave,    1,  bi, bj, myThid)
+          CALL TIMEAVE_RESET(QnetTave,  1,  bi, bj, myThid)
+          CALL TIMEAVE_RESET(QswTave,   1,  bi, bj, myThid)
+          CALL TIMEAVE_RESET(EmPmRTave, 1,  bi, bj, myThid)
+#endif COUPLED_UCLA
           DO k=1,Nr
             TimeAve_half(k,bi,bj)=0.
             TimeAve_full(k,bi,bj)=0.
@@ -152,6 +177,13 @@ C      "single" fields
           CALL TIMEAVE_CUMULATE(salttave, salt, Nr,DDTT, bi,bj,myThid)
           CALL TIMEAVE_CUMULATE(uVeltave, uVel, Nr,DDTT, bi,bj,myThid)
           CALL TIMEAVE_CUMULATE(vVeltave, vVel, Nr,DDTT, bi,bj,myThid)
+#ifdef COUPLED_UCLA
+          CALL TIMEAVE_CUMULATE(fuTave,     fu, 1, DDTT, bi,bj,myThid)
+          CALL TIMEAVE_CUMULATE(fvTave,     fv, 1, DDTT, bi,bj,myThid)
+          CALL TIMEAVE_CUMULATE(QnetTave, Qnet, 1, DDTT, bi,bj,myThid)
+          CALL TIMEAVE_CUMULATE(QswTave,   Qsw, 1, DDTT, bi,bj,myThid)
+          CALL TIMEAVE_CUMULATE(EmPmRTave,EmPmR,1, DDTT, bi,bj,myThid)
+#endif COUPLED_UCLA
 
 C      "double" fields
           CALL TIMEAVE_CUMUL_2V(TTtave, theta, theta, Nr, 0, DDTT, 

@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/model/src/the_main_loop.F,v 1.21 2001/09/28 02:26:57 adcroft Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/the_main_loop.F,v 1.21.6.1 2003/01/20 03:05:55 dimitri Exp $
 
 #include "CPP_OPTIONS.h"
 
@@ -71,6 +71,11 @@ C     == Local variables ==
       integer max_lev3
 #endif
 CEOP
+
+#ifdef COUPLED_UCLA
+      COMMON /COUPLED_TERMINATE/ terminate
+      LOGICAL terminate
+#endif COUPLED_UCLA
 
 #ifdef ALLOW_AUTODIFF_TAMC
 c--   Initialize storage for the cost function evaluation.
@@ -272,6 +277,10 @@ c--     >>> Loop body start <<<
         CALL TIMER_START('FORWARD_STEP        [THE_MAIN_LOOP]',mythid)
         CALL FORWARD_STEP( iloop, mytime, myiter, mythid )
         CALL TIMER_STOP ('FORWARD_STEP        [THE_MAIN_LOOP]',mythid)
+
+#ifdef COUPLED_UCLA
+        IF( terminate ) RETURN
+#endif COUPLED_UCLA
 
 #ifdef ALLOW_COST
 C--     compare model with data and compute cost function

@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/pkg/timeave/TIMEAVE_STATV.h,v 1.2 2001/05/29 14:01:40 adcroft Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/timeave/TIMEAVE_STATV.h,v 1.2.6.1 2003/01/20 03:05:55 dimitri Exp $
 C $Name:  $
 C
 C--   98/06/12 - elk
@@ -41,3 +41,13 @@ C     vttave    - vVel * theta
       _RL  wVeltave (1-OLx:sNx+OLx,1-OLy:sNy+OLy,Nr,nSx,nSy)
       _RL phiHydtave(1-OLx:sNx+OLx,1-OLy:sNy+OLy,Nr,nSx,nSy)
       _RL ConvectCountTave(1-OLx:sNx+OLx,1-OLy:sNy+OLy,Nr,nSx,nSy)
+
+#ifdef COUPLED_UCLA
+      COMMON /TAVE_FLUXVARS/ 
+     &                  fuTave,fvTave,QnetTave,QswTave,EmPmRTave
+      _RS  fuTave   (1-OLx:sNx+OLx,1-OLy:sNy+OLy,nSx,nSy)
+      _RS  fvTave   (1-OLx:sNx+OLx,1-OLy:sNy+OLy,nSx,nSy)
+      _RS  QnetTave (1-OLx:sNx+OLx,1-OLy:sNy+OLy,nSx,nSy)
+      _RS  QswTave  (1-OLx:sNx+OLx,1-OLy:sNy+OLy,nSx,nSy)
+      _RS  EmPmRTave(1-OLx:sNx+OLx,1-OLy:sNy+OLy,nSx,nSy)
+#endif COUPLED_UCLA

@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/eesupp/src/Attic/exch_jam.F,v 1.5 2001/09/21 03:54:34 cnh Exp $
+C $Header: /u/gcmpack/MITgcm/eesupp/src/Attic/exch_jam.F,v 1.5.14.1 2003/01/20 03:05:54 dimitri Exp $
 C $Name:  $
 
 #include "CPP_EEOPTIONS.h"
@@ -112,7 +112,7 @@ C     Even-odd pairs
        CALL MPI_Sendrecv_replace(exchBuf1,sNx,MPI_REAL8,
      &                           farProc1,0,
      &                           farProc1,MPI_ANY_TAG,
-     &                           MPI_COMM_WORLD,mpiStatus,
+     &                           MPI_COMM_MODEL,mpiStatus,
      &                           rc)
       ENDIF
 C     Odd-even pairs
@@ -120,7 +120,7 @@ C     Odd-even pairs
        CALL MPI_Sendrecv_replace(exchBuf2,sNx,MPI_REAL8,
      &                           farProc2,0,
      &                           farProc2,MPI_ANY_TAG,
-     &                           MPI_COMM_WORLD,mpiStatus,
+     &                           MPI_COMM_MODEL,mpiStatus,
      &                           rc)
       ENDIF
 #endif
@@ -312,7 +312,7 @@ C     Even-odd pairs
        CALL MPI_Sendrecv_replace(exchBuf1,OLy*(sNx+2*OLx),MPI_REAL8,
      &                           farProc1,0,
      &                           farProc1,MPI_ANY_TAG,
-     &                           MPI_COMM_WORLD,mpiStatus,
+     &                           MPI_COMM_MODEL,mpiStatus,
      &                           rc)
       ENDIF
 C     Odd-even pairs
@@ -320,7 +320,7 @@ C     Odd-even pairs
        CALL MPI_Sendrecv_replace(exchBuf2,OLy*(sNx+2*OLx),MPI_REAL8,
      &                           farProc2,0,
      &                           farProc2,MPI_ANY_TAG,
-     &                           MPI_COMM_WORLD,mpiStatus,
+     &                           MPI_COMM_MODEL,mpiStatus,
      &                           rc)
       ENDIF
 
@@ -528,7 +528,7 @@ C      Even-odd pairs
         CALL MPI_Sendrecv_replace(exchBuf1,OLy*(sNx+2*OLx),MPI_REAL8,
      &                            farProc1,0,
      &                            farProc1,MPI_ANY_TAG,
-     &                            MPI_COMM_WORLD,mpiStatus,
+     &                            MPI_COMM_MODEL,mpiStatus,
      &                            rc)
        ENDIF
 C      Odd-even pairs
@@ -536,7 +536,7 @@ C      Odd-even pairs
         CALL MPI_Sendrecv_replace(exchBuf2,OLy*(sNx+2*OLx),MPI_REAL8,
      &                            farProc2,0,
      &                            farProc2,MPI_ANY_TAG,
-     &                            MPI_COMM_WORLD,mpiStatus,
+     &                            MPI_COMM_MODEL,mpiStatus,
      &                            rc)
        ENDIF
 
@@ -736,7 +736,7 @@ C     Even-odd pairs
        CALL MPI_Sendrecv_replace(exchBuf1,sNx,MPI_REAL8,
      &                           farProc1,0,
      &                           farProc1,MPI_ANY_TAG,
-     &                           MPI_COMM_WORLD,mpiStatus,
+     &                           MPI_COMM_MODEL,mpiStatus,
      &                           rc)
       ENDIF
 C     Odd-even pairs
@@ -744,7 +744,7 @@ C     Odd-even pairs
        CALL MPI_Sendrecv_replace(exchBuf2,sNx,MPI_REAL8,
      &                           farProc2,0,
      &                           farProc2,MPI_ANY_TAG,
-     &                           MPI_COMM_WORLD,mpiStatus,
+     &                           MPI_COMM_MODEL,mpiStatus,
      &                           rc)
       ENDIF
 #endif
@@ -934,7 +934,7 @@ C     Even-odd pairs
        CALL MPI_Sendrecv_replace(exchBuf1,OLy*(sNx+2*OLx),MPI_REAL8,
      &                           farProc1,0,
      &                           farProc1,MPI_ANY_TAG,
-     &                           MPI_COMM_WORLD,mpiStatus,
+     &                           MPI_COMM_MODEL,mpiStatus,
      &                           rc)
       ENDIF
 C     Odd-even pairs
@@ -942,7 +942,7 @@ C     Odd-even pairs
        CALL MPI_Sendrecv_replace(exchBuf2,OLy*(sNx+2*OLx),MPI_REAL8,
      &                           farProc2,0,
      &                           farProc2,MPI_ANY_TAG,
-     &                           MPI_COMM_WORLD,mpiStatus,
+     &                           MPI_COMM_MODEL,mpiStatus,
      &                           rc)
       ENDIF
 
@@ -1149,7 +1149,7 @@ C      Even-odd pairs
         CALL MPI_Sendrecv_replace(exchBuf1,OLy*(sNx+2*OLx),MPI_REAL8,
      &                            farProc1,0,
      &                            farProc1,MPI_ANY_TAG,
-     &                            MPI_COMM_WORLD,mpiStatus,
+     &                            MPI_COMM_MODEL,mpiStatus,
      &                            rc)
        ENDIF
 C      Odd-even pairs
@@ -1157,7 +1157,7 @@ C      Odd-even pairs
         CALL MPI_Sendrecv_replace(exchBuf2,OLy*(sNx+2*OLx),MPI_REAL8,
      &                            farProc2,0,
      &                            farProc2,MPI_ANY_TAG,
-     &                            MPI_COMM_WORLD,mpiStatus,
+     &                            MPI_COMM_MODEL,mpiStatus,
      &                            rc)
        ENDIF
 

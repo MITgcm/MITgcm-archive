@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/eesupp/src/global_max.F,v 1.9 2001/09/21 03:54:35 cnh Exp $
+C $Header: /u/gcmpack/MITgcm/eesupp/src/global_max.F,v 1.9.14.1 2003/01/20 03:05:54 dimitri Exp $
 C $Name:  $
 
 C--   File global_max.F: Routines that perform global max reduction on an array
@@ -77,7 +77,7 @@ C--   Max within the process first
        IF ( usingMPI ) THEN
 #endif
         CALL MPI_Allreduce(tmp,maxPhi,1,MPI_REAL,MPI_MAX,
-     &                   MPI_COMM_WORLD,mpiRC)
+     &                   MPI_COMM_MODEL,mpiRC)
 #ifndef ALWAYS_USE_MPI
        ENDIF
 #endif
@@ -163,7 +163,7 @@ C--   Max within the process first
        IF ( usingMPI ) THEN
 #endif
         CALL MPI_Allreduce(tmp,maxPhi,1,MPI_DOUBLE_PRECISION,MPI_MAX,
-     &                   MPI_COMM_WORLD,mpiRC)
+     &                   MPI_COMM_MODEL,mpiRC)
 #ifndef ALWAYS_USE_MPI
        ENDIF
 #endif

@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/model/src/write_state.F,v 1.15 2001/09/26 18:09:16 cnh Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/write_state.F,v 1.15.10.1 2003/01/20 03:05:55 dimitri Exp $
 C $Name:  $
 #include "CPP_OPTIONS.h"
 
@@ -55,6 +55,7 @@ C     == Global variables ===
 #include "EEPARAMS.h"
 #include "PARAMS.h"
 #include "DYNVARS.h"
+#include "FFIELDS.h"
 #ifdef ALLOW_PASSIVE_TRACER
 #include "TR1.h"
 #endif
@@ -108,7 +109,14 @@ C       - creates relatively few files but these files can become huge
          CALL WRITE_REC_XYZ_RL( 'PNH',phi_nh,iRec,myIter,myThid)
         ENDIF
 #endif /* ALLOW_NONHYDROSTATIC */
-#else
+#ifdef COUPLED_UCLA
+        CALL WRITE_REC_XY_RL( 'fu'   ,   fu,iRec,myIter,myThid)
+        CALL WRITE_REC_XY_RL( 'fv'   ,   fv,iRec,myIter,myThid)
+        CALL WRITE_REC_XY_RL( 'EmPmR',EmPmR,iRec,myIter,myThid)
+        CALL WRITE_REC_XY_RL( 'Qnet' , Qnet,iRec,myIter,myThid)
+        CALL WRITE_REC_XY_RL( 'Qsw'  ,  Qsw,iRec,myIter,myThid)
+#endif /* COUPLED_UCLA */
+#else /* MULTIPLE_RECORD_STATE_FILES */
 C       Write each snap-shot as a new file (original and default method)
 C       - creates many files but for large configurations is easier to
 C         transfer analyse a particular snap-shots
@@ -127,6 +135,13 @@ C         transfer analyse a particular snap-shots
          CALL WRITE_FLD_XYZ_RL( 'PNH.',suff,phi_nh,myIter,myThid)
         ENDIF
 #endif /* ALLOW_NONHYDROSTATIC */
+#ifdef COUPLED_UCLA
+        CALL WRITE_FLD_XY_RL( 'fu'   ,suff,   fu,myIter,myThid)
+        CALL WRITE_FLD_XY_RL( 'fv'   ,suff,   fv,myIter,myThid)
+        CALL WRITE_FLD_XY_RL( 'EmPmR',suff,EmPmR,myIter,myThid)
+        CALL WRITE_FLD_XY_RL( 'Qnet' ,suff, Qnet,myIter,myThid)
+        CALL WRITE_FLD_XY_RL( 'Qsw'  ,suff,  Qsw,myIter,myThid)
+#endif /* COUPLED_UCLA */
 #endif /* MULTIPLE_RECORD_STATE_FILES */
 
          _END_MASTER( myThid )

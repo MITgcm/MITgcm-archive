@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/model/src/dynamics.F,v 1.83 2001/09/27 20:12:10 heimbach Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/dynamics.F,v 1.83.6.1 2003/01/20 03:05:55 dimitri Exp $
 C $Name:  $
 
 #include "CPP_OPTIONS.h"
@@ -104,7 +104,7 @@ C      |-- MOM_FLUXFORM
 C      |
 C      |-- MOM_VECINV    
 C      |
-C      |-- TIMESTEP      
+C      |-- TIMESTEP_MOM      
 C      |
 C      |-- OBCS_APPLY_UV 
 C      |
@@ -290,7 +290,7 @@ C--     Start computation of dynamics
 CADJ STORE wvel (:,:,:,bi,bj) = comlev1_bibj, key = ikey, byte = isbyte
 #endif /* ALLOW_AUTODIFF_TAMC */
 
-C--     Explicit part of the Surface Potentiel Gradient (add in TIMESTEP)
+C--     Explicit part of the Surface Potentiel Gradient (add in TIMESTEP_MOM)
 C       (note: this loop will be replaced by CALL CALC_GRAD_ETA)
         IF (implicSurfPress.NE.1.) THEN
           CALL CALC_GRAD_PHI_SURF(
@@ -369,7 +369,7 @@ C        and step forward storing the result in gUnm1, gVnm1, etc...
      U         fVerU, fVerV,
      I         myTime, myIter, myThid)
 #endif
-           CALL TIMESTEP(
+           CALL TIMESTEP_MOM(
      I         bi,bj,iMin,iMax,jMin,jMax,k,
      I         phiHyd, phiSurfX, phiSurfY,
      I         myIter, myThid)

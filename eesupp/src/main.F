@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/eesupp/src/main.F,v 1.9 2001/09/28 16:49:54 adcroft Exp $
+C $Header: /u/gcmpack/MITgcm/eesupp/src/main.F,v 1.9.14.1 2003/01/20 03:05:55 dimitri Exp $
 C $Name:  $
 
 CBOI
@@ -44,13 +44,16 @@ CEOI
 
 C--   Get C preprocessor options
 #include "CPP_OPTIONS.h"
-#include "CPP_EEOPTIONS.h"
 
 CBOP
 C !ROUTINE: MAIN
 
 C !INTERFACE:
+#if defined(COUPLED_UCLA) && !defined(COUPLED_DEBUG)
+      SUBROUTINE OCEAN_MAIN( begPE, endPE )
+#else
       PROGRAM MAIN
+#endif
       IMPLICIT NONE
 
 C !DESCRIPTION:
@@ -96,6 +99,14 @@ C--   Local variables
       INTEGER myThid
       INTEGER I
 CEOP
+
+#ifdef COUPLED_UCLA
+      INTEGER             begPE, endPE
+      COMMON /OCEAN_RANK/ ocn_rank_min, ocn_rank_max
+      INTEGER             ocn_rank_min, ocn_rank_max
+      ocn_rank_min = begPE
+      ocn_rank_max = endPE
+#endif
 
 C--   Set up the execution environment
 C     EEBOOT loads a execution environment parameter file 
@@ -144,11 +155,14 @@ C--     Each threads sets flag indicating it is done
 C--   Shut down execution environment
       CALL EEDIE
 
+#if defined(COUPLED_UCLA) && !defined(COUPLED_DEBUG)
+      RETURN
+#else
 C--   Write closedown status
       IF ( fatalError ) THEN
        STOP 'ABNORMAL END: PROGRAM MAIN'
       ELSE
        STOP 'NORMAL END'
       ENDIF
-C
+#endif
       END

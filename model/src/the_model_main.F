@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/model/src/the_model_main.F,v 1.43 2001/09/28 16:49:54 adcroft Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/the_model_main.F,v 1.43.8.1 2003/01/20 03:05:55 dimitri Exp $
 C $Name:  $
 
 CBOI
@@ -295,7 +295,7 @@ C/\  | | | |-MOM_FLUXFORM       :: Flux form mom eqn. package ( see
 C/\  | | | |                       pkg/mom_fluxform ).
 C/\  | | | |-MOM_VECINV         :: Vector invariant form mom eqn. package ( see
 C/\  | | | |                       pkg/mom_vecinv   ).
-C/\  | | | |-TIMESTEP           :: Step momentum fields forward in time
+C/\  | | | |-TIMESTEP_MOM       :: Step momentum fields forward in time
 C/\  | | | |-OBCS_APPLY_UV      :: Open bndy. package (see pkg/obcs ).
 C/\  | | | |
 C/\  | | | |-IMPLDIFF           :: Solve vertical implicit diffusion equation.

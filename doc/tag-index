@@ -1,7 +1,29 @@
-$Header: /u/gcmpack/MITgcm/doc/tag-index,v 1.53 2001/09/28 17:53:37 adcroft Exp $
+$Header: /u/gcmpack/MITgcm/doc/tag-index,v 1.53.6.1 2003/01/20 03:05:54 dimitri Exp $
 
     Notes on tags used in MITgcmUV
     ==============================
+
+Revision history for branch release1_coupled
+   (branch for coupling to UCLA atmospheric model)
+
+12/01/03
+  Branched off tag release1_beta1
+  Modified eesupp/src/eeboot_minimal.F, eedie.F, exch_jam.F,
+    global_max.F, global_sum.F, gsum_jam.F, ini_procs.F, and main.F
+    model/src/dynamics.F, forward_step.F, freeze.F, ini_parms.F,
+    set_defaults.F, the_main_loop.F, the_model_main.F, timestep.F,
+    write_state.F, and mdsio_writefield.F
+    pkg/timeave/TIMEAVE_STATV.h, timeave_statv_write.F,
+    timeave_statvars.F, and model/inc/PARAMS.h, 
+  Added model/src/do_coupled_ucla.F and verification/coupled_ucla
+  NOTES:
+  MPI_COMM_WORLD -> MPI_COMM_MODEL in
+    exch_jam.F, global_max.F global_sum.F, and gsum_jam.F
+  Added useSingleCpuIO: ini_procs.F, PARAMS.h, ini_parms.F,
+    set_defaults.F, mdsio_writefield.F, and subroutine
+    GATHER_2D in do_coupled_ucla.F
+
+=================================================================
 
 checkpoint43
 o added two new advection tests

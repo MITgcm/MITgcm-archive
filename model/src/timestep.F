@@ -1,17 +1,17 @@
-C $Header: /u/gcmpack/MITgcm/model/src/timestep.F,v 1.27 2001/09/26 18:09:16 cnh Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/timestep.F,v 1.27.14.1 2003/01/20 03:05:55 dimitri Exp $
 C $Name:  $
 
 #include "CPP_OPTIONS.h"
 
 CBOP
-C     !ROUTINE: TIMESTEP
+C     !ROUTINE: TIMESTEP_MOM
 C     !INTERFACE:
-      SUBROUTINE TIMESTEP( bi, bj, iMin, iMax, jMin, jMax, K,
+      SUBROUTINE TIMESTEP_MOM( bi, bj, iMin, iMax, jMin, jMax, K,
      I                     phiHyd, phiSurfX, phiSurfY,
      I                     myIter, myThid )
 C     !DESCRIPTION: \bv
 C     *==========================================================*
-C     | S/R TIMESTEP                                              
+C     | S/R TIMESTEP_MOM                                              
 C     | o Step model fields forward in time                       
 C     *==========================================================*
 C     \ev

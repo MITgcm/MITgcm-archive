@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/model/inc/PARAMS.h,v 1.65 2001/09/28 03:25:15 adcroft Exp $
+C $Header: /u/gcmpack/MITgcm/model/inc/PARAMS.h,v 1.65.6.1 2003/01/20 03:05:55 dimitri Exp $
 C $Name:  $
 C
 CBOP
@@ -201,6 +201,15 @@ C     usingZCoords     :: Set to indicate that we are working in height
 C                        coords.
 C     nonHydrostatic :: Using non-hydrostatic terms
 C     globalFiles    :: Selects between "global" and "tiled" files
+C     useSingleCpuIO :: Sometimes globalFiles does not work properly,
+C                       for example,  on SGI machines when using f90
+C                       compiler.  When this flag is set, I/O is taken
+C                       care by a single CPU using gather/scatter routines.
+C                       Note that this option can actually be faster, on
+C                       a 1000-node Origin 3000 much faster, than mdsio
+C                       style globalFiles I/O!  At present this hack is
+C                       implemented within mdsio_writefield only and it
+C                       does not generate .meta files.
 C     allowFreezing  :: Allows water to freeze and form ice
 C     groundAtK1  :: put the surface(k=1) at the Lower Boundary (=ground)
       COMMON /PARM_L/ usingCartesianGrid, usingSphericalPolarGrid,
@@ -218,7 +227,7 @@ C     groundAtK1  :: put the surface(k=1) at the Lower Boundary (=ground)
      & implicitDiffusion, implicitViscosity,
      & doThetaClimRelax, doSaltClimRelax, doTr1ClimRelax, 
      & periodicExternalForcing, usingPCoords, usingZCoords,
-     & nonHydrostatic, globalFiles,
+     & nonHydrostatic, globalFiles, useSingleCpuIO,
      & allowFreezing, groundAtK1,
      & usePickupBeforeC35, debugMode,
      & readPickupWithTracer, writePickupWithTracer,
@@ -264,6 +273,7 @@ C     groundAtK1  :: put the surface(k=1) at the Lower Boundary (=ground)
       LOGICAL usingZCoords
       LOGICAL nonHydrostatic
       LOGICAL globalFiles
+      LOGICAL useSingleCpuIO
       LOGICAL allowFreezing
       LOGICAL groundAtK1
       LOGICAL usePickupBeforeC35

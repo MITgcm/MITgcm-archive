@@ -1,7 +1,7 @@
-C $Header: /u/gcmpack/MITgcm/eesupp/src/eedie.F,v 1.6 2001/04/10 22:35:24 heimbach Exp $
+C $Header: /u/gcmpack/MITgcm/eesupp/src/eedie.F,v 1.6.14.1 2003/01/20 03:05:54 dimitri Exp $
 C $Name:  $
 
-#include "CPP_EEOPTIONS.h"
+#include "CPP_OPTIONS.h"
 
 CStartOfInterface
       SUBROUTINE EEDIE
@@ -65,6 +65,9 @@ C--   ======================================
 #ifndef ALWAYS_USE_MPI
       IF ( usingMPI ) THEN
 #endif
+
+#if !defined(COUPLED_UCLA) || defined(COUPLED_DEBUG)
+
        CALL MPI_FINALIZE  ( mpiRC )
        IF ( mpiRC .NE. MPI_SUCCESS ) THEN
         eeEndError = .TRUE.
@@ -74,7 +77,9 @@ C--   ======================================
      &       mpiRC
         CALL PRINT_ERROR( msgBuf, 1 )
        ENDIF
-C
+
+#endif COUPLED_UCLA
+
 #ifndef ALWAYS_USE_MPI
       ENDIF
 #endif

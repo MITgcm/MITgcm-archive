@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/model/src/forward_step.F,v 1.23 2001/09/27 20:12:10 heimbach Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/forward_step.F,v 1.23.6.1 2003/01/20 03:05:55 dimitri Exp $
 C $Name:  $
 
 #include "CPP_OPTIONS.h"
@@ -62,6 +62,10 @@ C     mythid - thread number for this instance of the routine.
 
 CEOP
 
+#ifdef COUPLED_UCLA
+      COMMON /COUPLED_TERMINATE/ terminate
+      LOGICAL terminate
+#endif COUPLED_UCLA
 
 #ifdef ALLOW_AUTODIFF_TAMC
 C--     Reset the model iteration counter and the model time.
@@ -101,6 +105,8 @@ C      according to etaH(n+1)
         ENDIF
 #endif /* NONLIN_FRSURF */
 
+#ifndef COUPLED_UCLA
+
 C--     Load forcing/external data fields.
 #ifdef INCLUDE_EXTERNAL_FORCING_PACKAGE
 C       NOTE, that although the exf package is part of the
@@ -108,13 +114,27 @@ C       distribution, it is not currently maintained, i.e.
 C       exf is disabled by default in genmake.
 #ifdef ALLOW_BULKFORMULAE
 CADJ STORE theta     = comlev1, key = ikey_dynamics
-#endif
+#endif ALLOW_BULKFORMULAE
         CALL EXF_GETFORCING( mytime, myiter, mythid )
-#else
+#else INCLUDE_EXTERNAL_FORCING_PACKAGE
         CALL TIMER_START('EXTERNAL_FIELDS_LOAD[THE_MAIN_LOOP]',mythid)
         CALL EXTERNAL_FIELDS_LOAD( mytime, myiter, mythid )
         CALL TIMER_STOP ('EXTERNAL_FIELDS_LOAD[THE_MAIN_LOOP]',mythid)
-#endif
+#endif INCLUDE_EXTERNAL_FORCING_PACKAGE
+
+#else COUPLED_UCLA
+
+C-----------------------------------------------------------------------
+C
+C     Initialize UCLA AGCM-OGCM interface if iloop = 1
+C     Transfer SST to UCLA atmosphere model
+C     Get surface forcing fields from the UCLA atmosphere model
+C
+C-----------------------------------------------------------------------
+        CALL DO_COUPLED_UCLA( myTime, myIter, myThid )
+        IF( terminate ) RETURN
+
+#endif COUPLED_UCLA
 
 C--     Step forward fields and calculate time tendency terms.
         CALL TIMER_START('THERMODYNAMICS      [THE_MAIN_LOOP]',mythid)

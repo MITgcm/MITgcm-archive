@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/eesupp/src/Attic/gsum_jam.F,v 1.4 2001/09/21 03:54:35 cnh Exp $
+C $Header: /u/gcmpack/MITgcm/eesupp/src/Attic/gsum_jam.F,v 1.4.14.1 2003/01/20 03:05:55 dimitri Exp $
 C $Name:  $
 
 #include "CPP_EEOPTIONS.h"
@@ -26,6 +26,10 @@ C     *=========================================================================
 C     !USES:
 #ifdef ALLOW_MPI
 #include "mpif.h"
+C MPI communicator describing this model realization
+      COMMON /MPI_COMMS/
+     &        MPI_COMM_MODEL
+      INTEGER MPI_COMM_MODEL
 #endif
 
 C     !INPUT/OUTPUT PARAMETERS:
@@ -50,7 +54,7 @@ C     RC  :: Return code
      &                      1,
      &                    MPI_REAL8,
      &                    MPI_SUM,
-     &                    MPI_COMM_WORLD,
+     &                    MPI_COMM_MODEL,
      &                    rc
      &                  )
 #endif
