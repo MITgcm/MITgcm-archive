@@ -1,7 +1,7 @@
-C $Header: /u/gcmpack/MITgcm/pkg/monitor/mon_stats_rs.F,v 1.2 2001/06/04 20:04:24 adcroft Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/monitor/mon_stats_rs.F,v 1.2.6.1 2003/06/24 23:10:27 heimbach Exp $
 C $Name:  $
 
-#include "CPP_OPTIONS.h"
+#include "MONITOR_OPTIONS.h"
 
       SUBROUTINE MON_STATS_RS(
      I                myNr, arr,
