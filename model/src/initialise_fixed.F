@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/model/src/initialise_fixed.F,v 1.15 2003/11/12 04:15:17 jmc Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/initialise_fixed.F,v 1.15.2.1 2003/12/12 05:27:16 edhill Exp $
 C $Name:  $
 
 #include "PACKAGES_CONFIG.h"
@@ -58,6 +58,8 @@ C      |
 C      |-- CONFIG_CHECK
 C      |
 C      |-- CONFIG_SUMMARY
+C      |
+C      |-- NETCDF_WRITEGRID
 
 C     !USES:
       IMPLICIT NONE
@@ -134,6 +136,11 @@ C--   Check parameters and model cofiguration
 
 C--   Finally summarise the model cofiguration
       CALL CONFIG_SUMMARY( myThid )
+
+#ifdef ALLOW_NETCDF
+C     Test NETCDF_WRITEGRID
+      CALL NETCDF_WRITEGRID( 'test', myThid )
+#endif
 
       RETURN
       END
