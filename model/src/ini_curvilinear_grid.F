@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/model/src/ini_curvilinear_grid.F,v 1.3.4.1 2002/02/06 15:48:07 heimbach Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/ini_curvilinear_grid.F,v 1.3.4.2 2003/03/07 23:10:21 heimbach Exp $
 C $Name:  $
 
 #include "CPP_OPTIONS.h"
