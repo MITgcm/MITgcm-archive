@@ -1,9 +1,9 @@
-C $Header: /u/gcmpack/MITgcm/pkg/exf/EXF_OPTIONS.h,v 1.1.2.1 2003/10/02 18:18:33 adcroft Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/exf/EXF_OPTIONS.h,v 1.1.2.2 2003/10/02 19:14:20 adcroft Exp $
 C $Name:  $
 
 #ifndef EXF_OPTIONS_H
 #define EXF_OPTIONS_H
-#include "PACKAGE.h"
+#include "PACKAGES_CONFIG.h"
 #ifdef ALLOW_EXF
 
 #include "CPP_OPTIONS.h"
