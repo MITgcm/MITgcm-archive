@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/eesupp/src/Attic/exch.F,v 1.4.2.1 1998/06/20 22:20:20 cnh Exp $
+C $Header: /u/gcmpack/MITgcm/eesupp/src/Attic/exch.F,v 1.4.2.2 1998/06/22 02:11:15 cnh Exp $
 
 #include "CPP_EEOPTIONS.h"
 
@@ -564,7 +564,7 @@ C       the north-south transactions will send out the correct overlap
 C       region values into the corner sections of our neighbors.
         CALL MPI_Waitall( nReqs, reqIds, mpiStatArr, mpiRC )
 CcnhDebugStarts
-        RETURN
+C       RETURN
 CcnhDebugEnds
 
  
