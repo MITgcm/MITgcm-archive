@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/pkg/exf/EXF_OPTIONS.h,v 1.1.2.2 2003/10/02 19:14:20 adcroft Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/exf/EXF_OPTIONS.h,v 1.1.2.3 2003/10/07 20:47:08 adcroft Exp $
 C $Name:  $
 
 #ifndef EXF_OPTIONS_H
@@ -7,6 +7,11 @@ C $Name:  $
 #ifdef ALLOW_EXF
 
 #include "CPP_OPTIONS.h"
+
+C Despite the comments below, this package is currently configured by
+C ECCO_CPPOPTIONS.h and so you should not customize this file.
+#define ALLOW_ECCO
+#include "ECCO_CPPOPTIONS.h"
 
 C CPP flags controlling which code is included in the files that
 C will be compiled.
