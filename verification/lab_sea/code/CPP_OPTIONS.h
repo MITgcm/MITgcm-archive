@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/verification/lab_sea/code/CPP_OPTIONS.h,v 1.4.2.1 2003/10/02 19:14:06 adcroft Exp $
+C $Header: /u/gcmpack/MITgcm/verification/lab_sea/code/CPP_OPTIONS.h,v 1.4.2.2 2003/10/02 19:54:56 adcroft Exp $
 C $Name:  $
 C
 
@@ -36,7 +36,7 @@ c#cndef  ALLOW_SHAP_FILT
 
 C o Include/exclude code for C-D grid method of integrating the 
 C   coriolis terms
-c#cefine  INCLUDE_CD_CODE
+#define  INCLUDE_CD_CODE
 
 C o Include/exclude code for open-boundary conditions
 c#cndef  ALLOW_OBCS
