@@ -1,33 +1,24 @@
-C $Header: /u/gcmpack/MITgcm/pkg/cost/Attic/cost_theta.F,v 1.1.2.4 2003/06/19 15:21:16 heimbach Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/cost/Attic/cost_tmi.F,v 1.1.2.1 2003/06/19 15:21:16 heimbach Exp $
 
 #include "COST_CPPOPTIONS.h"
 
 
-      subroutine cost_Theta(
+      subroutine cost_tmi(
      I                       myiter,
      I                       mytime,
      I                       mythid
      &                     )
 
 c     ==================================================================
-c     SUBROUTINE cost_Theta
+c     SUBROUTINE cost_tmi
 c     ==================================================================
 c
-c     o Evaluate cost function contribution of temperature.
+c     o Evaluate cost function contribution of TMI SST
 c
-c     started: Christian Eckert eckert@mit.edu 30-Jun-1999
-c
-c     changed: Christian Eckert eckert@mit.edu 25-Feb-2000
-c
-c              - Restructured the code in order to create a package
-c                for the MITgcmUV.
-c
-c     changed: Patrick Heimbach heimbach@mit.edu 27-May-2000
-c
-c              - set ladinit to .true. to initialise adtbar file
+c     started: Armin Koehl akoehl@ucsd.edu
 c
 c     ==================================================================
-c     SUBROUTINE cost_Theta
+c     SUBROUTINE cost_tmi
 c     ==================================================================
 
       implicit none
@@ -53,9 +44,6 @@ c     == routine arguments ==
 
 c     == local variables ==
 
-      _RS        one_rs
-      parameter( one_rs = 1. )
-
       integer bi,bj
       integer i,j,k
       integer itlo,ithi
@@ -67,8 +55,8 @@ c     == local variables ==
       integer levoff
       integer iltheta
 
-      _RL fctile
-      _RL fcthread
+      _RL fctile_tmi
+      _RL fcthread_tmi
 
       _RL cmask (1-olx:snx+olx,1-oly:sny+oly)  
       _RL spval
@@ -79,10 +67,6 @@ c     == local variables ==
       logical ladinit
 
       character*(MAX_LEN_MBUF) msgbuf
-
-#ifdef GENERIC_BAR_MONTH
-      integer mrec, nyears, iyear
-#endif
 
 c     == external functions ==
 
@@ -106,7 +90,7 @@ c--   Read tiled data.
       doglobalread = .false.
       ladinit      = .false.
 
-#ifdef ALLOW_THETA_COST_CONTRIBUTION
+#ifdef ALLOW_TMI_SST_COST_CONTRIBUTION
 
 #ifdef ECCO_VERBOSE
       _BEGIN_MASTER( mythid )
@@ -114,7 +98,7 @@ c--   Read tiled data.
         call print_message( msgbuf, standardmessageunit,
      &                      SQUEEZE_RIGHT , mythid)
         write(msgbuf,'(a,i8.8)')
-     &    ' cost_Theta: number of records to process = ',nmonsrec
+     &    ' cost_tmi: number of records to process = ',nmonsrec
         call print_message( msgbuf, standardmessageunit,
      &                      SQUEEZE_RIGHT , mythid)
         write(msgbuf,'(a)') ' '
@@ -127,45 +111,15 @@ c--   Read tiled data.
         iltheta = ilnblnk( tbarfile )
         write(fnametheta(1:80),'(2a,i10.10)')
      &    tbarfile(1:iltheta),'.',optimcycle
+      else
+        print*
+        print*,' cost_tmi: optimcycle has a wrong value.'
+        print*,'           optimcycle = ',optimcycle
+        print*
+        stop   '  ... stopped in cost_tmi.'
       endif
 
-      fcthread = 0. _d 0
-
-#ifdef GENERIC_BAR_MONTH
-
-c--   Loop over month
-      do irec = 1,12
-         nyears=int((nmonsrec-irec)/12)+1
-         if(nyears.gt.0) then
-            do iyear=1,nyears
-            mrec=irec+(iyear-1)*12
-c--     Read time averages and the monthly mean data.
-            call active_read_xyz( fnametheta, tbar, mrec,
-     &           doglobalread, ladinit,
-     &           optimcycle, mythid,
-     &           xx_tbar_mean_dummy )
-            do bj = jtlo,jthi
-               do bi = itlo,ithi
-                  do k = 1,nr
-                     do j = jmin,jmax
-                        do i = imin,imax
-                           if(iyear.eq.1) then
-                              tbar_gen(i,j,k,bi,bj) =tbar(i,j,k,bi,bj)
-                           elseif(iyear.eq.nyears) then
-                              tbar(i,j,k,bi,bj) =(tbar_gen(i,j,k,bi,bj)
-     $                             +tbar(i,j,k,bi,bj))/float(nyears)
-                           else
-                          tbar_gen(i,j,k,bi,bj) =tbar_gen(i,j,k,bi,bj)
-     $                             +tbar(i,j,k,bi,bj)
-                           endif
-                        enddo
-                     enddo
-                  enddo
-               enddo
-            enddo
-         enddo
-
-#else
+      fcthread_tmi = 0. _d 0
 
 c--   Loop over records.
       do irec = 1,nmonsrec
@@ -174,69 +128,53 @@ c--     Read time averages and the monthly mean data.
         call active_read_xyz( fnametheta, tbar, irec,
      &                        doglobalread, ladinit,
      &                        optimcycle, mythid,
-     &                        xx_tbar_mean_dummy )
-
-#endif
-
-c--     Determine the month to be read.
-        levoff = mod(modelstartdate(1)/100,100)
-        levmon = (irec-1) + levoff
-        levmon = mod(levmon-1,12)+1
-
-        call mdsreadfield( tdatfile, cost_iprec, cost_yftype, 
-     &                     nr, tdat, levmon, mythid)
+     &                        xx_theta_dummy )
 
         do bj = jtlo,jthi
           do bi = itlo,ithi
 
-c--         Loop over the model layers
-            fctile = 0. _d 0
-            do k = 1,nr
+            fctile_tmi = 0. _d 0
+            k = 1
+
+c--         Compute cost rel. to monthly TMI SST climatology field.
+
+            call cost_ReadTMIFields( irec, mythid )
 
 c--           Determine the mask on weights
               do j = jmin,jmax
                 do i = imin,imax
                   cmask(i,j) = 1. _d 0
-                  if (tdat(i,j,k,bi,bj) .eq. 0.) then
+                  if (tmidat(i,j,bi,bj) .eq. 0.) then
                     cmask(i,j) = 0. _d 0
                   endif
                  
-                  if (tdat(i,j,k,bi,bj) .lt. spval) then
+                  if (tmidat(i,j,bi,bj) .le. spval) then
                     cmask(i,j) = 0. _d 0
                   endif
                   
-cph(
-cph               print *, 'WARNING: SPECIFIC SETUP FOR ECCO'
-cph               below statement could be replaced by following
-cph               to make it independnet of Nr:
-cph
-cph               if ( rC(K) .GT. -1000. ) then
-cph)
-c                 set cmask=0 in areas shallower than 1000m 
+                  ! set cmask=0 in areas shallower than 1000m 
                   if (_hFacC(i,j,13,bi,bj) .eq. 0.) then
                     cmask(i,j) = 0. _d 0
                   endif
                 enddo
               enddo
 
-c--           Compute model data misfit and cost function term for
-c             the temperature field.
-              do j = jmin,jmax
-                do i = imin,imax
-                  if (_hFacC(i,j,k,bi,bj) .ne. 0.) then
-                     fctile = fctile +
-     &                    (wtheta(k,bi,bj)*cosphi(i,j,bi,bj)*cmask(i,j)*
-     &                    (tbar(i,j,k,bi,bj) - tdat(i,j,k,bi,bj))*
-     &                    (tbar(i,j,k,bi,bj) - tdat(i,j,k,bi,bj))      )
-                  endif
-                enddo
+            do j = jmin,jmax
+              do i = imin,imax
+                if (_hFacC(i,j,k,bi,bj) .ne. 0.) then
+                   fctile_tmi = fctile_tmi +
+     &                  wsst(i,j,bi,bj)*cosphi(i,j,bi,bj)*cmask(i,j)*
+     &                  ( (tbar(i,j,k,bi,bj)-tmidat(i,j,bi,bj))*
+     &                    (tbar(i,j,k,bi,bj)-tmidat(i,j,bi,bj))*
+     &                           sstmask(i,j,bi,bj) )
+                endif
               enddo
-
             enddo
-c--         End of loop over layers.
 
-            fcthread         = fcthread         + fctile
-            objf_temp(bi,bj) = objf_temp(bi,bj) + fctile
+
+
+            fcthread_tmi     = fcthread_tmi + fctile_tmi
+            objf_tmi(bi,bj)  = objf_tmi(bi,bj)  + fctile_tmi
 
 #ifdef ECCO_VERBOSE
 c--         Print cost function for each tile in each thread.
@@ -244,17 +182,14 @@ c--         Print cost function for each tile in each thread.
             call print_message( msgbuf, standardmessageunit,
      &                          SQUEEZE_RIGHT , mythid)
             write(msgbuf,'(a,i8.8,1x,i3.3,1x,i3.3)')
-     &        ' cost_Theta: irec,bi,bj          =  ',irec,bi,bj
+     &        ' cost_tmi: irec,bi,bj          =  ',irec,bi,bj
             call print_message( msgbuf, standardmessageunit,
      &                          SQUEEZE_RIGHT , mythid)
             write(msgbuf,'(a,d22.15)')
-     &        '     cost function (temperature) = ',
-     &        fctile
+     &        '     cost function (tmi)         = ',
+     &        fctile_tmi
             call print_message( msgbuf, standardmessageunit,
      &                      SQUEEZE_RIGHT , mythid)
-            write(msgbuf,'(a)') ' '
-            call print_message( msgbuf, standardmessageunit,
-     &                          SQUEEZE_RIGHT , mythid)
 #endif
 
           enddo
@@ -262,31 +197,52 @@ c--         Print cost function for each tile in each thread.
 
 #ifdef ECCO_VERBOSE
 c--     Print cost function for all tiles.
-        _GLOBAL_SUM_R8( fcthread , myThid )
+        _GLOBAL_SUM_R8( fcthread_tmi   , myThid )
         write(msgbuf,'(a)') ' '
         call print_message( msgbuf, standardmessageunit,
      &                      SQUEEZE_RIGHT , mythid)
         write(msgbuf,'(a,i8.8)')
-     &    ' cost_Theta: irec = ',irec
+     &    ' cost_tmi: irec = ',irec
         call print_message( msgbuf, standardmessageunit,
      &                      SQUEEZE_RIGHT , mythid)
         write(msgbuf,'(a,a,d22.15)')
      &    ' global cost function value',
-     &    ' (temperature) = ',fcthread
+     &    ' (    TMI    ) = ',fcthread_tmi
         call print_message( msgbuf, standardmessageunit,
      &                      SQUEEZE_RIGHT , mythid)
         write(msgbuf,'(a)') ' '
         call print_message( msgbuf, standardmessageunit,
      &                      SQUEEZE_RIGHT , mythid)
-#endif
-
-#ifdef GENERIC_BAR_MONTH
-        endif
 #endif
 
       enddo
 c--   End of loop over records.
 
+#else
+c--   Do not enter the calculation of the temperature contribution to
+c--   the final cost function.
+
+      fctile_tmi     = 0. _d 0
+      fcthread_tmi   = 0. _d 0
+
+      _BEGIN_MASTER( mythid )
+        write(msgbuf,'(a)') ' '
+        call print_message( msgbuf, standardmessageunit,
+     &                      SQUEEZE_RIGHT , mythid)
+        write(msgbuf,'(a,a)')
+     &    ' cost_tmi: no contribution of temperature field ',
+     &                 'to cost function.'
+        call print_message( msgbuf, standardmessageunit,
+     &                      SQUEEZE_RIGHT , mythid)
+        write(msgbuf,'(a,a,i9.8)')
+     &    ' cost_tmi: number of records that would have',
+     &                ' been processed: ',nmonsrec
+        call print_message( msgbuf, standardmessageunit,
+     &                      SQUEEZE_RIGHT , mythid)
+        write(msgbuf,'(a)') ' '
+        call print_message( msgbuf, standardmessageunit,
+     &                      SQUEEZE_RIGHT , mythid)
+      _END_MASTER( mythid )
 #endif
 
       return

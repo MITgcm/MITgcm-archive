@@ -1,16 +1,16 @@
-C $Header: /u/gcmpack/MITgcm/pkg/cost/Attic/cost_theta.F,v 1.1.2.4 2003/06/19 15:21:16 heimbach Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/cost/Attic/cost_ctdtclim.F,v 1.1.2.1 2003/06/19 15:21:16 heimbach Exp $
 
 #include "COST_CPPOPTIONS.h"
 
 
-      subroutine cost_Theta(
+      subroutine cost_Ctdtclim(
      I                       myiter,
      I                       mytime,
      I                       mythid
      &                     )
 
 c     ==================================================================
-c     SUBROUTINE cost_Theta
+c     SUBROUTINE cost_Ctdtclim
 c     ==================================================================
 c
 c     o Evaluate cost function contribution of temperature.
@@ -27,7 +27,7 @@ c
 c              - set ladinit to .true. to initialise adtbar file
 c
 c     ==================================================================
-c     SUBROUTINE cost_Theta
+c     SUBROUTINE cost_Ctdtclim
 c     ==================================================================
 
       implicit none
@@ -65,7 +65,7 @@ c     == local variables ==
       integer irec
       integer levmon
       integer levoff
-      integer iltheta
+      integer ilctdtclim
 
       _RL fctile
       _RL fcthread
@@ -79,11 +79,9 @@ c     == local variables ==
       logical ladinit
 
       character*(MAX_LEN_MBUF) msgbuf
-
 #ifdef GENERIC_BAR_MONTH
       integer mrec, nyears, iyear
-#endif
-
+#endif      
 c     == external functions ==
 
       integer  ilnblnk
@@ -106,7 +104,7 @@ c--   Read tiled data.
       doglobalread = .false.
       ladinit      = .false.
 
-#ifdef ALLOW_THETA_COST_CONTRIBUTION
+#ifdef ALLOW_CTDTCLIM_COST_CONTRIBUTION
 
 #ifdef ECCO_VERBOSE
       _BEGIN_MASTER( mythid )
@@ -114,7 +112,7 @@ c--   Read tiled data.
         call print_message( msgbuf, standardmessageunit,
      &                      SQUEEZE_RIGHT , mythid)
         write(msgbuf,'(a,i8.8)')
-     &    ' cost_Theta: number of records to process = ',nmonsrec
+     &    ' cost_Ctdtclim: number of records to process = ',nmonsrec
         call print_message( msgbuf, standardmessageunit,
      &                      SQUEEZE_RIGHT , mythid)
         write(msgbuf,'(a)') ' '
@@ -124,15 +122,20 @@ c--   Read tiled data.
 #endif
 
       if (optimcycle .ge. 0) then
-        iltheta = ilnblnk( tbarfile )
+        ilctdtclim = ilnblnk( tbarfile )
         write(fnametheta(1:80),'(2a,i10.10)')
-     &    tbarfile(1:iltheta),'.',optimcycle
+     &    tbarfile(1:ilctdtclim),'.',optimcycle
+      else
+        print*
+        print*,' cost_Ctdtclim: optimcycle has a wrong value.'
+        print*,'             optimcycle = ',optimcycle
+        print*
+        stop   '  ... stopped in cost_Ctdtclim.'
       endif
 
       fcthread = 0. _d 0
 
 #ifdef GENERIC_BAR_MONTH
-
 c--   Loop over month
       do irec = 1,12
          nyears=int((nmonsrec-irec)/12)+1
@@ -164,9 +167,7 @@ c--     Read time averages and the monthly mean data.
                enddo
             enddo
          enddo
-
 #else
-
 c--   Loop over records.
       do irec = 1,nmonsrec
 
@@ -175,15 +176,13 @@ c--     Read time averages and the monthly mean data.
      &                        doglobalread, ladinit,
      &                        optimcycle, mythid,
      &                        xx_tbar_mean_dummy )
-
 #endif
-
 c--     Determine the month to be read.
         levoff = mod(modelstartdate(1)/100,100)
         levmon = (irec-1) + levoff
         levmon = mod(levmon-1,12)+1
 
-        call mdsreadfield( tdatfile, cost_iprec, cost_yftype, 
+        call mdsreadfield( ctdtclimfile, cost_iprec, cost_yftype, 
      &                     nr, tdat, levmon, mythid)
 
         do bj = jtlo,jthi
@@ -225,7 +224,8 @@ c             the temperature field.
                 do i = imin,imax
                   if (_hFacC(i,j,k,bi,bj) .ne. 0.) then
                      fctile = fctile +
-     &                    (wtheta(k,bi,bj)*cosphi(i,j,bi,bj)*cmask(i,j)*
+     &                  (wtheta2(i,j,k,bi,bj)*cosphi(i,j,bi,bj)*
+     &                    cmask(i,j)*
      &                    (tbar(i,j,k,bi,bj) - tdat(i,j,k,bi,bj))*
      &                    (tbar(i,j,k,bi,bj) - tdat(i,j,k,bi,bj))      )
                   endif
@@ -236,7 +236,7 @@ c             the temperature field.
 c--         End of loop over layers.
 
             fcthread         = fcthread         + fctile
-            objf_temp(bi,bj) = objf_temp(bi,bj) + fctile
+            objf_ctdtclim(bi,bj) = objf_ctdtclim(bi,bj) + fctile
 
 #ifdef ECCO_VERBOSE
 c--         Print cost function for each tile in each thread.
@@ -244,7 +244,7 @@ c--         Print cost function for each tile in each thread.
             call print_message( msgbuf, standardmessageunit,
      &                          SQUEEZE_RIGHT , mythid)
             write(msgbuf,'(a,i8.8,1x,i3.3,1x,i3.3)')
-     &        ' cost_Theta: irec,bi,bj          =  ',irec,bi,bj
+     &        ' cost_Ctdtclim: irec,bi,bj          =  ',irec,bi,bj
             call print_message( msgbuf, standardmessageunit,
      &                          SQUEEZE_RIGHT , mythid)
             write(msgbuf,'(a,d22.15)')
@@ -267,7 +267,7 @@ c--     Print cost function for all tiles.
         call print_message( msgbuf, standardmessageunit,
      &                      SQUEEZE_RIGHT , mythid)
         write(msgbuf,'(a,i8.8)')
-     &    ' cost_Theta: irec = ',irec
+     &    ' cost_Ctdtclim: irec = ',irec
         call print_message( msgbuf, standardmessageunit,
      &                      SQUEEZE_RIGHT , mythid)
         write(msgbuf,'(a,a,d22.15)')
@@ -283,9 +283,33 @@ c--     Print cost function for all tiles.
 #ifdef GENERIC_BAR_MONTH
         endif
 #endif
-
       enddo
 c--   End of loop over records.
+
+#else
+c--   Do not enter the calculation of the temperature contribution to
+c--   the final cost function.
+
+#ifdef ECCO_VERBOSE
+      _BEGIN_MASTER( mythid )
+        write(msgbuf,'(a)') ' '
+        call print_message( msgbuf, standardmessageunit,
+     &                      SQUEEZE_RIGHT , mythid)
+        write(msgbuf,'(a,a)')
+     &    ' cost_Ctdtclim: no contribution of temperature field ',
+     &                 'to cost function.'
+        call print_message( msgbuf, standardmessageunit,
+     &                      SQUEEZE_RIGHT , mythid)
+        write(msgbuf,'(a,a,i9.8)')
+     &    ' cost_Ctdtclim: number of records that would have',
+     &                ' been processed: ',nmonsrec
+        call print_message( msgbuf, standardmessageunit,
+     &                      SQUEEZE_RIGHT , mythid)
+        write(msgbuf,'(a)') ' '
+        call print_message( msgbuf, standardmessageunit,
+     &                      SQUEEZE_RIGHT , mythid)
+      _END_MASTER( mythid )
+#endif
 
 #endif
 

@@ -1,19 +1,19 @@
-C $Header: /u/gcmpack/MITgcm/pkg/cost/Attic/cost_theta.F,v 1.1.2.4 2003/06/19 15:21:16 heimbach Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/cost/Attic/cost_ctdsclim.F,v 1.1.2.1 2003/06/19 15:21:16 heimbach Exp $
 
 #include "COST_CPPOPTIONS.h"
 
 
-      subroutine cost_Theta(
+      subroutine cost_ctdsclim(
      I                       myiter,
      I                       mytime,
      I                       mythid
      &                     )
 
 c     ==================================================================
-c     SUBROUTINE cost_Theta
+c     SUBROUTINE cost_Ctdsclim
 c     ==================================================================
 c
-c     o Evaluate cost function contribution of temperature.
+c     o Evaluate cost function contribution of salinity.
 c
 c     started: Christian Eckert eckert@mit.edu 30-Jun-1999
 c
@@ -24,10 +24,10 @@ c                for the MITgcmUV.
 c
 c     changed: Patrick Heimbach heimbach@mit.edu 27-May-2000
 c
-c              - set ladinit to .true. to initialise adtbar file
+c              - set ladinit to .true. to initialise adsbar file
 c
 c     ==================================================================
-c     SUBROUTINE cost_Theta
+c     SUBROUTINE cost_Ctdsclim
 c     ==================================================================
 
       implicit none
@@ -65,7 +65,7 @@ c     == local variables ==
       integer irec
       integer levmon
       integer levoff
-      integer iltheta
+      integer ilctdsclim
 
       _RL fctile
       _RL fcthread
@@ -73,7 +73,7 @@ c     == local variables ==
       _RL cmask (1-olx:snx+olx,1-oly:sny+oly)  
       _RL spval
 
-      character*(80) fnametheta
+      character*(80) fnamesalt
 
       logical doglobalread
       logical ladinit
@@ -82,8 +82,7 @@ c     == local variables ==
 
 #ifdef GENERIC_BAR_MONTH
       integer mrec, nyears, iyear
-#endif
-
+#endif      
 c     == external functions ==
 
       integer  ilnblnk
@@ -106,7 +105,7 @@ c--   Read tiled data.
       doglobalread = .false.
       ladinit      = .false.
 
-#ifdef ALLOW_THETA_COST_CONTRIBUTION
+#ifdef ALLOW_CTDSCLIM_COST_CONTRIBUTION
 
 #ifdef ECCO_VERBOSE
       _BEGIN_MASTER( mythid )
@@ -114,7 +113,7 @@ c--   Read tiled data.
         call print_message( msgbuf, standardmessageunit,
      &                      SQUEEZE_RIGHT , mythid)
         write(msgbuf,'(a,i8.8)')
-     &    ' cost_Theta: number of records to process = ',nmonsrec
+     &    ' cost_Ctdsclim: number of records to process = ',nmonsrec
         call print_message( msgbuf, standardmessageunit,
      &                      SQUEEZE_RIGHT , mythid)
         write(msgbuf,'(a)') ' '
@@ -124,15 +123,20 @@ c--   Read tiled data.
 #endif
 
       if (optimcycle .ge. 0) then
-        iltheta = ilnblnk( tbarfile )
-        write(fnametheta(1:80),'(2a,i10.10)')
-     &    tbarfile(1:iltheta),'.',optimcycle
+        ilctdsclim = ilnblnk( sbarfile )
+        write(fnamesalt(1:80),'(2a,i10.10)')
+     &    sbarfile(1:ilctdsclim),'.',optimcycle
+      else
+        print*
+        print*,' cost_Ctdsclim: optimcycle has a wrong value.'
+        print*,'             optimcycle = ',optimcycle
+        print*
+        stop   '  ... stopped in cost_Ctdsclim.'
       endif
 
       fcthread = 0. _d 0
 
 #ifdef GENERIC_BAR_MONTH
-
 c--   Loop over month
       do irec = 1,12
          nyears=int((nmonsrec-irec)/12)+1
@@ -140,23 +144,23 @@ c--   Loop over month
             do iyear=1,nyears
             mrec=irec+(iyear-1)*12
 c--     Read time averages and the monthly mean data.
-            call active_read_xyz( fnametheta, tbar, mrec,
+            call active_read_xyz( fnamesalt, sbar, mrec,
      &           doglobalread, ladinit,
      &           optimcycle, mythid,
-     &           xx_tbar_mean_dummy )
+     &           xx_sbar_mean_dummy )
             do bj = jtlo,jthi
                do bi = itlo,ithi
                   do k = 1,nr
                      do j = jmin,jmax
                         do i = imin,imax
                            if(iyear.eq.1) then
-                              tbar_gen(i,j,k,bi,bj) =tbar(i,j,k,bi,bj)
+                              sbar_gen(i,j,k,bi,bj) =sbar(i,j,k,bi,bj)
                            elseif(iyear.eq.nyears) then
-                              tbar(i,j,k,bi,bj) =(tbar_gen(i,j,k,bi,bj)
-     $                             +tbar(i,j,k,bi,bj))/float(nyears)
+                              sbar(i,j,k,bi,bj) =(sbar_gen(i,j,k,bi,bj)
+     $                             +sbar(i,j,k,bi,bj))/float(nyears)
                            else
-                          tbar_gen(i,j,k,bi,bj) =tbar_gen(i,j,k,bi,bj)
-     $                             +tbar(i,j,k,bi,bj)
+                          sbar_gen(i,j,k,bi,bj) =sbar_gen(i,j,k,bi,bj)
+     $                             +sbar(i,j,k,bi,bj)
                            endif
                         enddo
                      enddo
@@ -164,27 +168,23 @@ c--     Read time averages and the monthly mean data.
                enddo
             enddo
          enddo
-
 #else
-
 c--   Loop over records.
       do irec = 1,nmonsrec
 
 c--     Read time averages and the monthly mean data.
-        call active_read_xyz( fnametheta, tbar, irec,
+        call active_read_xyz( fnamesalt, sbar, irec,
      &                        doglobalread, ladinit,
      &                        optimcycle, mythid,
-     &                        xx_tbar_mean_dummy )
-
+     &                        xx_sbar_mean_dummy )
 #endif
-
 c--     Determine the month to be read.
         levoff = mod(modelstartdate(1)/100,100)
         levmon = (irec-1) + levoff
         levmon = mod(levmon-1,12)+1
 
-        call mdsreadfield( tdatfile, cost_iprec, cost_yftype, 
-     &                     nr, tdat, levmon, mythid)
+        call mdsreadfield( ctdsclimfile, cost_iprec, cost_yftype, 
+     &                     nr, sdat, levmon, mythid)
 
         do bj = jtlo,jthi
           do bi = itlo,ithi
@@ -193,15 +193,14 @@ c--         Loop over the model layers
             fctile = 0. _d 0
             do k = 1,nr
 
-c--           Determine the mask on weights
+c--           Determine the mask or weights
               do j = jmin,jmax
                 do i = imin,imax
                   cmask(i,j) = 1. _d 0
-                  if (tdat(i,j,k,bi,bj) .eq. 0.) then
+                  if (sdat(i,j,k,bi,bj) .eq. 0.) then
                     cmask(i,j) = 0. _d 0
                   endif
-                 
-                  if (tdat(i,j,k,bi,bj) .lt. spval) then
+                  if (sdat(i,j,k,bi,bj) .lt. spval) then
                     cmask(i,j) = 0. _d 0
                   endif
                   
@@ -216,18 +215,20 @@ c                 set cmask=0 in areas shallower than 1000m
                   if (_hFacC(i,j,13,bi,bj) .eq. 0.) then
                     cmask(i,j) = 0. _d 0
                   endif
+
                 enddo
               enddo
 
 c--           Compute model data misfit and cost function term for
-c             the temperature field.
+c             the salinity field.
               do j = jmin,jmax
                 do i = imin,imax
                   if (_hFacC(i,j,k,bi,bj) .ne. 0.) then
                      fctile = fctile +
-     &                    (wtheta(k,bi,bj)*cosphi(i,j,bi,bj)*cmask(i,j)*
-     &                    (tbar(i,j,k,bi,bj) - tdat(i,j,k,bi,bj))*
-     &                    (tbar(i,j,k,bi,bj) - tdat(i,j,k,bi,bj))      )
+     &                    (wsalt2(i,j,k,bi,bj)*cosphi(i,j,bi,bj)*
+     &                    cmask(i,j)*
+     &                    (sbar(i,j,k,bi,bj) - sdat(i,j,k,bi,bj))*
+     &                    (sbar(i,j,k,bi,bj) - sdat(i,j,k,bi,bj))   )
                   endif
                 enddo
               enddo
@@ -236,7 +237,7 @@ c             the temperature field.
 c--         End of loop over layers.
 
             fcthread         = fcthread         + fctile
-            objf_temp(bi,bj) = objf_temp(bi,bj) + fctile
+            objf_ctdsclim(bi,bj) = objf_ctdsclim(bi,bj) + fctile
 
 #ifdef ECCO_VERBOSE
 c--         Print cost function for each tile in each thread.
@@ -244,11 +245,11 @@ c--         Print cost function for each tile in each thread.
             call print_message( msgbuf, standardmessageunit,
      &                          SQUEEZE_RIGHT , mythid)
             write(msgbuf,'(a,i8.8,1x,i3.3,1x,i3.3)')
-     &        ' cost_Theta: irec,bi,bj          =  ',irec,bi,bj
+     &        ' cost_Ctdsclim: irec,bi,bj          =  ',irec,bi,bj
             call print_message( msgbuf, standardmessageunit,
      &                          SQUEEZE_RIGHT , mythid)
             write(msgbuf,'(a,d22.15)')
-     &        '     cost function (temperature) = ',
+     &        '     cost function (salinity) = ',
      &        fctile
             call print_message( msgbuf, standardmessageunit,
      &                      SQUEEZE_RIGHT , mythid)
@@ -267,12 +268,12 @@ c--     Print cost function for all tiles.
         call print_message( msgbuf, standardmessageunit,
      &                      SQUEEZE_RIGHT , mythid)
         write(msgbuf,'(a,i8.8)')
-     &    ' cost_Theta: irec = ',irec
+     &    ' cost_Ctdsclim: irec = ',irec
         call print_message( msgbuf, standardmessageunit,
      &                      SQUEEZE_RIGHT , mythid)
         write(msgbuf,'(a,a,d22.15)')
      &    ' global cost function value',
-     &    ' (temperature) = ',fcthread
+     &    ' (salinity) = ',fcthread
         call print_message( msgbuf, standardmessageunit,
      &                      SQUEEZE_RIGHT , mythid)
         write(msgbuf,'(a)') ' '
@@ -283,10 +284,31 @@ c--     Print cost function for all tiles.
 #ifdef GENERIC_BAR_MONTH
         endif
 #endif
-
       enddo
 c--   End of loop over records.
 
+#else
+c--   Do not enter the calculation of the salinity contribution to
+c--   the final cost function.
+
+      _BEGIN_MASTER( mythid )
+        write(msgbuf,'(a)') ' '
+        call print_message( msgbuf, standardmessageunit,
+     &                      SQUEEZE_RIGHT , mythid)
+        write(msgbuf,'(a,a)')
+     &    ' cost_Ctdsclim: no contribution of salinity field ',
+     &                 'to cost function.'
+        call print_message( msgbuf, standardmessageunit,
+     &                      SQUEEZE_RIGHT , mythid)
+        write(msgbuf,'(a,a,i9.8)')
+     &    ' cost_Ctdsclim: number of records that would have',
+     &                ' been processed: ',nmonsrec
+        call print_message( msgbuf, standardmessageunit,
+     &                      SQUEEZE_RIGHT , mythid)
+        write(msgbuf,'(a)') ' '
+        call print_message( msgbuf, standardmessageunit,
+     &                      SQUEEZE_RIGHT , mythid)
+      _END_MASTER( mythid )
 #endif
 
       return
