@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/model/src/the_model_main.F,v 1.62 2003/10/23 07:14:49 dimitri Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/the_model_main.F,v 1.62.2.1 2003/10/28 00:27:48 dimitri Exp $
 C $Name:  $
 
 CBOI
@@ -226,10 +226,10 @@ C/\  | | | |                         for forcing datasets.
 C/\  | | | |-EXCH                 :: Sync forcing in overlap regions.
 C/\  | | |-SEAICE_MODEL           :: Compute sea-ice terms ( pkg/seaice ).
 C/\  | | |-FREEZE                 :: Limit surface temperature.
+C/\  | | |-GCHEM_FIELD_LOAD       :: Load tracer forcing fields ( pkg/gchem ).
 C/\  | | |-EXTERNAL_FORCING_SURF  :: Accumulates appropriately dimensioned 
 C/\  | | | |                         forcing terms.
 C/\  | | | |-PTRACERS_FORCING_SURF:: Tracer package ( see pkg/ptracers ).
-C/\  | | |-GCHEM_FIELD_LOAD       :: Load tracer forcing fields ( pkg/gchem ).
 C/\  | | |
 C/\  | | |-THERMODYNAMICS         :: theta, salt + tracer equations driver.
 C/\  | | | |

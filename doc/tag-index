@@ -1,17 +1,43 @@
-$Header: /u/gcmpack/MITgcm/doc/tag-index,v 1.194 2003/10/23 07:14:48 dimitri Exp $
+$Header: /u/gcmpack/MITgcm/doc/tag-index,v 1.194.2.1 2003/10/28 00:27:48 dimitri Exp $
 
     Notes on tags used in MITgcmUV
     ==============================
 
-
+M doc/tag-index
+M model/src/forward_step.F
+M model/src/initialise_varia.F
+M model/src/the_model_main.F
+M ocean_inversion_project/README
+M ocean_inversion_project/code/PTRACERS.h
+M ocean_inversion_project/code/PTRACERS_OPTIONS.h
+M ocean_inversion_project/code/SIZE.h_mpi
+R ocean_inversion_project/input/data
+R ocean_inversion_project/input/data.1765-2005
+A ocean_inversion_project/input/data.1765-2005.1
+A ocean_inversion_project/input/data.1765-2005.2
+M ocean_inversion_project/input/data.ptracers
+A ocean_inversion_project/input/data.stationary.1
+A ocean_inversion_project/input/data.stationary.2
+A ocean_inversion_project/input/data.stationary.3
+M ocean_inversion_project/input/data.test
+M pkg/ptracers/PTRACERS.h
+M pkg/ptracers/PTRACERS_STATV.h
+M pkg/ptracers/ptracers_readparms.F
+M pkg/ptracers/ptracers_statv_write.F
+M pkg/ptracers/ptracers_statvars.F
+A pkg/seaice/TODO.txt
+M pkg/timeave/timeave_statv_write.F
+M pkg/timeave/timeave_statvars.F
 
 checkpoint51n_post
 o modifications to make FREEZE flux visible to pkg/kpp
   - moved surfaceTendencyTice from pkg/seaice to main code
   - FREEZE & EXTERNAL_FORCING_SURF moved to FORWARD_STEP
   - subroutine FREEZE now limits only surface temperature
-    (this means new output.txt for global_ocean.90x40x15,
-     global_ocean.cs32x15, and global_with_exf)
+    this means new output.txt for global_ocean.90x40x15,
+    global_ocean.cs32x15, and global_with_exf, but note
+    that results for these three experiments remain
+    bit-identical to before if allowFreezing=.FALSE.
 o added surface flux output variables to TIMEAVE_STATVARS
 
 checkpoint51n_pre

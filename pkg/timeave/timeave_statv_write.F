@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/pkg/timeave/timeave_statv_write.F,v 1.10 2003/10/23 07:14:49 dimitri Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/timeave/timeave_statv_write.F,v 1.10.2.1 2003/10/28 00:27:49 dimitri Exp $
 C $Name:  $
 #include "TIMEAVE_OPTIONS.h"
 
@@ -54,10 +54,10 @@ C-    Final Time Averages and Dump Files if needed
        DO bj = myByLo(myThid), myByHi(myThid)
         DO bi = myBxLo(myThid), myBxHi(myThid)
 C-     Normalize by integrated time
-          CALL TIMEAVE_NORMALIZ(uFluxtave,TimeAve_half,1 ,bi,bj,myThid)
-          CALL TIMEAVE_NORMALIZ(vFluxtave,TimeAve_half,1 ,bi,bj,myThid)
-          CALL TIMEAVE_NORMALIZ(tFluxtave,TimeAve_half,1 ,bi,bj,myThid)
-          CALL TIMEAVE_NORMALIZ(sFluxtave,TimeAve_half,1 ,bi,bj,myThid)
+          CALL TIMEAVE_NORMALIZ(uFluxtave,TimeAve_full,1 ,bi,bj,myThid)
+          CALL TIMEAVE_NORMALIZ(vFluxtave,TimeAve_full,1 ,bi,bj,myThid)
+          CALL TIMEAVE_NORMALIZ(tFluxtave,TimeAve_full,1 ,bi,bj,myThid)
+          CALL TIMEAVE_NORMALIZ(sFluxtave,TimeAve_full,1 ,bi,bj,myThid)
           CALL TIMEAVE_NORMALIZ(etatave,  TimeAve_half,1 ,bi,bj,myThid)
           CALL TIMEAVE_NORMALIZ(thetatave,TimeAve_half,Nr,bi,bj,myThid)
           CALL TIMEAVE_NORMALIZ(salttave, TimeAve_half,Nr,bi,bj,myThid)

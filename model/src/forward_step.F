@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/model/src/forward_step.F,v 1.66 2003/10/23 07:14:49 dimitri Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/forward_step.F,v 1.66.2.1 2003/10/28 00:27:48 dimitri Exp $
 C $Name:  $
 
 #include "AD_CONFIG.h"
@@ -241,16 +241,6 @@ C--   Freeze water at the surface
      &                   .AND. .NOT. useThermSeaIce )
      &   CALL FREEZE( myThid )
 
-C--     Determines forcing terms based on external fields
-C       relaxation terms, etc.
-       IF ( .NOT. useThermSeaIce ) THEN
-#ifndef DISABLE_DEBUGMODE
-        IF ( debugLevel .GE. debLevB ) 
-     &    CALL DEBUG_CALL('EXTERNAL_FORCING_SURF',myThid)
-#endif
-        CALL EXTERNAL_FORCING_SURF( myTime, myIter, myThid )
-       ENDIF
-
 #ifdef ALLOW_AUTODIFF_TAMC
 # ifdef ALLOW_PTRACERS
 cph this replaces _bibj storing of ptracer within thermodynamics
@@ -263,6 +253,16 @@ CADJ STORE ptracer  = comlev1, key = ikey_dynamics
          CALL GCHEM_FIELDS_LOAD( mytime, myiter, mythid )
 # endif
 #endif
+
+C--     Determines forcing terms based on external fields
+C       relaxation terms, etc.
+       IF ( .NOT. useThermSeaIce ) THEN
+#ifndef DISABLE_DEBUGMODE
+        IF ( debugLevel .GE. debLevB ) 
+     &    CALL DEBUG_CALL('EXTERNAL_FORCING_SURF',myThid)
+#endif
+        CALL EXTERNAL_FORCING_SURF( myTime, myIter, myThid )
+       ENDIF
 
 C--     Step forward fields and calculate time tendency terms.
 #ifndef DISABLE_DEBUGMODE

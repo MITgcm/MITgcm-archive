@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/pkg/timeave/timeave_statvars.F,v 1.10 2003/10/23 07:14:49 dimitri Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/timeave/timeave_statvars.F,v 1.10.2.1 2003/10/28 00:27:49 dimitri Exp $
 C $Name:  $
 #include "TIMEAVE_OPTIONS.h"
 
@@ -94,53 +94,6 @@ C--   Cumulate state-variables with Half or Full time step :
 
       IF ( DDTT .NE. 0. _d 0) THEN
 
-C-    Time Averages of surface fluxes
-      IF ( buoyancyRelation .EQ. 'OCEANICP' ) THEN
-       k=Nr
-      ELSE
-       k=1
-      ENDIF
-
-C     uFlux
-      DO j=1,sNy
-       DO i=1,sNx
-        tempArray(i,j,bi,bj)=fu(i,j,bi,bj)*foFacMom*_maskW(i,j,k,bi,bj)
-       ENDDO
-      ENDDO
-      CALL TIMEAVE_CUMULATE(uFluxtave,tempArray,1,DDTT,bi,bj,myThid)
-
-C     vFlux
-      DO j=1,sNy
-       DO i=1,sNx
-        tempArray(i,j,bi,bj)=fv(i,j,bi,bj)*foFacMom*_maskS(i,j,k,bi,bj)
-       ENDDO
-      ENDDO
-      CALL TIMEAVE_CUMULATE(vFluxtave,tempArray,1,DDTT,bi,bj,myThid)
-
-C     tFlux
-      DO j=1,sNy
-       DO i=1,sNx
-        tempArray(i,j,bi,bj)=maskC(i,j,k,bi,bj)*(
-#ifdef SHORTWAVE_HEATING
-     &   -Qsw(i,j,bi,bj)+
-#endif
-     &   (surfaceTendencyT(i,j,bi,bj)+surfaceTendencyTice(I,J,bi,bj))*
-     &   HeatCapacity_Cp*
-     &   recip_horiVertRatio*rhoConst*drF(k)*hFacC(i,j,k,bi,bj))
-       ENDDO
-      ENDDO
-      CALL TIMEAVE_CUMULATE(tFluxtave,tempArray,1,DDTT,bi, bj, myThid)
-
-C     sFlux
-      DO j=1,sNy
-       DO i=1,sNx
-        tempArray(i,j,bi,bj)=maskC(i,j,k,bi,bj)*
-     &   surfaceTendencyS(i,j,bi,bj)*
-     &   recip_horiVertRatio*rhoConst*drF(k)*hFacC(i,j,k,bi,bj)
-       ENDDO
-      ENDDO
-      CALL TIMEAVE_CUMULATE(sFluxtave,tempArray,1,DDTT,bi,bj,myThid)
-
 C-    Time Averages of single fields (no hFactor)
       CALL TIMEAVE_CUMULATE(etatave,  etaN,  1 , DDTT, bi, bj, myThid)
       CALL TIMEAVE_CUMULATE(thetatave,theta, Nr, DDTT, bi, bj, myThid)
@@ -202,15 +155,67 @@ C-- end if DDTT ...
 
 C-    Time Averages of "intermediate" fields (no hFactor)
       IF ( myIter .NE. nIter0 ) THEN
-        CALL TIMEAVE_CUMULATE(phiHydtave, totPhihyd,  Nr, 
-     &                                   deltaTclock, bi, bj, myThid)
-        CALL TIMEAVE_CUMULATE(phiHydLowtave, phiHydLow, 1,
-     &                                   deltaTclock, bi, bj, myThid)
-        CALL TIMEAVE_CUMUL_2V(phiHydLow2Tave, 
-     &       phiHydLow,phiHydLow, 1,  0, deltaTclock, bi, bj, myThid)
-        DO K=1,Nr
-         TimeAve_full(k,bi,bj)=TimeAve_full(k,bi,bj)+deltaTclock
+ 
+C-    Time Averages of surface fluxes
+       IF ( buoyancyRelation .EQ. 'OCEANICP' ) THEN
+        k=Nr
+       ELSE
+        k=1
+       ENDIF
+
+C     uFlux
+       DO j=1,sNy
+        DO i=1,sNx
+         tempArray(i,j,bi,bj)=fu(i,j,bi,bj)*foFacMom*_maskW(i,j,k,bi,bj)
         ENDDO
+       ENDDO
+       CALL TIMEAVE_CUMULATE(uFluxtave,tempArray,1,
+     &                                   deltaTclock, bi, bj, myThid)
+
+C     vFlux
+       DO j=1,sNy
+        DO i=1,sNx
+         tempArray(i,j,bi,bj)=fv(i,j,bi,bj)*foFacMom*_maskS(i,j,k,bi,bj)
+        ENDDO
+       ENDDO
+       CALL TIMEAVE_CUMULATE(vFluxtave,tempArray,1,
+     &                                   deltaTclock, bi, bj, myThid)
+
+C     tFlux
+       DO j=1,sNy
+        DO i=1,sNx
+         tempArray(i,j,bi,bj)=maskC(i,j,k,bi,bj)*(
+#ifdef SHORTWAVE_HEATING
+     &    -Qsw(i,j,bi,bj)+
+#endif
+     &    (surfaceTendencyT(i,j,bi,bj)+surfaceTendencyTice(I,J,bi,bj))*
+     &    HeatCapacity_Cp*
+     &    recip_horiVertRatio*rhoConst*drF(k)*hFacC(i,j,k,bi,bj))
+        ENDDO
+       ENDDO
+       CALL TIMEAVE_CUMULATE(tFluxtave,tempArray,1,
+     &                                   deltaTclock, bi, bj, myThid)
+
+C     sFlux
+       DO j=1,sNy
+        DO i=1,sNx
+         tempArray(i,j,bi,bj)=maskC(i,j,k,bi,bj)*
+     &    surfaceTendencyS(i,j,bi,bj)*
+     &    recip_horiVertRatio*rhoConst*drF(k)*hFacC(i,j,k,bi,bj)
+        ENDDO
+       ENDDO
+       CALL TIMEAVE_CUMULATE(sFluxtave,tempArray,1,
+     &                                   deltaTclock, bi, bj, myThid)
+
+       CALL TIMEAVE_CUMULATE(phiHydtave, totPhihyd,  Nr, 
+     &                                   deltaTclock, bi, bj, myThid)
+       CALL TIMEAVE_CUMULATE(phiHydLowtave, phiHydLow, 1,
+     &                                   deltaTclock, bi, bj, myThid)
+       CALL TIMEAVE_CUMUL_2V(phiHydLow2Tave, 
+     &       phiHydLow,phiHydLow, 1,  0, deltaTclock, bi, bj, myThid)
+       DO K=1,Nr
+        TimeAve_full(k,bi,bj)=TimeAve_full(k,bi,bj)+deltaTclock
+       ENDDO
       ENDIF
 
 #endif /* ALLOW_TIMEAVE */ 
