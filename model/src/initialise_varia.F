@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/model/src/initialise_varia.F,v 1.31 2003/06/25 21:06:35 stephd Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/initialise_varia.F,v 1.31.2.1 2003/10/01 20:43:19 adcroft Exp $
 C $Name:  $
 
 #include "CPP_OPTIONS.h"
@@ -138,7 +138,7 @@ C     a pickup file written by MITgcmUV_checkpoint34 or earlier.
 #endif
 
 C--   Initial conditions are convectively adjusted (for historical reasons)
-      IF ( startTime .EQ. 0. ) THEN
+      IF ( startTime .EQ. 0. .AND. cAdjFreq .NE. 0. ) THEN
 CADJ loop = parallel 
         DO bj = myByLo(myThid), myByHi(myThid)
 CADJ loop = parallel

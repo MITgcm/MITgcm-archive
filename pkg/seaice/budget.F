@@ -1,4 +1,5 @@
-C $Header:
+C $Header: /u/gcmpack/MITgcm/pkg/seaice/Attic/budget.F,v 1.10.2.1 2003/10/01 20:43:20 adcroft Exp $
+C $Name:  $
 
 #include "SEAICE_OPTIONS.h"
 
