@@ -1,4 +1,4 @@
-c $Header: /u/gcmpack/MITgcm/pkg/exf/Attic/exf_clim_summary.F,v 1.1.4.4 2003/01/12 08:20:10 dimitri Exp $
+c $Header: /u/gcmpack/MITgcm/pkg/exf/Attic/exf_clim_summary.F,v 1.1.4.4.2.1 2003/05/03 05:32:44 dimitri Exp $
 
 #include "EXF_CPPOPTIONS.h"
 
@@ -27,7 +27,7 @@ c     == global variables ==
 #include "SIZE.h"
 #include "cal.h"
 #include "exf.h"
-
+#include "exf_param.h"
 #include "exf_clim_param.h"
 
 c     == routine arguments ==

@@ -1,4 +1,4 @@
-# $Header: /u/gcmpack/MITgcm/verification/global_with_CFC11/input50yr/Attic/data.exf_clim,v 1.1.2.1 2003/05/03 04:27:34 dimitri Exp $
+# $Header: /u/gcmpack/MITgcm/verification/global_with_CFC11/input50yr/Attic/data.exf_clim,v 1.1.2.2 2003/05/03 05:32:44 dimitri Exp $
 #
 # *********************************
 # External Forcing Climatology Data
@@ -47,7 +47,7 @@
  climsss_nlon        = 192, 
  climsss_nlat        = 94,
 #
- climsstfile        = 'NCEP_1949_sst',
+ climsstfile        = 'NCEP_1948_sst',
  climsssfile        = 'salt_14months.bin',
 #
  exf_clim_iprec     = 32,

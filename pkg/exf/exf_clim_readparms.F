@@ -1,4 +1,4 @@
-c $Header: /u/gcmpack/MITgcm/pkg/exf/Attic/exf_clim_readparms.F,v 1.1.16.1 2003/05/03 04:27:34 dimitri Exp $
+c $Header: /u/gcmpack/MITgcm/pkg/exf/Attic/exf_clim_readparms.F,v 1.1.16.2 2003/05/03 05:32:44 dimitri Exp $
 
 #include "EXF_CPPOPTIONS.h"
 
@@ -27,7 +27,7 @@ c     == global variables ==
 #include "SIZE.h"
 #include "cal.h"
 #include "exf.h"
-
+#include "exf_param.h"
 #include "exf_clim_param.h"
 
 c     == routine arguments ==
@@ -55,7 +55,7 @@ c     Surface flux data.
      & climsst_nlon, climsst_nlat,
      & climsss_lon0, climsss_lon_inc,
      & climsss_lat0, climsss_lat_inc,
-     & climsss_nlon, climsss_nlat,
+     & climsss_nlon, climsss_nlat
 #endif
 
       _BEGIN_MASTER(mythid)
