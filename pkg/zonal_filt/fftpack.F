@@ -1,7 +1,7 @@
-C $Header: /u/gcmpack/MITgcm/pkg/zonal_filt/fftpack.F,v 1.5.20.1 2003/10/02 18:18:34 adcroft Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/zonal_filt/fftpack.F,v 1.5.20.2 2003/10/02 18:33:25 adcroft Exp $
 C $Name:  $
 
-#include "ZONAL_FILT_OPTIONS"
+#include "ZONAL_FILT_OPTIONS.h"
 
 C     SUBROUTINE RFFTB (N,R,WSAVE)
 C     DIMENSION       R(1)       ,WSAVE(1)

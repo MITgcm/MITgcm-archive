@@ -1,7 +1,7 @@
-C $Header: /u/gcmpack/MITgcm/pkg/mdsio/mdsio_gl_slice.F,v 1.3.2.1 2003/10/02 18:18:33 adcroft Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/mdsio/mdsio_gl_slice.F,v 1.3.2.2 2003/10/02 18:33:23 adcroft Exp $
 C $Name:  $
 
-#include "MDSIO.h"
+#include "MDSIO_OPTIONS.h"
 
 C The five "public" routines supplied here are:
 C
