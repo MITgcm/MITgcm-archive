@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/pkg/timeave/timeave_statvars.F,v 1.2.4.3 2003/06/24 23:11:12 heimbach Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/timeave/timeave_statvars.F,v 1.2.4.4 2003/07/28 15:37:23 heimbach Exp $
 C $Name:  $
 #include "CPP_OPTIONS.h"
 
