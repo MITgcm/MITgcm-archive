@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-#  $Header: /u/gcmpack/MITgcm/tools/adjoint_options/adjoint_default,v 1.1.2.2 2003/10/20 18:53:33 edhill Exp $
+#  $Header: /u/gcmpack/MITgcm/tools/adjoint_options/adjoint_default,v 1.1.2.3 2003/10/20 21:57:46 edhill Exp $
 #  $Name:  $
 #
 
@@ -9,7 +9,7 @@
 #  please make a separate (local) copy of this file.
 
 TAMC=tamc
-TAF=taf
+TAF=~fastopt/bin/taf
 # STAF=staf
 
 AD_TAMC_FLAGS='-reverse -admark ad -i4 -r4'
