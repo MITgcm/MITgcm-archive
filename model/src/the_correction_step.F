@@ -1,6 +1,7 @@
-C $Header: /u/gcmpack/MITgcm/model/src/Attic/the_correction_step.F,v 1.22 2003/06/25 21:06:35 stephd Exp $
-C Tag $Name:  $
+C $Header: /u/gcmpack/MITgcm/model/src/Attic/the_correction_step.F,v 1.22.2.1 2003/10/02 18:10:45 edhill Exp $
+C $Name:  $
 
+#include "PACKAGES_CONFIG.h"
 #include "CPP_OPTIONS.h"
 
 CBOP
@@ -119,6 +120,7 @@ C-        Update tracer fields:  T(n) = T**, Gt(n-1) = Gt(n)
      U           salt,gS,gSNm1,
      I           myTime,myThid )
 #ifdef ALLOW_PASSIVE_TRACER
+ceh3 ??? should this have IF ( usePASSIVE_TRACER .AND. tr1Stepping )
           IF (tr1Stepping)
      &      CALL CYCLE_TRACER(
      I           bi,bj,iMin,iMax,jMin,jMax,K,
@@ -194,6 +196,7 @@ C--     for vertical velocity and "etaN" (exact volume conservation) :
         ENDIF
 cswdptr -- add ---
 #ifdef ALLOW_PTRACERS
+ceh3 this should have an IF ( usePTRACERS ) THEN 
           CALL PTRACERS_STATVARS(myTime, myIter, bi, bj, myThid)
 #endif
 cswdptr -- end add ---

@@ -1,6 +1,7 @@
-C $Header: /u/gcmpack/MITgcm/model/src/Attic/checkpoint.F,v 1.23 2003/06/25 21:06:35 stephd Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/Attic/checkpoint.F,v 1.23.2.1 2003/10/02 18:10:45 edhill Exp $
 C $Name:  $
 
+#include "PACKAGES_CONFIG.h"
 #include "CPP_OPTIONS.h"
 
 C--  File read_write.F: Routines to handle mid-level I/O interface.

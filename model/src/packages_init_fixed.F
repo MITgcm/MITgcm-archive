@@ -1,6 +1,7 @@
-C $Header: /u/gcmpack/MITgcm/model/src/packages_init_fixed.F,v 1.9 2003/06/23 22:32:02 heimbach Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/packages_init_fixed.F,v 1.9.2.1 2003/10/02 18:10:45 edhill Exp $
 C $Name:  $
 
+#include "PACKAGES_CONFIG.h"
 #include "CPP_OPTIONS.h"
 
 CBOP

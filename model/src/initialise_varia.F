@@ -1,6 +1,7 @@
-C $Header: /u/gcmpack/MITgcm/model/src/initialise_varia.F,v 1.31.2.1 2003/10/01 20:43:19 adcroft Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/initialise_varia.F,v 1.31.2.2 2003/10/02 18:10:45 edhill Exp $
 C $Name:  $
 
+#include "PACKAGES_CONFIG.h"
 #include "CPP_OPTIONS.h"
 
 CBOP
@@ -92,6 +93,7 @@ C--   Set laplace operators for use in 2D conjugate gradient solver.
 
 #ifdef ALLOW_NONHYDROSTATIC
 C--   Set laplace operators for use in 3D conjugate gradient solver.
+ceh3 should add an IF ( useNONHYDROSTATIC ) THEN
       CALL INI_CG3D( myThid )
 #endif
 
@@ -188,6 +190,7 @@ C--   initialise time-average arrays with initial state values
         ENDIF
 cswdptr -- add ---
 #ifdef ALLOW_PTRACERS
+che3 needs an IF ( usePTRACERS ) THEN
            CALL PTRACERS_STATVARS(startTime, nIter0, bi, bj, myThid)
 #endif
 cswdptr -- end add ---

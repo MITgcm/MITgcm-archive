@@ -1,6 +1,7 @@
-C $Header: /u/gcmpack/MITgcm/model/src/dynamics.F,v 1.98 2003/07/08 15:00:26 heimbach Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/dynamics.F,v 1.98.2.1 2003/10/02 18:10:45 edhill Exp $
 C $Name:  $
 
+#include "PACKAGES_CONFIG.h"
 #include "CPP_OPTIONS.h"
 
 CBOP

@@ -1,6 +1,7 @@
-C $Header: /u/gcmpack/MITgcm/model/src/update_surf_dr.F,v 1.3 2002/01/30 04:17:19 jmc Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/update_surf_dr.F,v 1.3.6.1 2003/10/02 18:10:45 edhill Exp $
 C $Name:  $
 
+#include "PACKAGES_CONFIG.h"
 #include "CPP_OPTIONS.h"
 
 CBOP

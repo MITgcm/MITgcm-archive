@@ -1,5 +1,7 @@
-C $Header: /u/gcmpack/MITgcm/model/inc/CPP_OPTIONS.h,v 1.22.2.1 2003/10/01 20:43:17 adcroft Exp $
+C $Header: /u/gcmpack/MITgcm/model/inc/CPP_OPTIONS.h,v 1.22.2.2 2003/10/02 18:10:45 edhill Exp $
 C $Name:  $
+
+#include "PACKAGES_CONFIG.h"
 
 C CPP flags controlling particular source code features
 

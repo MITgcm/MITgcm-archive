@@ -1,6 +1,7 @@
-C $Header: /u/gcmpack/MITgcm/model/src/update_r_star.F,v 1.2 2003/01/30 00:06:23 jmc Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/update_r_star.F,v 1.2.4.1 2003/10/02 18:10:45 edhill Exp $
 C $Name:  $
 
+#include "PACKAGES_CONFIG.h"
 #include "CPP_OPTIONS.h"
 
 CBOP

@@ -1,4 +1,7 @@
+C $Header: /u/gcmpack/MITgcm/model/src/packages_init_variables.F,v 1.22.2.1 2003/10/02 18:10:45 edhill Exp $
+C $Name:  $
 
+#include "PACKAGES_CONFIG.h"
 #include "CPP_OPTIONS.h"
 
 CBOP
@@ -114,6 +117,7 @@ c--   Map the control variables onto the model state.
 
 #ifdef ALLOW_COST
 c--   Initialise the cost function.
+ceh3 needs an IF ( useCOST ) THEN
       CALL COST_INITVARIA( mythid )
       _BARRIER
 #endif

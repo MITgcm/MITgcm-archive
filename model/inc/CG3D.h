@@ -1,5 +1,7 @@
-C $Header: /u/gcmpack/MITgcm/model/inc/CG3D.h,v 1.5 2001/09/21 03:54:36 cnh Exp $
+C $Header: /u/gcmpack/MITgcm/model/inc/CG3D.h,v 1.5.20.1 2003/10/02 18:10:45 edhill Exp $
 C $Name:  $
+
+#include "PACKAGES_CONFIG.h"
 
 #ifdef ALLOW_NONHYDROSTATIC
 CBOP

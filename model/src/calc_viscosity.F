@@ -1,6 +1,7 @@
-C $Header: /u/gcmpack/MITgcm/model/src/calc_viscosity.F,v 1.4 2002/05/30 02:27:00 heimbach Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/calc_viscosity.F,v 1.4.4.1 2003/10/02 18:10:45 edhill Exp $
 C $Name:  $
 
+#include "PACKAGES_CONFIG.h"
 #include "CPP_OPTIONS.h"
 
 CBOP

@@ -1,6 +1,7 @@
-C $Header: /u/gcmpack/MITgcm/model/src/do_stagger_fields_exchanges.F,v 1.1 2002/10/07 16:17:09 jmc Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/do_stagger_fields_exchanges.F,v 1.1.6.1 2003/10/02 18:10:45 edhill Exp $
 C $Name:  $
 
+#include "PACKAGES_CONFIG.h"
 #include "CPP_OPTIONS.h"
 
 CBOP

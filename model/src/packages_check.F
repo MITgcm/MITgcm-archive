@@ -1,6 +1,7 @@
-C $Header: /u/gcmpack/MITgcm/model/src/packages_check.F,v 1.15 2003/06/19 15:00:45 heimbach Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/packages_check.F,v 1.15.2.1 2003/10/02 18:10:45 edhill Exp $
 C $Name:  $
 
+#include "PACKAGES_CONFIG.h"
 #include "CPP_OPTIONS.h"
 
 CBOP

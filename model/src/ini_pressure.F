@@ -1,5 +1,5 @@
-C $Header: 
-C $Name:  
+C $Header: /u/gcmpack/MITgcm/model/src/ini_pressure.F,v 1.5.2.1 2003/10/02 18:10:45 edhill Exp $
+C $Name:  $
 
 #include "CPP_OPTIONS.h"
 

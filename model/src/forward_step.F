@@ -1,7 +1,9 @@
-C $Header: /u/gcmpack/MITgcm/model/src/forward_step.F,v 1.60 2003/09/25 03:01:59 dimitri Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/forward_step.F,v 1.60.2.1 2003/10/02 18:10:45 edhill Exp $
 C $Name:  $
 
+#include "PACKAGES_CONFIG.h"
 #include "CPP_OPTIONS.h"
+
 cswdptr -- add --
 #ifdef ALLOW_GCHEM
 # include "GCHEM_OPTIONS.h"
@@ -389,6 +391,7 @@ cswdptr -- add for seperate timestepping of chemical/biological/forcing
 cswdptr    of ptracers ---
 #ifdef ALLOW_GCHEM
 #ifdef PTRACERS_SEPERATE_FORCING
+ceh3 needs an IF ( use GCHEM ) THEN
         call GCHEM_FORCING( myTime,myIter,myThid )
 #endif
 #endif
