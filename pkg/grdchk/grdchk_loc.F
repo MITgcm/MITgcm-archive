@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/pkg/grdchk/grdchk_loc.F,v 1.2.6.1 2002/05/30 19:55:16 heimbach Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/grdchk/grdchk_loc.F,v 1.2.6.2 2003/03/07 04:01:59 heimbach Exp $
 
 #include "CTRL_CPPOPTIONS.h"
 

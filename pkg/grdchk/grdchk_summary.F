@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/pkg/grdchk/grdchk_summary.F,v 1.2.6.1 2002/05/30 19:55:17 heimbach Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/grdchk/grdchk_summary.F,v 1.2.6.2 2003/03/07 04:01:59 heimbach Exp $
 
 #include "CPP_OPTIONS.h"
 
