@@ -1,4 +1,5 @@
-C $Header: 
+C $Header: /u/gcmpack/MITgcm/pkg/seaice/SEAICE_PARAMS.h,v 1.10.2.1 2003/10/02 18:18:33 adcroft Exp $
+C $Name:  $
 
 #ifdef ALLOW_SEAICE
 

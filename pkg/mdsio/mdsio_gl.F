@@ -1,6 +1,6 @@
-C $Header: /u/gcmpack/MITgcm/pkg/mdsio/mdsio_gl.F,v 1.3 2003/07/08 15:00:26 heimbach Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/mdsio/mdsio_gl.F,v 1.3.2.1 2003/10/02 18:18:33 adcroft Exp $
 
-#include "CPP_OPTIONS.h"
+#include "MDSIO_OPTIONS.h"
 
 C The five "public" routines supplied here are:
 C
@@ -25,20 +25,6 @@ C Modified: 07/28/99 eckert@mit.edu
 C           inserted calls to *print_message* and *print_error*
 C
 C To be modified to work with MITgcmuv message routines.
-
-#undef  SAFE_IO
-
-#ifdef SAFE_IO
-#define _NEW_STATUS 'new'
-#else
-#define _NEW_STATUS 'unknown'
-#endif
-
-#ifdef ALLOW_AUTODIFF_TAMC
-#define _OLD_STATUS 'unknown'
-#else
-#define _OLD_STATUS 'old'
-#endif
 
 C=======================================================================
       SUBROUTINE MDSREADFIELD_3D_GL(

@@ -1,4 +1,5 @@
-C $Header:
+C $Header: /u/gcmpack/MITgcm/pkg/seaice/Attic/SEAICE_GRID.h,v 1.5.2.1 2003/10/02 18:18:33 adcroft Exp $
+C $Name:  $
 
 #ifdef ALLOW_SEAICE
 

@@ -1,5 +1,6 @@
-cswdptr -- added routine ---
-#include "CPP_OPTIONS.h"
+C $Header: /u/gcmpack/MITgcm/pkg/ptracers/Attic/ptracers_statv_write.F,v 1.2.2.1 2003/10/02 18:18:33 adcroft Exp $
+C $Name:  $
+
 #include "PTRACERS_OPTIONS.h"
 #ifdef ALLOW_GCHEM
 # include "GCHEM_OPTIONS.h"
@@ -137,7 +138,7 @@ C    2) Start to cumulate state-variables with Half time step.
       ENDIF
  
 #endif /* ALLOW_TIMEAVE */
-#endif
+#endif /* ALLOW_PTRACERS */
 
       RETURN
       END

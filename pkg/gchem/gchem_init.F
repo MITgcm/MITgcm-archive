@@ -1,3 +1,6 @@
+C $Header: /u/gcmpack/MITgcm/pkg/gchem/Attic/gchem_init.F,v 1.1.2.1 2003/10/02 18:18:33 adcroft Exp $
+C $Name:  $
+
 #include "CPP_OPTIONS.h"
 #include "PTRACERS_OPTIONS.h"
 #include "GCHEM_OPTIONS.h"

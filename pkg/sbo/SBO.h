@@ -1,4 +1,5 @@
-C $Header:
+C $Header: /u/gcmpack/MITgcm/pkg/sbo/SBO.h,v 1.2.4.1 2003/10/02 18:18:33 adcroft Exp $
+C $Name:  $
 
 #ifdef ALLOW_SBO
 

@@ -1,7 +1,7 @@
-C $Header: /u/gcmpack/MITgcm/pkg/shap_filt/shap_filt_relvort3.F,v 1.1 2003/08/03 03:05:19 jmc Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/shap_filt/shap_filt_relvort3.F,v 1.1.2.1 2003/10/02 18:18:34 adcroft Exp $
 C $Name:  $
 
-#include "CPP_OPTIONS.h"
+#include "SHAP_FILT_OPTIONS.h"
 
       SUBROUTINE SHAP_FILT_RELVORT3( 
      I        bi,bj,k,

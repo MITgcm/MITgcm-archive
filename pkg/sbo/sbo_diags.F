@@ -1,4 +1,5 @@
-C $Header:
+C $Header: /u/gcmpack/MITgcm/pkg/sbo/Attic/sbo_diags.F,v 1.2.4.1 2003/10/02 18:18:33 adcroft Exp $
+C $Name:  $
 
 #include "SBO_OPTIONS.h"
 

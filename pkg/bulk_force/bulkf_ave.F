@@ -1,4 +1,7 @@
-#include "CPP_OPTIONS.h"
+C $Header: /u/gcmpack/MITgcm/pkg/bulk_force/bulkf_ave.F,v 1.4.4.1 2003/10/02 18:18:33 adcroft Exp $
+C $Name:  $
+
+#include "BULK_FORCE_OPTIONS.h"
 
 C     !ROUTINE: BULKF_AVE
 C     !INTERFACE:

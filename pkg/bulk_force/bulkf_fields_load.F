@@ -1,5 +1,7 @@
+C $Header: /u/gcmpack/MITgcm/pkg/bulk_force/bulkf_fields_load.F,v 1.5.2.1 2003/10/02 18:18:33 adcroft Exp $
+C $Name:  $
 
-#include "CPP_OPTIONS.h"
+#include "BULK_FORCE_OPTIONS.h"
  
 C     !ROUTINE: BULKF_FIELDS_LOAD
 C     !INTERFACE:

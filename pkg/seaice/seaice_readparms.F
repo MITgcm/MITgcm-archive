@@ -1,4 +1,5 @@
-C $Header:
+C $Header: /u/gcmpack/MITgcm/pkg/seaice/seaice_readparms.F,v 1.11.2.1 2003/10/02 18:18:34 adcroft Exp $
+C $Name:  $
 
 #include "SEAICE_OPTIONS.h"
 

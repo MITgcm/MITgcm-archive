@@ -1,7 +1,13 @@
-C $Header: /u/gcmpack/MITgcm/pkg/exf/Attic/EXF_CPPOPTIONS.h,v 1.6 2003/08/07 02:31:29 dimitri Exp $
-C
+C $Header: /u/gcmpack/MITgcm/pkg/exf/EXF_OPTIONS.h,v 1.1.2.1 2003/10/02 18:18:33 adcroft Exp $
+C $Name:  $
+
+#ifndef EXF_OPTIONS_H
+#define EXF_OPTIONS_H
+#include "PACKAGE.h"
+#ifdef ALLOW_EXF
+
 #include "CPP_OPTIONS.h"
-C 
+
 C CPP flags controlling which code is included in the files that
 C will be compiled.
 C
@@ -130,3 +136,6 @@ c         |     |     |     |     | Compute open-water ustress, vstress,
 c         |     |     |     |     | hflux, swflux, and evap.
 c
 c   ====================================================================
+
+#endif /* ALLOW_EXF */
+#endif /* EXF_OPTIONS_H */

@@ -1,6 +1,8 @@
+C $Header: /u/gcmpack/MITgcm/pkg/bulk_force/bulkf_forcing.F,v 1.3.4.1 2003/10/02 18:18:33 adcroft Exp $
+C $Name:  $
 c swd -- bulkf formula pkg
 
-#include "CPP_OPTIONS.h"
+#include "BULK_FORCE_OPTIONS.h"
 
       subroutine bulkf_forcing(  bi,bj,
      I                           mycurrenttime,
