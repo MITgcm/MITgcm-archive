@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/eesupp/src/Attic/exch.F,v 1.4 1998/06/15 05:13:55 cnh Exp $
+C $Header: /u/gcmpack/MITgcm/eesupp/src/Attic/exch.F,v 1.4.2.1 1998/06/20 22:20:20 cnh Exp $
 
 #include "CPP_EEOPTIONS.h"
 
@@ -224,7 +224,7 @@ C       region values into the corner sections of our neighbors.
         CALL MPI_Waitall( nReqs, reqIds, mpiStatArr, mpiRC )
 
 CcnhDebugStarts
-        RETURN
+C       RETURN
 CcnhDebugEnds
 
 C--     North-south messaging communication
@@ -256,7 +256,7 @@ C        south and post that I am ready to send data to the south.
         ENDIF
 C
         bS = myByHi(myTHid)
-        IF ( bN .EQ. 1 .AND. commS(myThid) .EQ. COMM_MPI ) THEN
+        IF ( bS .EQ. nSy .AND. commN(myThid) .EQ. COMM_MPI ) THEN
 C        My north face uses MPI. Get ready to receive data from
 C        north and post that I am ready to send data to the north.
          nReqs = nReqs + 1
@@ -909,7 +909,7 @@ C       region values into the corner sections of our neighbors.
         CALL MPI_Waitall( nReqs, reqIds, mpiStatArr, mpiRC )
 
 CcnhDebugStarts
-        RETURN
+C       RETURN
 CcnhDebugEnds
 
 
@@ -942,7 +942,7 @@ C        south and post that I am ready to send data to the south.
         ENDIF
 C
         bS = myByHi(myTHid)
-        IF ( bN .EQ. 1 .AND. commS(myThid) .EQ. COMM_MPI ) THEN
+        IF ( bS .EQ. nSy .AND. commN(myThid) .EQ. COMM_MPI ) THEN
 C        My north face uses MPI. Get ready to receive data from
 C        north and post that I am ready to send data to the north.
          nReqs = nReqs + 1

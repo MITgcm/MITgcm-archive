@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/model/src/ini_spherical_polar_grid.F,v 1.5.2.2 1998/06/20 19:17:55 cnh Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/ini_spherical_polar_grid.F,v 1.5.2.3 1998/06/20 22:20:20 cnh Exp $
 
 #include "CPP_EEOPTIONS.h"
 
@@ -233,10 +233,6 @@ C     Calculate vertical face area and trigonometric terms
       ENDDO
 C     Now sync. and get/send edge regions that are shared with
 C     other threads.
-CcnhDebugStarts
-C     tanPhiAtU = 0. _d 0
-C     tanPhiAtV = 0. _d 0
-CcnhDebugEnds
       _EXCH_XYZ_R4(rHFacC    , myThid )
       _EXCH_XYZ_R4(rHFacW    , myThid )
       _EXCH_XYZ_R4(rHFacS    , myThid )
