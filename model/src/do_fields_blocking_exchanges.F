@@ -1,7 +1,7 @@
-C $Header: /u/gcmpack/MITgcm/model/src/do_fields_blocking_exchanges.F,v 1.10.2.2 2003/10/02 18:33:27 edhill Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/do_fields_blocking_exchanges.F,v 1.10.2.3 2003/10/02 18:34:58 edhill Exp $
 C $Name:  $
 
-#include "PACKAGES.h"
+#include "PACKAGES_CONFIG.h"
 #include "CPP_OPTIONS.h"
 
 CBOP
