@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/pkg/kpp/Attic/kpp_init.F,v 1.7.8.1 2002/03/24 17:16:44 heimbach Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/kpp/Attic/kpp_init.F,v 1.7.8.1.2.1 2003/02/12 06:45:56 dimitri Exp $
 C $Name:  $
 
 #include "KPP_OPTIONS.h"

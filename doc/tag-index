@@ -1,10 +1,13 @@
-$Header: /u/gcmpack/MITgcm/doc/tag-index,v 1.53.4.15.2.1 2003/02/11 22:39:49 dimitri Exp $
+$Header: /u/gcmpack/MITgcm/doc/tag-index,v 1.53.4.15.2.2 2003/02/12 06:45:54 dimitri Exp $
 
     Notes on tags used in MITgcmUV
     ==============================
 
 Revision history for branch c24_e25_ice
    (branch for adding sea-ice code to ecco-branch)
+
+02/12/03
+  Added pkg/seaice and modified pkg/exf as per release1_p12_pre
 
 02/11/03 cvs tag ecco_ice1
   Updated verification/natl_box_forward and natl_box_adjoint
