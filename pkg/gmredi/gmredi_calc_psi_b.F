@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/pkg/gmredi/gmredi_calc_psi_b.F,v 1.1 2001/12/16 18:54:49 jmc Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/gmredi/gmredi_calc_psi_b.F,v 1.1.4.1 2002/02/06 15:48:08 heimbach Exp $
 C $Name:  $
 
 #include "GMREDI_OPTIONS.h"
