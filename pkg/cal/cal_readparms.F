@@ -1,3 +1,5 @@
+C $Header: /u/gcmpack/MITgcm/pkg/cal/cal_readparms.F,v 1.2.4.2 2003/10/07 20:46:37 adcroft Exp $
+C $Name:  $
 
 #include "CAL_OPTIONS.h"
 

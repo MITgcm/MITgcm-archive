@@ -1,4 +1,5 @@
-C $Header: /u/gcmpack/MITgcm/pkg/cal/cal_toseconds.F,v 1.4.2.1 2003/10/02 18:30:07 adcroft Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/cal/cal_toseconds.F,v 1.4.2.2 2003/10/07 20:46:37 adcroft Exp $
+C $Name:  $
 
 #include "CAL_OPTIONS.h"
 
