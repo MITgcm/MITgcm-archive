@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-#  $Header: /u/gcmpack/MITgcm/verification/testreport,v 1.9.2.6 2003/10/03 18:55:29 edhill Exp $
+#  $Header: /u/gcmpack/MITgcm/verification/testreport,v 1.9.2.7 2003/10/03 19:12:27 edhill Exp $
 #
 
 usage()
@@ -704,6 +704,8 @@ for dir in $TESTDIRS ; do
 	    rm -f $DRESULTS"/"$NDIR".tar*"
 	fi
     fi
+
+    echo "-------------------------------------------------------------------------------"
     
     NDIR=$(( $NDIR + 1 ))
     
