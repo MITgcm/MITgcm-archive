@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/pkg/monitor/MONITOR_OPTIONS.h,v 1.1.4.1 2003/10/02 18:18:33 adcroft Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/monitor/MONITOR_OPTIONS.h,v 1.1.4.2 2003/10/02 18:30:08 adcroft Exp $
 C $Name:  $
 
 C CPP options file for monitor package
@@ -7,7 +7,7 @@ C Use this file for selecting options within the monitor package
 
 #ifndef MONITOR_OPTIONS_H
 #define MONITOR_OPTIONS_H
-#include "PACKAGES_CONF.h"
+#include "PACKAGES_CONFIG.h"
 #ifdef ALLOW_MONITOR
 
 #include "CPP_OPTIONS.h"

@@ -1,6 +1,6 @@
-C $Header: /u/gcmpack/MITgcm/pkg/cal/cal_toseconds.F,v 1.4 2003/09/23 06:33:45 dimitri Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/cal/cal_toseconds.F,v 1.4.2.1 2003/10/02 18:30:07 adcroft Exp $
 
-#include "CAL_CPPOPTIONS.h"
+#include "CAL_OPTIONS.h"
 
       subroutine cal_ToSeconds(
      I                          date,

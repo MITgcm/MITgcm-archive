@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/pkg/obcs/OBCS_OPTIONS.h,v 1.2.18.1 2003/10/02 18:18:33 adcroft Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/obcs/OBCS_OPTIONS.h,v 1.2.18.2 2003/10/02 18:30:08 adcroft Exp $
 C $Name:  $
  
 C CPP options file for OBCS package
@@ -7,7 +7,7 @@ C Use this file for selecting options within the OBCS package
 
 #ifndef OBCS_OPTIONS_H
 #define OBCS_OPTIONS_H
-#include "PACKAGES_CONF.h"
+#include "PACKAGES_CONFIG.h"
 #ifdef ALLOW_OBCS
 
 #include "CPP_OPTIONS.h"

@@ -1,7 +1,7 @@
-C $Header: /u/gcmpack/MITgcm/pkg/debug/debug_msg.F,v 1.2 2003/06/06 16:36:29 adcroft Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/debug/debug_msg.F,v 1.2.4.1 2003/10/02 18:30:07 adcroft Exp $
 C $Name:  $
 
-#include "CPP_OPTIONS.h"
+#include "DEBUG_OPTIONS.h"
 
       SUBROUTINE DEBUG_MSG(
      I                text,

@@ -1,6 +1,6 @@
-c $Header: /u/gcmpack/MITgcm/pkg/exf/exf_summary.F,v 1.5 2003/02/25 06:35:46 dimitri Exp $
+c $Header: /u/gcmpack/MITgcm/pkg/exf/exf_summary.F,v 1.5.2.1 2003/10/02 18:30:07 adcroft Exp $
 
-#include "EXF_CPPOPTIONS.h"
+#include "EXF_OPTIONS.h"
 
 
       subroutine exf_Summary(

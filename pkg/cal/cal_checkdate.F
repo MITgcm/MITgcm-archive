@@ -1,6 +1,6 @@
-C $Header: /u/gcmpack/MITgcm/pkg/cal/cal_checkdate.F,v 1.3 2003/09/23 06:33:44 dimitri Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/cal/cal_checkdate.F,v 1.3.2.1 2003/10/02 18:30:07 adcroft Exp $
 
-#include "CAL_CPPOPTIONS.h"
+#include "CAL_OPTIONS.h"
 
       subroutine cal_CheckDate(
      I                          date,

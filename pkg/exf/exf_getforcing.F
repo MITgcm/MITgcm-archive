@@ -1,6 +1,6 @@
-c $Header: /u/gcmpack/MITgcm/pkg/exf/exf_getforcing.F,v 1.7 2003/05/23 18:37:31 heimbach Exp $
+c $Header: /u/gcmpack/MITgcm/pkg/exf/exf_getforcing.F,v 1.7.2.1 2003/10/02 18:30:07 adcroft Exp $
 
-#include "CPP_OPTIONS.h"
+#include "EXF_OPTIONS.h"
 
 CBOI
 C
@@ -79,7 +79,7 @@ c     | SUBROUTINE exf_getforcing
 c     *=================================================================
 c     o Get the forcing fields for the current time step. The switches
 c       for the inclusion of the individual forcing components have to
-c       be set in EXF_CPPOPTIONS.h (or ECCO_CPPOPTIONS.h).
+c       be set in EXF_OPTIONS.h (or ECCO_CPPOPTIONS.h).
 c       A note on surface fluxes:
 c       The MITgcmUV's vertical coordinate z is positive upward.
 c       This implies that a positive flux is out of the ocean

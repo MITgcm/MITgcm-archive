@@ -1,11 +1,11 @@
-C $Header: /u/gcmpack/MITgcm/pkg/shap_filt/SHAP_FILT_OPTIONS.h,v 1.4.4.1 2003/10/02 18:18:34 adcroft Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/shap_filt/SHAP_FILT_OPTIONS.h,v 1.4.4.2 2003/10/02 18:30:08 adcroft Exp $
 C $Name:  $
 
 C Header file for package pkg/shap_filt
 
 #ifndef SHAP_FILT_OPTIONS_H
 #define SHAP_FILT_OPTIONS_H
-#include "PACKAGES_CONF.h"
+#include "PACKAGES_CONFIG.h"
 #ifdef ALLOW_SHAP_FILT
 
 #include "CPP_OPTIONS.h"

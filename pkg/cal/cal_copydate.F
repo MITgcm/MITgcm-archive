@@ -1,6 +1,6 @@
-C $Header: /u/gcmpack/MITgcm/pkg/cal/cal_copydate.F,v 1.1 2001/05/14 22:07:26 heimbach Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/cal/cal_copydate.F,v 1.1.20.1 2003/10/02 18:30:07 adcroft Exp $
 
-#include "CAL_CPPOPTIONS.h"
+#include "CAL_OPTIONS.h"
 
       subroutine cal_CopyDate(
      I                         indate,

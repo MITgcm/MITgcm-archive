@@ -1,9 +1,9 @@
-C $Header: /u/gcmpack/MITgcm/pkg/dic/dic_biotic_diags.F,v 1.2 2003/07/09 19:59:18 stephd Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/dic/dic_biotic_diags.F,v 1.2.2.1 2003/10/02 18:30:07 adcroft Exp $
 C $Name:  $
 cswdice modified for ice -- 25 Oct 01
 cswddic modified for dic -- 16 July 02
 
-#include "CPP_OPTIONS.h"
+#include "DIC_OPTIONS.h"
 #include "GCHEM_OPTIONS.h"
 
 CStartOfInterface

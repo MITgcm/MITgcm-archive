@@ -1,6 +1,6 @@
-c $Header: /u/gcmpack/MITgcm/pkg/exf/exf_getffieldrec.F,v 1.8 2003/09/23 04:34:25 dimitri Exp $
+c $Header: /u/gcmpack/MITgcm/pkg/exf/exf_getffieldrec.F,v 1.8.2.1 2003/10/02 18:30:07 adcroft Exp $
 
-#include "CPP_OPTIONS.h"
+#include "EXF_OPTIONS.h"
 
 
       subroutine exf_GetFFieldRec(

@@ -1,6 +1,6 @@
-c $Header: /u/gcmpack/MITgcm/pkg/exf/exf_filter_rl.F,v 1.4 2003/02/18 05:33:54 dimitri Exp $
+c $Header: /u/gcmpack/MITgcm/pkg/exf/exf_filter_rl.F,v 1.4.2.1 2003/10/02 18:30:07 adcroft Exp $
 
-#include "EXF_CPPOPTIONS.h"
+#include "EXF_OPTIONS.h"
 
       subroutine exf_filter_rl(
      I                          arr,

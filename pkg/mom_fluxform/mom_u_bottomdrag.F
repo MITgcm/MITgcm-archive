@@ -1,7 +1,7 @@
-C $Header: /u/gcmpack/MITgcm/pkg/mom_fluxform/Attic/mom_u_bottomdrag.F,v 1.6 2002/12/16 21:40:07 mlosch Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/mom_fluxform/Attic/mom_u_bottomdrag.F,v 1.6.4.1 2003/10/02 18:30:08 adcroft Exp $
 C $Name:  $
 
-#include "CPP_OPTIONS.h"
+#include "MOM_FLUXFORM_OPTIONS.h"
 
 CBOP
 C !ROUTINE: MOM_U_BOTTOMDRAG

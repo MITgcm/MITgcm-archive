@@ -1,9 +1,9 @@
-C $Header: /u/gcmpack/MITgcm/pkg/mdsio/MDSIO_OPTIONS.h,v 1.2.20.1 2003/10/02 18:18:33 adcroft Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/mdsio/MDSIO_OPTIONS.h,v 1.2.20.2 2003/10/02 18:30:08 adcroft Exp $
 C $Name:  $
 
 #ifndef MDSIO_OPTIONS_H
 #define MDSIO_OPTIONS_H
-#include "PACKAGES_CONF.h"
+#include "PACKAGES_CONFIG.h"
 #ifdef ALLOW_MDSIO
 
 #include "CPP_OPTIONS.h"

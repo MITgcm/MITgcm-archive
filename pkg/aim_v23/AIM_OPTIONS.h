@@ -1,11 +1,11 @@
-C $Header: /u/gcmpack/MITgcm/pkg/aim_v23/AIM_OPTIONS.h,v 1.3.2.1 2003/10/02 18:18:33 adcroft Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/aim_v23/AIM_OPTIONS.h,v 1.3.2.2 2003/10/02 18:30:05 adcroft Exp $
 C $Name:  $
 
 C  CPP options file for AIM package 
 
 #ifndef AIM_OPTIONS_H
 #define AIM_OPTIONS_H
-#include "PACKAGES_CONF.h"
+#include "PACKAGES_CONFIG.h"
 #ifdef ALLOW_AIM
 
 #include "CPP_OPTIONS.h"

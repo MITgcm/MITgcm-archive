@@ -1,6 +1,6 @@
-C $Header: /u/gcmpack/MITgcm/pkg/cal/cal_getdate.F,v 1.2 2003/09/23 04:34:25 dimitri Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/cal/cal_getdate.F,v 1.2.2.1 2003/10/02 18:30:07 adcroft Exp $
 
-#include "CAL_CPPOPTIONS.h"
+#include "CAL_OPTIONS.h"
 
       subroutine cal_GetDate(
      I                        myiter,

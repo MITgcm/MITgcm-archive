@@ -1,6 +1,6 @@
-C $Header: /u/gcmpack/MITgcm/pkg/autodiff/addummy_in_stepping.F,v 1.9 2003/01/21 19:17:03 heimbach Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/autodiff/addummy_in_stepping.F,v 1.9.2.1 2003/10/02 18:30:05 adcroft Exp $
 
-#include "CPP_OPTIONS.h"
+#include "AUTODIFF_OPTIONS.h"
 
 CBOP
 C     !ROUTINE: addummy_in_stepping
