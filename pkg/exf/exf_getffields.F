@@ -1,5 +1,5 @@
 C
-C $Header: /u/gcmpack/MITgcm/pkg/exf/exf_getffields.F,v 1.18 2003/10/23 04:41:40 edhill Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/exf/exf_getffields.F,v 1.18.2.1 2004/10/08 06:21:29 dimitri Exp $
 C $Name:  $
 
 #include "AD_CONFIG.h"
@@ -129,6 +129,15 @@ c     Atmospheric temperature.
      &     atemp_nlon, atemp_nlat, xC, yC,
 #endif
      &     mycurrenttime, mycurrentiter, mythid )
+      do bj = mybylo(mythid),mybyhi(mythid)
+         do bi = mybxlo(mythid),mybxhi(mythid)
+            do j = 1,sny
+               do i = 1,snx
+                  atemp(i,j,bi,bj) = atemp(i,j,bi,bj) + exf_offset_atemp
+               enddo
+            enddo
+         enddo
+      enddo
 
 c     Atmospheric humidity.
       call exf_set_gen( 
