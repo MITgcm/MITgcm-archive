@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/model/src/ini_forcing.F,v 1.9 1998/06/15 05:13:56 cnh Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/ini_forcing.F,v 1.9.2.1 1998/06/19 04:55:13 cnh Exp $
 
 #include "CPP_EEOPTIONS.h"
 
@@ -78,8 +78,8 @@ C          fu(i,j,bi,bj) = -tauMax
         DO bi = myBxLo(myThid), myBxHi(myThid)
          DO j=1,sNy
           DO i=1,sNx
-           fu(i,j,bi,bj) = fu(i,j,bi,bj)/(delZ(1)*rhonil)*0.1
-           fu(i,j,bi,bj) = 0.1/(delZ(1)*rhonil)
+           fu(i,j,bi,bj) = fu(i,j,bi,bj)/(delZ(1)*rhonil)
+C          fu(i,j,bi,bj) = 0.1/(delZ(1)*rhonil)
           ENDDO
          ENDDO
         ENDDO
@@ -106,7 +106,7 @@ C
         DO bi = myBxLo(myThid), myBxHi(myThid)
          DO j=1,sNy
           DO i=1,sNx
-           fv(i,j,bi,bj) = fv(i,j,bi,bj)/(delZ(1)*rhonil)*0.
+           fv(i,j,bi,bj) = fv(i,j,bi,bj)/(delZ(1)*rhonil)
           ENDDO
          ENDDO
         ENDDO

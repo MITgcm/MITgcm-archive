@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/model/src/the_model_main.F,v 1.11 1998/06/15 05:13:56 cnh Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/the_model_main.F,v 1.11.2.1 1998/06/19 04:55:13 cnh Exp $
 
 #include "CPP_EEOPTIONS.h"
 
@@ -153,9 +153,14 @@ C      at time level 1
 
       ENDDO
 
-C--   Dump for end state and final checkpoint
-      CALL WRITE_STATE( myCurrentTime, myCurrentIter, myThid )
+C--   Final checkpoint (incase the in-loop checkpoint was missed)
       CALL WRITE_CHECKPOINT( .TRUE., myCurrentTime, myCurrentIter, myThid )
+
+C--   Step-forward U/V/Theta/Salt for purposes of final I/O dump
+      CALL DYNAMICS( myCurrentTime, myCurrentIter, myThid )
+
+C--   Dump for end state
+      CALL WRITE_STATE( myCurrentTime, myCurrentIter, myThid )
 
 
       RETURN
