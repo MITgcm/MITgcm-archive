@@ -1,7 +1,13 @@
-$Header: /u/gcmpack/MITgcm/doc/tag-index,v 1.5 1998/06/15 05:13:55 cnh Exp $
+$Header: /u/gcmpack/MITgcm/doc/tag-index,v 1.5.2.1 1998/06/22 02:38:59 cnh Exp $
 
     Notes on tags used in MITgcmUV
     ==============================
+
+checkpoint7-4degree-ref
+ Branch from checkpoint7. Released for application to
+ global modeling and general modeling - process studies, regional
+ model etc.. 
+ Configured for verification/exp2 - 4 degree global, two process.
 
 checkpoint7
  Created by cnh
