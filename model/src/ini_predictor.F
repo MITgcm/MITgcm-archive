@@ -1,14 +1,14 @@
-C $Header: /u/gcmpack/MITgcm/model/src/Attic/init_predictor.F,v 1.2 1998/06/01 22:27:14 adcroft Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/Attic/ini_predictor.F,v 1.1.2.1 1998/06/20 19:38:50 cnh Exp $
 
 #include "CPP_EEOPTIONS.h"
 
 C     /==========================================================\
-C     | S/R INIT_PREDICTOR                                       |
+C     | S/R INI_PREDICTOR                                       |
 C     | o Copies Gu,Gv,Gt and Gs in U,V,theta and salt           |
 C     |   This is to initialise the predictor-corrector time-    |
 C     |   stepping scheme                                        |
 C     \==========================================================/
-      SUBROUTINE INIT_PREDICTOR( 
+      SUBROUTINE INI_PREDICTOR( 
      I                       myThid )
       implicit none
 ! Common

@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/model/src/Attic/read_write.F,v 1.6 1998/06/10 17:05:59 cnh Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/Attic/read_write.F,v 1.6.2.1 1998/06/20 19:38:50 cnh Exp $
 #include "CPP_EEOPTIONS.h"
 
 C--  File read_write.F: Routines to handle mid-level I/O interface.
@@ -213,6 +213,8 @@ C          U.0000000100
      & pref(s1Lo:s1Hi)
        WRITE( fNamMeta, '(A)' )
      & pref(s1Lo:s1Hi)
+       s2Lo = 1
+       s2Hi = 1
       ELSE
        WRITE( fNamData, '(A,A)' )
      & pref(s1Lo:s1Hi),
@@ -378,11 +380,15 @@ C          U.0000000100
      & suff(s2Lo:s2Hi)
        WRITE( fNamMeta, '(A)' )
      & suff(s2Lo:s2Hi)
+       s1Lo = 1
+       s1Hi = 1
       ELSEIF ( suff .EQ. ' ' ) THEN
        WRITE( fNamData, '(A)' )
      & pref(s1Lo:s1Hi)
        WRITE( fNamMeta, '(A)' )
      & pref(s1Lo:s1Hi)
+       s2Lo = 1
+       s2Hi = 1
       ELSE
        WRITE( fNamData, '(A,A)' )
      & pref(s1Lo:s1Hi),
@@ -548,6 +554,8 @@ C          U.0000000100
      & pref(s1Lo:s1Hi)
        WRITE( fNamMeta, '(A)' )
      & pref(s1Lo:s1Hi)
+       s2Lo = 1
+       s2Hi = 1
       ELSE
        WRITE( fNamData, '(A,A)' )
      & pref(s1Lo:s1Hi),
@@ -722,6 +730,8 @@ C          U.0000000100
      & pref(s1Lo:s1Hi)
        WRITE( fNamMeta, '(A)' )
      & pref(s1Lo:s1Hi)
+       s2Lo = 1
+       s2Hi = 1
       ELSE
        WRITE( fNamData, '(A,A)' )
      & pref(s1Lo:s1Hi),
