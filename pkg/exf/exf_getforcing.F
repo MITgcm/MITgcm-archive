@@ -1,4 +1,4 @@
-c $Header: /u/gcmpack/MITgcm/pkg/exf/exf_getforcing.F,v 1.4 2002/11/12 20:34:41 heimbach Exp $
+c $Header: /u/gcmpack/MITgcm/pkg/exf/exf_getforcing.F,v 1.4.2.1 2002/12/27 15:09:44 cheisey Exp $
 
 #include "CPP_OPTIONS.h"
 
@@ -117,6 +117,9 @@ c     Get values of the surface flux anomalies.
 
 c     Map the forcing fields onto the corresponding model fields.
       call exf_mapfields( mythid )
+
+c     Compute some diagnostic time averages
+      call exf_tave( mythid )
 
       end
 

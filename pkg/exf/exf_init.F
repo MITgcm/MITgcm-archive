@@ -1,4 +1,4 @@
-c $Header: /u/gcmpack/MITgcm/pkg/exf/Attic/exf_init.F,v 1.3 2002/11/12 20:34:41 heimbach Exp $
+c $Header: /u/gcmpack/MITgcm/pkg/exf/Attic/exf_init.F,v 1.3.2.1 2002/12/27 15:09:44 cheisey Exp $
 
 #include "EXF_CPPOPTIONS.h"
 
@@ -58,6 +58,7 @@ c     estimates.
       call exf_init_lwflux( mythid )
       call exf_init_swflux( mythid )
       call exf_init_precip( mythid )
+      call exf_init_windspeed( mythid )
 
 #else /* ALLOW_ATM_TEMP undefined */   
 

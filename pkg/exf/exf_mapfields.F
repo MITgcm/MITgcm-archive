@@ -1,4 +1,4 @@
-c $Header: /u/gcmpack/MITgcm/pkg/exf/exf_mapfields.F,v 1.3 2002/12/17 19:47:41 cheisey Exp $
+c $Header: /u/gcmpack/MITgcm/pkg/exf/exf_mapfields.F,v 1.3.2.1 2002/12/27 15:09:45 cheisey Exp $
 
 #include "EXF_CPPOPTIONS.h"
 
@@ -126,7 +126,8 @@ c             Heat flux.
             do i = imin,imax
 c             Salt flux.
 #if (defined (ALLOW_BULKFORMULAE)  && defined (ALLOW_ATM_TEMP))
-              empmr(i,j,bi,bj) = scal_prc*precip(i,j,bi,bj)
+cCurt              empmr(i,j,bi,bj) = scal_prc*precip(i,j,bi,bj)  ! wrong
+              empmr(i,j,bi,bj) = scal_sfl*sflux(i,j,bi,bj)
 #else
               empmr(i,j,bi,bj) = scal_sfl*sflux(i,j,bi,bj)
 #endif

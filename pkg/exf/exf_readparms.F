@@ -1,4 +1,4 @@
-c $Header: /u/gcmpack/MITgcm/pkg/exf/exf_readparms.F,v 1.4 2002/12/19 13:44:51 cheisey Exp $
+c $Header: /u/gcmpack/MITgcm/pkg/exf/exf_readparms.F,v 1.4.2.1 2002/12/27 15:09:45 cheisey Exp $
 
 #include "EXF_CPPOPTIONS.h"
 #ifdef ALLOW_OBCS
@@ -94,8 +94,9 @@ c     Surface flux data.
      &          exf_iprec,         exf_yftype,
      &           scal_hfl,           scal_ust,       scal_vst,
      &           scal_swf,           scal_sst,       scal_sss,
-     &     scal_apressure,           scal_prc,       scal_sfl
-
+     &     scal_apressure,           scal_prc,       scal_sfl,
+     &    windspeedstartdate1,    windspeedstartdate2,   
+     &    windspeedperiod, windspeedfile
       _BEGIN_MASTER(mythid)
 
 c     Set default values.
@@ -169,6 +170,11 @@ c     Calendar data.
       apressurestartdate2    = 0
       apressureperiod        = 0.0 _d 0
 
+      windspeedstartdate1    = 0
+      windspeedstartdate2    = 0
+      windspeedperiod        = 0.0 _d 0
+
+
       repeatPeriod           = 0.0 _d 0
 
 
@@ -186,6 +192,7 @@ c     Data files.
       swfluxfile         = ' '
       lwfluxfile         = ' '
       apressurefile      = ' '
+      windspeedfile      = ' '
 
 c     Initialise the date arrays.
       do i = 1,4
@@ -206,6 +213,7 @@ c     Initialise the date arrays.
          obcsEstartdate(i)    = 0
          obcsWstartdate(i)    = 0
          apressurestartdate(i)= 0
+         windspeedstartdate(i)= 0
       enddo
 
 c     Initialise file type and field precision
@@ -278,6 +286,8 @@ c     check for consistency
      &                    lwfluxstartdate,            mythid )
       call cal_FullDate(  precipstartdate1,  precipstartdate2,
      &                    precipstartdate,            mythid )
+      call cal_FullDate(windspeedstartdate1, windspeedstartdate2,
+     &                     windspeedstartdate,            mythid )
 #else
       call cal_FullDate(   hfluxstartdate1,   hfluxstartdate2,
      &                     hfluxstartdate,            mythid )

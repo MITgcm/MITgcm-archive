@@ -1,4 +1,4 @@
-c $Header: /u/gcmpack/MITgcm/pkg/exf/Attic/exf_param.h,v 1.4 2002/12/19 13:44:51 cheisey Exp $
+c $Header: /u/gcmpack/MITgcm/pkg/exf/Attic/exf_param.h,v 1.4.2.1 2002/12/27 15:09:45 cheisey Exp $
 c
 c
 c     ==================================================================
@@ -142,6 +142,14 @@ c     Calendar data.
       character*1 apressuremask
       parameter(  apressuremask = 's' )
 
+      integer windspeedstartdate1
+      integer windspeedstartdate2
+      integer windspeedstartdate(4)
+      _RL     windspeedperiod
+      character*1 windspeedmask
+      parameter(  windspeedmask = 's' )
+
+
 c     File names.
       character*(128) hfluxfile
       character*(128) atempfile
@@ -156,6 +164,7 @@ c     File names.
       character*(128) swfluxfile
       character*(128) lwfluxfile
       character*(128) apressurefile
+      character*(128) windspeedfile
 
       common /exf_param_i/
      &                          repeatPeriod,
@@ -176,6 +185,7 @@ c     File names.
      &                          obcsEstartdate1,   obcsEstartdate2,
      &                          obcsWstartdate1,   obcsWstartdate2,
      &                          apressurestartdate1,apressurestartdate2,
+     &                          windspeedstartdate1,windspeedstartdate2,
      &                          hfluxstartdate,
      &                          atempstartdate,
      &                          aqhstartdate,
@@ -192,7 +202,8 @@ c     File names.
      &                          obcsSstartdate,
      &                          obcsEstartdate,
      &                          obcsWstartdate,
-     &                          apressurestartdate
+     &                          apressurestartdate,
+     &                          windspeedstartdate
 
       common /exf_param_r/
      &                          hfluxperiod,
@@ -211,7 +222,8 @@ c     File names.
      &                          obcsSperiod,
      &                          obcsEperiod,
      &                          obcsWperiod,
-     &                          apressureperiod
+     &                          apressureperiod,
+     &                          windspeedperiod
 
       common /exf_param_c/
      &                          hfluxfile,
@@ -226,7 +238,8 @@ c     File names.
      &                          vwindfile,
      &                          swfluxfile,
      &                          lwfluxfile,
-     &                          apressurefile
+     &                          apressurefile,
+     &                          windspeedfile
 
 c     file precision and field type
 

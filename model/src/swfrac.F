@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/model/src/swfrac.F,v 1.9 2001/09/26 18:09:16 cnh Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/swfrac.F,v 1.9.12.1 2002/12/27 15:09:44 cheisey Exp $
 C $Name:  $
 
 #include "CPP_OPTIONS.h"
@@ -81,6 +81,12 @@ CEOP
       call  cal_GetMonthsRec(
      O     fac, first, changed, count0, count1,
      I     mytime, myiter, mythid )
+c     print *,'swfrac: fac',fac
+c     print *,'swfrac: first',first
+c     print *,'swfrac: changed',changed
+c     print *,'swfrac: count0',count0
+c     print *,'swfrac: count1',count1
+c     print *,'swfrac: myIter',myIter
       jwtype=jerl(count0)
 #else /* ALLOW_CALENDAR undef */
       jwtype=2

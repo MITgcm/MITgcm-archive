@@ -1,4 +1,4 @@
-c $Header: /u/gcmpack/MITgcm/pkg/exf/exf_getffields.F,v 1.6 2002/12/18 19:23:29 cheisey Exp $
+c $Header: /u/gcmpack/MITgcm/pkg/exf/exf_getffields.F,v 1.6.2.1 2002/12/27 15:09:44 cheisey Exp $
 
 #include "EXF_CPPOPTIONS.h"
 
@@ -175,7 +175,6 @@ c     == local variables ==
       _RL     xsq
       _RL     x
       _RL     tau
-      _RL     evap(1-olx:snx+olx,1-oly:sny+oly,nsx,nsy)
 #ifdef ALLOW_AUTODIFF_TAMC
       integer ikey_1
       integer ikey_2
@@ -187,8 +186,6 @@ c     == local variables ==
       _RL     cw
       _RL     sw
       _RL     sh
-      _RL     hs(1-olx:snx+olx,1-oly:sny+oly,nsx,nsy)
-      _RL     hl(1-olx:snx+olx,1-oly:sny+oly,nsx,nsy)
       _RL     hfl
 
 #endif /* ALLOW_BULKFORMULAE */
@@ -213,6 +210,15 @@ c     == external functions ==
       _RL       TMP3
       _RL       TMP4
       _RL       TMP5
+
+      _RL       ustressLoc
+      _RL       vstressLoc
+      _RL       stefan
+
+      parameter (stefan = 5.67e-8) ! Stefan-Boltzmann constant (W/m^2 K^4)
+
+
+
 #endif
 
 c     == end of interface ==
@@ -244,6 +250,12 @@ c     Net short wave radiative flux.
 
 c     Precipitation.
       call exf_set_precip( mycurrenttime, mycurrentiter, mythid )
+
+c     Windspeed
+      call exf_set_windspeed( mycurrenttime, mycurrentiter, mythid )
+
+
+
 
 #ifdef ALLOW_ATEMP_CONTROL
       call ctrl_getatemp ( mycurrenttime, mycurrentiter, mythid )
@@ -375,10 +387,16 @@ c             drag coeff. cdn.
 c             The inversion is based on linear and quadratic form of
 c             cdn(umps); ustar can be directly computed from stress;
 
-              ustmp = ustress(i,j,bi,bj)*ustress(i,j,bi,bj) + 
-     &                vstress(i,j,bi,bj)*vstress(i,j,bi,bj)
+c              ustmp = ustress(i,j,bi,bj)*ustress(i,j,bi,bj) + 
+c     &                vstress(i,j,bi,bj)*vstress(i,j,bi,bj)
+
+c             Shift ustress and vstress on tracer points - CWH
+              ustressLoc=0.5*(ustress(i,j,bi,bj) + ustress(i+1,j,bi,bj))
+              vstressLoc=0.5*(vstress(i,j,bi,bj) + vstress(i,j+1,bi,bj))
+              ustmp=ustressLoc*ustressLoc+vstressLoc*vstressLoc
+
               if ( ustmp .ne. 0. _d 0 ) then
-                ustar = sqrt(ustmp/atmrho)
+                 ustar = sqrt(ustmp/atmrho)
                 cw = ustress(i,j,bi,bj)/sqrt(ustmp)
                 sw = vstress(i,j,bi,bj)/sqrt(ustmp)
               else
@@ -401,6 +419,12 @@ c             cdn(umps); ustar can be directly computed from stress;
                 us   = (tmp4 + tmp5)**(1/3) +
      &                 tmp3**2 * (tmp4 + tmp5)**(-1/3) - tmp3
               endif
+
+c             read us from windseed forcing file -- Curt
+              us = windspeed(i,j,bi,bj)
+
+c              print *,"exf_getffields us (old), us: ",xxxx,us
+
 
               if ( us .ne. 0 ) then
                  rdn = ustar/us
@@ -523,8 +547,8 @@ CADJ STORE sw     = comlev1_exf_1, key = ikey_1
                 hs(i,j,bi,bj)      = atmcp*tau*tstar/ustar
                 hl(i,j,bi,bj)      = flamb*tau*qstar/ustar
                 evap(i,j,bi,bj)    = tau*qstar/ustar
-                ustress(i,j,bi,bj) = tau*cw
-                vstress(i,j,bi,bj) = tau*sw
+cCurt                ustress(i,j,bi,bj) = tau*cw
+cCurt                vstress(i,j,bi,bj) = tau*sw
               else
                 ustress(i,j,bi,bj) = 0. _d 0
                 vstress(i,j,bi,bj) = 0. _d 0
@@ -557,13 +581,17 @@ c             Net surface heat flux.
               hfl = hfl - hs(i,j,bi,bj)
               hfl = hfl - hl(i,j,bi,bj)
               hfl = hfl + lwflux(i,j,bi,bj)
+cCurt         upward lw radiation W/m^2 = emissivity * stefan * T^4  (K)
+              hfl = hfl + 0.985 * stefan * (theta(i,j,k,bi,bj)+cen2kel )**4
 #ifndef ALLOW_KPP
               hfl = hfl + swflux(i,j,bi,bj)
 #endif /* ALLOW_KPP undef */
 c             Heat flux:
               hflux(i,j,bi,bj) = hfl*maskc(i,j,1,bi,bj)
 c             Salt flux from Precipitation and Evaporation.
-              sflux(i,j,bi,bj) = precip(i,j,bi,bj) - evap(i,j,bi,bj)
+CCurt              sflux(i,j,bi,bj) = precip(i,j,bi,bj) - evap(i,j,bi,bj)
+C             Needs scaling factor of 1000. for evap to be in units of m/s
+              sflux(i,j,bi,bj) = precip(i,j,bi,bj) - evap(i,j,bi,bj)/1000.
 #endif /* ALLOW_ATM_TEMP */
 
 #else

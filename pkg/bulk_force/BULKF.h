@@ -13,11 +13,11 @@ c  qair      - specific humidity at surface (Kg/Kg)
 c  rain      - precipitation, which may become snow (m/s), <0 decreases salinity
 c  solar     - shortwave radiation (W/m^2), <0 for ocean warming
 c  flw       - downward longwave flux (W/m^2), <0 for ocean warming
-c  wspeed    - wind speed (m/s)
+c  wspeed    - wind speed (m/s) at tracer points
 C
 C Optional:
-c  uwind      - zonal wind speed (m/s)
-c  vwind      - meridional wind speed (m/s)
+c  uwind      - zonal wind speed (m/s) at tracer points
+c  vwind      - meridional wind speed (m/s) at tracer points
 c  runoff     - freshwater runoff
 c  qnetch     - net heat flux (cheating)
 c  empch      - E-P (cheating)

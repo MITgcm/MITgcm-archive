@@ -1,4 +1,4 @@
-c $Header: /u/gcmpack/MITgcm/pkg/exf/Attic/exf_fields.h,v 1.3 2002/11/12 20:34:41 heimbach Exp $
+c $Header: /u/gcmpack/MITgcm/pkg/exf/Attic/exf_fields.h,v 1.3.2.1 2002/12/27 15:09:44 cheisey Exp $
 c
 c
 c     ==================================================================
@@ -22,6 +22,14 @@ c     heat and salt flux.
       _RL hflux (1-olx:snx+olx,1-oly:sny+oly,  nsx,nsy)
       _RL sflux (1-olx:snx+olx,1-oly:sny+oly,  nsx,nsy)
 
+
+c       hs  - sensible heat flux  (W/m^2), into ocean
+c       hl  - latent   heat flux  (W/m^2), into ocean
+      common /exf_heats_r/ hs, hl
+      _RL     hs(1-olx:snx+olx,1-oly:sny+oly,nsx,nsy)
+      _RL     hl(1-olx:snx+olx,1-oly:sny+oly,nsx,nsy)
+
+
 c     zonal and meridionalwind stress.
       common /exf_stress_r/ ustress, vstress
       _RL ustress (1-olx:snx+olx,1-oly:sny+oly,nsx,nsy)
@@ -43,11 +51,20 @@ c     Long wave radiative flux.
 c     Precipitation.
       _RL precip (1-olx:snx+olx,1-oly:sny+oly, nsx,nsy)
 
-      common /exf_atm_temp_r/ atemp, aqh, lwflux, precip
+c     Evaporation
+      _RL     evap(1-olx:snx+olx,1-oly:sny+oly,nsx,nsy)
+
+
+c     Atmospheric temperature.
+      _RL windspeed (1-olx:snx+olx,1-oly:sny+oly,  nsx,nsy)
+
+      common /exf_atm_temp_r/ atemp, aqh, lwflux, precip, evap,
+     &       windspeed
 
 c     Short wave radiative flux.
       common /exf_swflux_r/ swflux
       _RL swflux (1-olx:snx+olx,1-oly:sny+oly, nsx,nsy)
+
 
 #else
 c     Do not use the atmospheric temperature and specific humidity for
@@ -99,6 +116,12 @@ c--   define auxiliary fields for temporal interpolation
       common /exfl_swflux_r/ swflux0, swflux1
       _RL swflux0(1-olx:snx+olx,1-oly:sny+oly,nsx,nsy)
       _RL swflux1(1-olx:snx+olx,1-oly:sny+oly,nsx,nsy)
+
+      common /exfl_windspeed_r/ windspeed0, windspeed1
+      _RL windspeed0(1-olx:snx+olx,1-oly:sny+oly,nsx,nsy)
+      _RL windspeed1(1-olx:snx+olx,1-oly:sny+oly,nsx,nsy)
+
+
 #else
       common /exfl_hflux_r/ hflux0, hflux1
       _RL hflux0(1-olx:snx+olx,1-oly:sny+oly,nsx,nsy)
