@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/verification/adjust_nlfs.cs-32x32x1/code/Attic/SIZE.h,v 1.1 2001/09/28 16:03:30 jmc Exp $
+C $Header: /u/gcmpack/MITgcm/verification/adjust_nlfs.cs-32x32x1/code/Attic/SIZE.h,v 1.1.4.1 2002/02/26 16:04:50 adcroft Exp $
 C
 C     /==========================================================\
 C     | SIZE.h Declare size of underlying computational grid.    |
