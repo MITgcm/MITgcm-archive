@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/eesupp/src/eeboot_minimal.F,v 1.8.12.1 2003/01/20 03:05:54 dimitri Exp $
+C $Header: /u/gcmpack/MITgcm/eesupp/src/eeboot_minimal.F,v 1.8.12.2 2003/02/06 00:06:03 dimitri Exp $
 C $Name:  $
 
 #include "CPP_OPTIONS.h"
@@ -154,8 +154,8 @@ C--    Get my process number
        mpiPidIo = myProcId
        pidIO    = mpiPidIo
        IF ( mpiPidIo .EQ. myProcId ) THEN
-        WRITE(fNam,'(A,A)') 'STDERR.', myProcessStr(1:4)
-        OPEN(errorMessageUnit,FILE=fNam,STATUS='unknown')
+cdm     WRITE(fNam,'(A,A)') 'STDERR.', myProcessStr(1:4)
+cdm     OPEN(errorMessageUnit,FILE=fNam,STATUS='unknown')
         WRITE(fNam,'(A,A)') 'STDOUT.', myProcessStr(1:4)
         OPEN(standardMessageUnit,FILE=fNam,STATUS='unknown')
        ENDIF

@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/model/src/cg2d.F,v 1.34 2001/09/26 18:09:14 cnh Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/cg2d.F,v 1.34.10.1 2003/02/06 00:06:03 dimitri Exp $
 C $Name:  $
 
 #include "CPP_OPTIONS.h"
@@ -246,8 +246,8 @@ C     _EXCH_XY_R8( cg2d_s, myThid )
        actualResidual = err
       
       _BEGIN_MASTER( myThid )
-      write(*,'(A,1P2E22.14)')' cg2d: Sum(rhs),rhsMax = ',
-     &                                  sumRHS,rhsMax 
+cdm   write(*,'(A,1P2E22.14)')' cg2d: Sum(rhs),rhsMax = ',
+cdm  &                                  sumRHS,rhsMax 
       _END_MASTER( )
 C     _BARRIER
 c     _BEGIN_MASTER( myThid )

@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/pkg/kpp/kpp_calc.F,v 1.9 2001/09/27 18:08:57 adcroft Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/kpp/kpp_calc.F,v 1.9.10.1 2003/02/06 00:06:03 dimitri Exp $
 C $Name:  $
 
 #include "KPP_OPTIONS.h"
@@ -153,7 +153,6 @@ c     vddiff (nx,ny,Nrp2,2)- vert. diff. on next row for temperature  (m^2/s)
 c     vddiff (nx,ny,Nrp2,3)- vert. diff. on next row for salt&tracers (m^2/s)
 c     ghat   (nx,ny,Nr)    - nonlocal transport coefficient           (s/m^2)
 c     hbl    (nx,ny)       - mixing layer depth                           (m)
-c     kmtj   (nx,ny)       - maximum number of wet levels in each column
 c     z0     (nx,ny)       - Roughness length                             (m)
 c     zRef   (nx,ny)       - Reference depth: Hmix * epsilon              (m)
 c     uRef   (nx,ny)       - Reference zonal velocity                   (m/s)

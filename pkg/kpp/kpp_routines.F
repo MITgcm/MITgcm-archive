@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/pkg/kpp/kpp_routines.F,v 1.9.10.1 2003/01/24 05:00:36 dimitri Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/kpp/kpp_routines.F,v 1.9.10.2 2003/02/06 00:06:04 dimitri Exp $
 C $Name:  $
 
 #include "KPP_OPTIONS.h"
@@ -199,6 +199,18 @@ c-----------------------------------------------------------------------
          end do
       end do
 
+c-----------------------------------------------------------------------
+c to avoid spurious heating of surface level in shallow regions,
+c always assume large mixing coefficients in 2-level regions.
+c-----------------------------------------------------------------------
+      do i = 1, imt
+         if (kmtj(i) .eq. 2) then
+            diffus(i,k,1) = difmcon
+            diffus(i,k,2) = difscon
+            diffus(i,k,3) = difscon
+         endif
+      end do
+
 #endif /* ALLOW_KPP */
 
       return 
@@ -311,7 +323,7 @@ c       which is necessary for very fine grids(top layer < 2m thickness)
 c note: max values when Ricr never satisfied are
 c       kbl(i)=kmtj(i) and hbl(i)=-zgrid(kmtj(i))
 
-c     initialize hbl and kbl to bottomed out values
+c     initialize hbl and kbl to bottomed-out values
 
       do i = 1, imt
          Rib(i,1) = 0.0
