@@ -1,4 +1,4 @@
-C $Header:
+C $Header: /u/gcmpack/MITgcm/verification/lab_sea/code/SEAICE_OPTIONS.h,v 1.3.2.2 2003/10/06 04:31:47 edhill Exp $
 
 C     /==========================================================\
 C     | SEAICE_OPTIONS.h                                         |

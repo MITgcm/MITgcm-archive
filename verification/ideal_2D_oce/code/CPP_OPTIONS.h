@@ -1,5 +1,9 @@
-C $Header: /u/gcmpack/MITgcm/verification/ideal_2D_oce/code/Attic/CPP_OPTIONS.h,v 1.1.2.1 2003/10/02 19:54:53 adcroft Exp $
+C $Header: /u/gcmpack/MITgcm/verification/ideal_2D_oce/code/Attic/CPP_OPTIONS.h,v 1.1.2.2 2003/10/06 04:31:47 edhill Exp $
 C $Name:  $
+
+ceh3
+#define GM_VISBECK_VARIABLE_K
+ceh3
 
 C 
 C CPP flags controlling which code in included in the files that
