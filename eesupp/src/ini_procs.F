@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/eesupp/src/ini_procs.F,v 1.14.14.1 2003/01/20 03:05:55 dimitri Exp $
+C $Header: /u/gcmpack/MITgcm/eesupp/src/ini_procs.F,v 1.14.14.2 2003/09/14 07:00:26 dimitri Exp $
 C $Name:  $
 
 #include "CPP_OPTIONS.h"
@@ -62,12 +62,14 @@ C                         units.
       INTEGER elCount
       INTEGER elLen
       INTEGER elStride
-#ifdef COUPLED_UCLA
+
+C--   Variables needed for mpi gather scatter routines.
       COMMON /GlobalLo/ mpi_myXGlobalLo, mpi_myYGlobalLo
       INTEGER mpi_myXGlobalLo(nPx*nPy)
       INTEGER mpi_myYGlobalLo(nPx*nPy)
       INTEGER npe,itemp,ierr,istatus(MPI_STATUS_SIZE)
-#endif COUPLED_UCLA
+      INTEGER mpiBufSize,mpiRequest
+
 #endif /* ALLOW_USE_MPI */
       INTEGER myThid
 CEOP
@@ -184,30 +186,34 @@ C--    Get my location on the grid
        myXGlobalLo  = mpiXGlobalLo
        myYGlobalLo  = mpiYGlobalLo
 
-#ifdef COUPLED_UCLA
-C--   To speed-up scatter and gather routines, myXGlobalLo
+C--   To speed-up mpi gather and scatter routines, myXGlobalLo
 C     and myYGlobalLo from each process are transferred to
 C     a common block array.  This allows process 0 to know
 C     the location of the domains controlled by each process.
        DO npe = 0, numberOfProcs-1
-          CALL MPI_SEND (myXGlobalLo, 1, MPI_INTEGER,
-     &         npe, mpiMyId, MPI_COMM_MODEL, ierr)
+          mpiBufSize=1
+          mpiRequest=0
+          CALL MPI_ISEND (myXGlobalLo, mpiBufSize, MPI_INTEGER,
+     &         npe, mpiMyId, MPI_COMM_MODEL, mpiRequest, ierr)
        ENDDO
        DO npe = 0, numberOfProcs-1
-          CALL MPI_RECV (itemp, 1, MPI_INTEGER,
+          mpiBufSize=1
+          CALL MPI_RECV (itemp, mpiBufSize, MPI_INTEGER,
      &         npe, npe, MPI_COMM_MODEL, istatus, ierr)
           mpi_myXGlobalLo(npe+1) = itemp
        ENDDO
        DO npe = 0, numberOfProcs-1
-          CALL MPI_SEND (myYGlobalLo, 1, MPI_INTEGER,
-     &         npe, mpiMyId, MPI_COMM_MODEL, ierr)
+          mpiBufSize=1
+          mpiRequest=0
+          CALL MPI_ISEND (myYGlobalLo, mpiBufSize, MPI_INTEGER,
+     &         npe, mpiMyId, MPI_COMM_MODEL, mpiRequest, ierr)
        ENDDO
        DO npe = 0, numberOfProcs-1
-          CALL MPI_RECV (itemp, 1, MPI_INTEGER,
+          mpiBufSize=1
+          CALL MPI_RECV (itemp, mpiBufSize, MPI_INTEGER,
      &         npe, npe, MPI_COMM_MODEL, istatus, ierr)
           mpi_myYGlobalLo(npe+1) = itemp
        ENDDO
-#endif COUPLED_UCLA
 
        myPx = mpiPx+1
        myPy = mpiPy+1
@@ -546,4 +552,4 @@ C
       RETURN
       END
 
-C $Id: ini_procs.F,v 1.14.14.1 2003/01/20 03:05:55 dimitri Exp $
+C $Id: ini_procs.F,v 1.14.14.2 2003/09/14 07:00:26 dimitri Exp $

@@ -1,10 +1,12 @@
-$Header: /u/gcmpack/MITgcm/doc/tag-index,v 1.53.6.4 2003/02/07 03:52:57 dimitri Exp $
+$Header: /u/gcmpack/MITgcm/doc/tag-index,v 1.53.6.5 2003/09/14 07:00:26 dimitri Exp $
 
     Notes on tags used in MITgcmUV
     ==============================
 
 Branch release1_coupled contains code for coupling
 to UCLA atmospheric model:
+
+fixed gather/scatter inital MPI dialogue in ini_procs.F
 
 updated useSingleCpuIO option in mdsio_writefield.F
 to work with multi-field files, e.g., the pickup files
