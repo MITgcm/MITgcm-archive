@@ -1,4 +1,4 @@
-c $Header: /u/gcmpack/MITgcm/pkg/exf/Attic/exf_clim_init.F,v 1.1.4.1 2002/04/08 20:10:38 heimbach Exp $
+c $Header: /u/gcmpack/MITgcm/pkg/exf/Attic/exf_clim_init.F,v 1.1.4.2 2002/11/07 17:07:56 heimbach Exp $
 
 #include "EXF_CPPOPTIONS.h"
 
