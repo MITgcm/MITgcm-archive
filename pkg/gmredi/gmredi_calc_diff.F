@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/pkg/gmredi/gmredi_calc_diff.F,v 1.3.6.1 2002/02/06 15:48:08 heimbach Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/gmredi/gmredi_calc_diff.F,v 1.3.6.2 2003/03/07 03:57:33 heimbach Exp $
 C $Name:  $
 
 #include "GMREDI_OPTIONS.h"
