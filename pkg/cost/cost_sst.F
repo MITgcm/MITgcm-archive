@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/pkg/cost/Attic/cost_sst.F,v 1.1.2.2 2002/02/15 22:27:47 heimbach Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/cost/Attic/cost_sst.F,v 1.1.2.3 2002/04/04 10:58:59 heimbach Exp $
 
 #include "COST_CPPOPTIONS.h"
 
@@ -58,6 +58,9 @@ c     == local variables ==
       _RL fctile_sst
       _RL fcthread_sst
 
+      _RL cmask (1-olx:snx+olx,1-oly:sny+oly)  
+      _RL spval
+
       character*(80) fnametheta
 
       logical doglobalread
@@ -80,6 +83,8 @@ c     == end of interface ==
       jmax = sny
       imin = 1
       imax = snx
+
+      spval = -9990.
 
 c--   Read tiled data.
       doglobalread = .false.
@@ -125,17 +130,6 @@ c--     Read time averages and the monthly mean data.
      &                        optimcycle, mythid,
      &                        xx_tbar_mean_dummy )
 
-c--     Determine the month to be read.
-cph     The following block is only needed if SST are inferred
-cph     from Levitus fields.
-cph
-cph        levoff = mod(modelstartdate(1)/100,100)
-cph        levmon = (irec-1) + levoff
-cph        levmon = mod(levmon-1,12)+1
-cph
-cph        call mdsreadfield( tdatfile, cost_iprec, cost_yftype, 
-cph     &                     nr, tdat, levmon, mythid)
-
         do bj = jtlo,jthi
           do bi = itlo,ithi
 
@@ -143,14 +137,41 @@ c--         Loop over the model layers
             fctile_sst = 0. _d 0
             k = 1
 
-c--         Compute cost rel. to monthly SST climatology field.
             call cost_ReadSSTFields( irec, mythid )
 
+c--           Determine the mask on weights
+              do j = jmin,jmax
+                do i = imin,imax
+                  cmask(i,j) = 1. _d 0
+                  if (sstdat(i,j,bi,bj) .eq. 0.) then
+                    cmask(i,j) = 0. _d 0
+                  endif
+                 
+                  if (sstdat(i,j,bi,bj) .lt. spval) then
+                    cmask(i,j) = 0. _d 0
+                  endif
+                  
+cph(
+cph               print *, 'WARNING: SPECIFIC SETUP FOR ECCO'
+cph               below statement could be replaced by following
+cph               to make it independnet of Nr:
+cph
+cph               if ( rC(K) .GT. -1000. ) then
+cph)
+c                 set cmask=0 in areas shallower than 1000m 
+                  if (_hFacC(i,j,13,bi,bj) .eq. 0.) then
+                    cmask(i,j) = 0. _d 0
+                  endif
+
+                enddo
+              enddo
+
+c--         Compute cost rel. to monthly SST climatology field.
             do j = jmin,jmax
               do i = imin,imax
                 if (_hFacC(i,j,k,bi,bj) .ne. 0.) then
                    fctile_sst = fctile_sst +
-     &                  wsst(i,j,bi,bj)*cosphi(i,j,bi,bj)*
+     &                  wsst(i,j,bi,bj)*cosphi(i,j,bi,bj)*cmask(i,j)*
      &                  ( (tbar(i,j,k,bi,bj)-sstdat(i,j,bi,bj))*
      &                    (tbar(i,j,k,bi,bj)-sstdat(i,j,bi,bj))*
      &                           sstmask(i,j,bi,bj) )
@@ -211,6 +232,7 @@ c--   the final cost function.
       fctile_sst     = 0. _d 0
       fcthread_sst   = 0. _d 0
 
+#ifdef ECCO_VERBOSE
       _BEGIN_MASTER( mythid )
         write(msgbuf,'(a)') ' '
         call print_message( msgbuf, standardmessageunit,
@@ -229,6 +251,8 @@ c--   the final cost function.
         call print_message( msgbuf, standardmessageunit,
      &                      SQUEEZE_RIGHT , mythid)
       _END_MASTER( mythid )
+#endif
+
 #endif
 
       return
