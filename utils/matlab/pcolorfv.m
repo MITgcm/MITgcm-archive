@@ -12,7 +12,7 @@ function [hc,hh,hcf] = pcolorfv(x,z,h,a,varargin)
 %
 % Optional arguments are passed on to PCOLOR
 %
-% $Header: /u/gcmpack/MITgcm/utils/matlab/pcolorfv.m,v 1.1.4.1 2002/02/06 15:48:10 heimbach Exp $
+% $Header: /u/gcmpack/MITgcm/utils/matlab/pcolorfv.m,v 1.1.4.2 2003/03/07 05:24:37 heimbach Exp $
 
 nx=prod(size(x));
 nz=prod(size(z));
