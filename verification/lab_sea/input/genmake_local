@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# $Header: /u/gcmpack/MITgcm/verification/lab_sea/input/Attic/genmake_local,v 1.1.2.1 2003/10/06 14:49:44 edhill Exp $
+
+#  This is the local options file for the "new" version of genmake 
+#
+#  EH3 initial version 2003-08
+
+
+DISABLE="aim shap_filt obcs zonal_filt autodiff cost ctrl grdchk"
+
+ENABLE="cal exf sbo seaice gmredi kpp timeave"

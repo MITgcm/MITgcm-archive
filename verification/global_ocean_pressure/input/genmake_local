@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# $Header: /u/gcmpack/MITgcm/verification/global_ocean_pressure/input/Attic/genmake_local,v 1.1.2.1 2003/10/06 14:49:44 edhill Exp $
+
+#  This is the local options file for the "new" version of genmake 
+#
+#  EH3 initial version 2003-08
+
+
+DISABLE="aim kpp shap_filt obcs zonal_filt"
+
