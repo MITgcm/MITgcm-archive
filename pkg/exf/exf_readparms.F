@@ -1,4 +1,4 @@
-c $Header: /u/gcmpack/MITgcm/pkg/exf/exf_readparms.F,v 1.1.6.3.2.1 2003/02/12 06:45:55 dimitri Exp $
+c $Header: /u/gcmpack/MITgcm/pkg/exf/exf_readparms.F,v 1.1.6.3.2.2 2003/02/12 07:57:52 dimitri Exp $
 
 #include "EXF_CPPOPTIONS.h"
 #ifdef ALLOW_OBCS
@@ -100,7 +100,7 @@ c     Surface flux data.
      &     exf_inscal_sfl,  exf_inscal_runoff,exf_inscal_apressure,
      &    exf_outscal_hfl,    exf_outscal_ust,exf_outscal_vst,
      &    exf_outscal_swf,    exf_outscal_sst,exf_outscal_sss,
-     &    exf_outscal_sfl, exf_outscal_runoff,exf_outscal_apressure,
+     &    exf_outscal_sfl,  exf_outscal_apressure,
      &     EXFwindOnBgrid
 
       _BEGIN_MASTER(mythid)
@@ -255,7 +255,6 @@ c     Output scaling factors.
       exf_outscal_sss      =  1. _d 0
       exf_outscal_apressure=  1. _d 0
       exf_outscal_sfl      =  1. _d 0
-      exf_outscal_runoff   =  1. _d 0
 c
       EXFwindOnBgrid = .FALSE.
 

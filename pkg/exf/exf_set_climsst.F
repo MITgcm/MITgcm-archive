@@ -1,4 +1,4 @@
-c $Header: /u/gcmpack/MITgcm/pkg/exf/Attic/exf_set_climsst.F,v 1.1.6.3.2.1 2003/02/12 06:45:56 dimitri Exp $
+c $Header: /u/gcmpack/MITgcm/pkg/exf/Attic/exf_set_climsst.F,v 1.1.6.3.2.2 2003/02/12 07:57:53 dimitri Exp $
 
 #include "EXF_CPPOPTIONS.h"
 
@@ -117,8 +117,9 @@ c     Set to freezing temperature if less
                      endif
 
 c     Interpolate linearly onto the current time.
-                     climsst(i,j,bi,bj) = fac *climsst0(i,j,bi,bj)+
-     &                    (exf_one - fac) *climsst1(i,j,bi,bj)
+                     climsst(i,j,bi,bj) = exf_inscal_sst * (
+     &                                fac * climsst0(i,j,bi,bj) +
+     &                    (exf_one - fac) * climsst1(i,j,bi,bj) )
 
                   enddo
                enddo

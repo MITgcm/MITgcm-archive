@@ -1,4 +1,4 @@
-c $Header: /u/gcmpack/MITgcm/pkg/exf/Attic/exf_set_climsss.F,v 1.1.6.3.2.1 2003/02/12 06:45:56 dimitri Exp $
+c $Header: /u/gcmpack/MITgcm/pkg/exf/Attic/exf_set_climsss.F,v 1.1.6.3.2.2 2003/02/12 07:57:53 dimitri Exp $
 
 #include "EXF_CPPOPTIONS.h"
 
@@ -110,8 +110,9 @@ c     Loop over tiles.
                   do i = 1,snx
 
 c     Interpolate linearly onto the current time.
-                     climsss(i,j,bi,bj) = fac * climsss0(i,j,bi,bj)+
-     &                    (exf_one - fac) *climsss1(i,j,bi,bj)
+                     climsss(i,j,bi,bj) = exf_inscal_sss * (
+     &                                fac * climsss0(i,j,bi,bj) +
+     &                    (exf_one - fac) * climsss1(i,j,bi,bj) )
 
                   enddo
                enddo
