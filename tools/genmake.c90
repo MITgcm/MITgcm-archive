@@ -1,6 +1,6 @@
 #!/bin/csh -f
 #
-# $Header: /u/gcmpack/MITgcm/tools/Attic/genmake.c90,v 1.2 1998/04/23 21:00:51 cnh Exp $
+# $Header: /u/gcmpack/MITgcm/tools/Attic/genmake.c90,v 1.2.2.1 1998/06/20 21:15:23 cnh Exp $
 #
 #  Makefile generator for MITgcm UV codes
 #
@@ -29,7 +29,7 @@ set MODEL_IDIR = ( ../model/inc/ )
 set TDIR       = ( ../tools/ )
 set BDIR       = ( ../bin/       )
 set EDIR       = ( ../exe/       )
-set EXE        = ( barrier       )
+set EXE        = ( mitgcmuv      )
 
 set CPP   = ( '/opt/ctl/bin/cpp -P $(INCLUDES) -DUSE_C90' )
 set FCOMP = ( 'cf77 -c -N 132 -e f -O scalar3,vector3,task1,aggress' )
