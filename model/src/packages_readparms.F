@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/model/src/packages_readparms.F,v 1.1.2.1 2001/01/30 18:07:07 cnh Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/packages_readparms.F,v 1.1.2.2 2001/01/30 21:03:00 adcroft Exp $
 C $Name:  $
 
 #include "CPP_OPTIONS.h"
@@ -38,6 +38,10 @@ C--   Initialize GM/Redi parameters
 #ifdef ALLOW_KPP
 C--   Initialize KPP parameters
       IF (useKPP) CALL KPP_READPARMS( myThid )
+#endif
+
+#ifdef ALLOW_OBCS
+      IF (useOBCS) CALL OBCS_READPARMS( myThid )
 #endif
 
 #ifdef INCLUDE_ECCO_PACKAGE

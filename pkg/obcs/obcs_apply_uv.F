@@ -1,6 +1,7 @@
-C $Header: /u/gcmpack/MITgcm/model/src/Attic/obcs_apply_uv.F,v 1.1.2.1 2001/01/09 21:26:07 adcroft Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/obcs/obcs_apply_uv.F,v 1.1.2.1 2001/01/30 21:03:00 adcroft Exp $
+C $Name:  $
 
-#include "CPP_OPTIONS.h"
+#include "OBCS_OPTIONS.h"
 
       SUBROUTINE OBCS_APPLY_UV( bi, bj, K,
      U                          uFld, vFld,

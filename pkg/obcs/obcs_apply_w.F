@@ -1,13 +1,14 @@
-C $Header: /u/gcmpack/MITgcm/model/src/Attic/obcs_apply_w.F,v 1.1.2.1 2001/01/09 21:26:07 adcroft Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/obcs/obcs_apply_w.F,v 1.1.2.1 2001/01/30 21:03:00 adcroft Exp $
+C $Name:  $
 
-#include "CPP_OPTIONS.h"
+#include "OBCS_OPTIONS.h"
 
-C     /==========================================================\
-C     | S/R OBCS_APPLY_W                                         |
-C     \==========================================================/
       SUBROUTINE OBCS_APPLY_W( bi, bj, K,
      U                         wFld,
      I                         myThid )
+C     /==========================================================\
+C     | S/R OBCS_APPLY_W                                         |
+C     \==========================================================/
       IMPLICIT NONE
 C     == Global variables ==
 #include "SIZE.h"
