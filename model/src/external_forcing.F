@@ -1,5 +1,3 @@
-C $Header: /u/gcmpack/MITgcm/model/src/external_forcing.F,v 1.13.6.1 2002/03/21 03:49:25 heimbach Exp $
-C $Name:  $
 
 #include "CPP_OPTIONS.h"
 
