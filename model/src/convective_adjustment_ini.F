@@ -1,7 +1,6 @@
-C $Header: /u/gcmpack/MITgcm/model/src/convective_adjustment_ini.F,v 1.13 2003/10/09 04:19:18 edhill Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/convective_adjustment_ini.F,v 1.12 2003/05/01 22:30:33 jmc Exp $
 C $Name:  $
 
-#include "PACKAGES_CONFIG.h"
 #include "CPP_OPTIONS.h"
 
 CBOP
@@ -185,7 +184,6 @@ C-          Convectively mix salt across interface K
 
 #ifdef ALLOW_PASSIVE_TRACER
 C-          Convectively mix passive tracer across interface K
-ceh3 needs an IF ( usePASSIVE_TRACER ) THEN
             CALL CONVECTIVELY_MIXTRACER(
      I                              bi,bj,k,weightA,weightB,
      U                              Tr1,

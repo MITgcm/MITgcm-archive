@@ -1,7 +1,6 @@
-C $Header: /u/gcmpack/MITgcm/model/src/cg3d.F,v 1.13 2003/10/09 04:19:18 edhill Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/cg3d.F,v 1.12 2001/09/26 18:09:14 cnh Exp $
 C $Name:  $
 
-#include "PACKAGES_CONFIG.h"
 #include "CPP_OPTIONS.h"
 
 #define VERBOSE
@@ -108,9 +107,6 @@ C     I, J, N     - Loop counters ( N counts CG iterations )
       INTEGER myNz
       _RL     topLevTerm
 CEOP
-
-ceh3 needs an IF ( useNONHYDROSTATIC ) THEN
-
 
 C--   Initialise inverter
       eta_qrNM1 = 1. D0

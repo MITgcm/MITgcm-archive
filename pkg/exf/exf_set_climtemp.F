@@ -1,6 +1,6 @@
-c $Header: /u/gcmpack/MITgcm/pkg/exf/Attic/exf_set_climtemp.F,v 1.7 2003/10/09 04:19:19 edhill Exp $
+c $Header: /u/gcmpack/MITgcm/pkg/exf/Attic/exf_set_climtemp.F,v 1.6 2003/03/06 00:47:33 heimbach Exp $
 
-#include "EXF_OPTIONS.h"
+#include "EXF_CPPOPTIONS.h"
 
 
       subroutine exf_set_climtemp( 

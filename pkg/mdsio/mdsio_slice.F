@@ -1,7 +1,14 @@
-C $Header: /u/gcmpack/MITgcm/pkg/mdsio/Attic/mdsio_slice.F,v 1.5 2003/10/09 04:19:19 edhill Exp $
-C $Name:  $
+C $Header: /u/gcmpack/MITgcm/pkg/mdsio/Attic/mdsio_slice.F,v 1.4 2003/07/08 15:00:27 heimbach Exp $
 
-#include "MDSIO_OPTIONS.h"
+#include "CPP_OPTIONS.h"
+
+#undef  SAFE_IO
+
+#ifdef SAFE_IO
+#define _NEW_STATUS 'new'
+#else
+#define _NEW_STATUS 'unknown'
+#endif
 
 C=======================================================================
       SUBROUTINE MDSREADFIELDXZ(

@@ -1,5 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/pkg/seaice/Attic/SEAICE_FFIELDS.h,v 1.8 2003/10/09 04:19:20 edhill Exp $
-C $Name:  $
+C $Header:
 
 #ifdef ALLOW_SEAICE
 

@@ -1,6 +1,6 @@
-c $Header: /u/gcmpack/MITgcm/pkg/exf/Attic/exf_bulkqsat.F,v 1.5 2003/10/09 04:19:19 edhill Exp $
+c $Header: /u/gcmpack/MITgcm/pkg/exf/Attic/exf_bulkqsat.F,v 1.4 2003/03/25 22:44:07 heimbach Exp $
 
-#include "EXF_OPTIONS.h"
+#include "EXF_CPPOPTIONS.h"
 
 
       _RL function exf_BulkqSat(

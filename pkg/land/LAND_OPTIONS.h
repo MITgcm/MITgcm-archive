@@ -1,17 +1,15 @@
-C $Header: /u/gcmpack/MITgcm/pkg/land/LAND_OPTIONS.h,v 1.2 2003/10/09 04:19:19 edhill Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/land/LAND_OPTIONS.h,v 1.1 2003/06/12 17:54:22 jmc Exp $
 C $Name:  $
 
 C  CPP options file for Land package 
-
-#ifndef LAND_OPTIONS_H
-#define LAND_OPTIONS_H
-#include "PACKAGES_CONFIG.h"
-#ifdef ALLOW_LAND
-
+C
+#ifndef _CPP_EEOPTIONS_H_
 #include "CPP_OPTIONS.h"
+#endif
+
+#ifdef ALLOW_LAND
 
 C  allow time average diagnostic:
 #define ALLOW_LAND_TAVE
 
 #endif /* ALLOW_LAND */
-#endif /* LAND_OPTIONS_H */

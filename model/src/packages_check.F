@@ -1,7 +1,6 @@
-C $Header: /u/gcmpack/MITgcm/model/src/packages_check.F,v 1.17 2003/10/10 20:30:14 jmc Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/packages_check.F,v 1.15 2003/06/19 15:00:45 heimbach Exp $
 C $Name:  $
 
-#include "PACKAGES_CONFIG.h"
 #include "CPP_OPTIONS.h"
 
 CBOP
@@ -55,15 +54,6 @@ CEOP
       IF (useOBCS) CALL OBCS_CHECK( myThid )
 #else
       IF (useOBCS) CALL PACKAGES_CHECK_ERROR('OBCS', myThid)
-#endif
-
-#ifndef ALLOW_BULK_FORCE
-      IF (useBulkforce) CALL PACKAGES_CHECK_ERROR('BULK?FORCE',myThid)
-#endif
-
-#ifndef ALLOW_THERM_SEAICE
-      IF (useThermSeaIce) 
-     &   CALL PACKAGES_CHECK_ERROR('THERM?SEAICE', myThid)
 #endif
 
 #ifndef ALLOW_AIM

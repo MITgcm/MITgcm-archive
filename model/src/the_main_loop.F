@@ -1,7 +1,5 @@
-C $Header: /u/gcmpack/MITgcm/model/src/the_main_loop.F,v 1.40 2003/10/09 04:19:18 edhill Exp $
-C $Name:  $
+C $Header: /u/gcmpack/MITgcm/model/src/the_main_loop.F,v 1.39 2003/09/25 03:01:59 dimitri Exp $
 
-#include "PACKAGES_CONFIG.h"
 #include "CPP_OPTIONS.h"
 
 CBOP
@@ -307,7 +305,6 @@ c--     >>> Loop body start <<<
 #ifdef ALLOW_COST
 C--     compare model with data and compute cost function
 C--     this is done after exchanges to allow interpolation
-ceh3 perhaps needs an IF ( useCOST ) THEN
         CALL TIMER_START('COST_TILE           [THE_MAIN_LOOP]',myThid)
         CALL COST_TILE  ( myThid )
         CALL TIMER_STOP ('COST_TILE           [THE_MAIN_LOOP]',myThid)

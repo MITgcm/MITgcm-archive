@@ -1,6 +1,6 @@
-C $Header: /u/gcmpack/MITgcm/pkg/timeave/Attic/timeave_cumul_1k.F,v 1.2 2003/10/09 04:19:20 edhill Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/timeave/Attic/timeave_cumul_1k.F,v 1.1 2001/03/06 15:45:55 jmc Exp $
 C $Name:  $
-#include "TIMEAVE_OPTIONS.h"
+#include "CPP_OPTIONS.h"
 
 CStartofinterface
       SUBROUTINE TIMEAVE_CUMUL_1K( fld, fldtave, deltaT, 

@@ -1,6 +1,3 @@
-C $Header: /u/gcmpack/MITgcm/pkg/gchem/GCHEM.h,v 1.4 2003/10/09 04:19:19 edhill Exp $
-C $Name:  $
-
 #ifdef ALLOW_PTRACERS
 #ifdef ALLOW_GCHEM
 

@@ -1,5 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/pkg/seaice/Attic/growth.F,v 1.9 2003/10/09 04:19:20 edhill Exp $
-C $Name:  $
+C $Header:
 
 #include "SEAICE_OPTIONS.h"
 

@@ -1,6 +1,6 @@
-c $Header: /u/gcmpack/MITgcm/pkg/exf/exf_mapfields.F,v 1.7 2003/10/09 04:19:19 edhill Exp $
+c $Header: /u/gcmpack/MITgcm/pkg/exf/exf_mapfields.F,v 1.6 2003/05/23 18:37:31 heimbach Exp $
 
-#include "EXF_OPTIONS.h"
+#include "EXF_CPPOPTIONS.h"
 
 
       subroutine exf_mapfields( mythid )

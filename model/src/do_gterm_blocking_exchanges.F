@@ -1,7 +1,6 @@
-C $Header: /u/gcmpack/MITgcm/model/src/Attic/do_gterm_blocking_exchanges.F,v 1.15 2003/10/09 04:19:18 edhill Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/Attic/do_gterm_blocking_exchanges.F,v 1.14 2003/04/17 13:36:37 jmc Exp $
 C $Name:  $
 
-#include "PACKAGES_CONFIG.h"
 #include "CPP_OPTIONS.h"
 
 CBOP
@@ -46,7 +45,6 @@ c     _EXCH_XYZ_R8( theta , myThid )
 c     _EXCH_XYZ_R8( salt , myThid )
 
 #ifdef ALLOW_PTRACERS
-ceh3 add an IF ( usePTRACERS ) THEN
       CALL PTRACERS_GTERM_BLOCKING_EXCHANGES(myThid)
 #endif /* ALLOW PTRACERS */
 

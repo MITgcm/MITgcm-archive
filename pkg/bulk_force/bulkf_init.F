@@ -1,7 +1,5 @@
-C $Header: /u/gcmpack/MITgcm/pkg/bulk_force/Attic/bulkf_init.F,v 1.4 2003/10/09 04:19:19 edhill Exp $
-C $Name:  $
 
-#include "BULK_FORCE_OPTIONS.h"
+#include "CPP_OPTIONS.h"
 
 CStartOfInterface
       SUBROUTINE BULKF_INIT( myThid )

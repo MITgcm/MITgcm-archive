@@ -1,6 +1,6 @@
-C $Header: /u/gcmpack/MITgcm/pkg/timeave/timeave_cumul_1t.F,v 1.3 2003/10/09 04:19:20 edhill Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/timeave/timeave_cumul_1t.F,v 1.2 2001/05/29 14:01:40 adcroft Exp $
 C $Name:  $
-#include "TIMEAVE_OPTIONS.h"
+#include "CPP_OPTIONS.h"
 
 CStartofinterface
       SUBROUTINE TIMEAVE_CUMUL_1T( 

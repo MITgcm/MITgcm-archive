@@ -1,9 +1,7 @@
-C $Header: /u/gcmpack/MITgcm/pkg/bulk_force/Attic/bulkf_formula_exf.F,v 1.2 2003/10/09 04:19:19 edhill Exp $
-C $Name:  $
 c swd -- bulkf formula used in bulkf and ice pkgs
 
 c taken from exf package 
-#include "BULK_FORCE_OPTIONS.h"
+#include "CPP_OPTIONS.h"
       subroutine bulkf_formula_exf(
      I                           uw, vw, us, Ta, Qa, nc, tsf_in,
      I                           flwup, flha, fsha, df0dT,

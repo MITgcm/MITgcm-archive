@@ -1,5 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/pkg/sbo/sbo_rho.F,v 1.3 2003/10/09 04:19:20 edhill Exp $
-C $Name:  $
+C $Header:
 
 #include "SBO_OPTIONS.h"
 
