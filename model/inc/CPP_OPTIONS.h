@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/model/inc/CPP_OPTIONS.h,v 1.19.4.1 2002/11/11 21:59:05 heimbach Exp $
+C $Header: /u/gcmpack/MITgcm/model/inc/CPP_OPTIONS.h,v 1.19.4.2 2003/01/12 08:20:09 dimitri Exp $
 C $Name:  $
 
   These lines are here to deliberately cause a compile-time error.
@@ -159,4 +159,3 @@ C o Include/exclude code specific to the ECCO/SEALION version.
 #ifdef INCLUDE_ECCO_PACKAGE
 #include "ECCO_CPPOPTIONS.h"
 #endif
-
