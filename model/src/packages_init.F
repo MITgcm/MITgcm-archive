@@ -1,4 +1,5 @@
-C $Header: /u/gcmpack/MITgcm/model/src/Attic/packages_init.F,v 1.2 2000/09/11 20:42:57 heimbach Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/Attic/packages_init.F,v 1.2.2.1 2001/01/30 18:07:07 cnh Exp $
+C $Name:  $
 
 #include "CPP_OPTIONS.h"
 
@@ -6,7 +7,6 @@ C $Header: /u/gcmpack/MITgcm/model/src/Attic/packages_init.F,v 1.2 2000/09/11 20
 C     /==========================================================\
 C     | SUBROUTINE PACKAGES_INIT                                 |
 C     | o Does initialisation of package-related fields          |
-C     |==========================================================|
 C     \==========================================================/
       IMPLICIT NONE
 
