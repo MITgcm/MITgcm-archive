@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/verification/global_with_CFC11/code50yr/Attic/CPP_EEOPTIONS.h,v 1.1.2.2 2003/05/03 17:48:35 dimitri Exp $
+C $Header: /u/gcmpack/MITgcm/verification/global_with_CFC11/code4x4/Attic/CPP_EEOPTIONS.h,v 1.1.2.1 2003/05/03 17:48:35 dimitri Exp $
 C $Name:  $
 
 C
@@ -47,8 +47,8 @@ C     undef this option.
 #undef  FMTFTN_IO_THREADSAFE
 
 C--   Control MPI based parallel processing
-#define  ALLOW_USE_MPI
-#define  ALWAYS_USE_MPI
+#define ALLOW_USE_MPI
+#define ALWAYS_USE_MPI
  
 C--   Control use of communication that might overlap computation.
 C     Under MPI selects/deselects "non-blocking" sends and receives.
