@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/pkg/shap_filt/Attic/shap_filt_uv.F,v 1.3.2.3 2001/05/07 16:23:58 adcroft Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/shap_filt/Attic/shap_filt_uv.F,v 1.3.2.4 2001/05/07 17:08:53 jmc Exp $
 C $Name:  $
 
 #include "SHAP_FILT_OPTIONS.h"
@@ -19,6 +19,7 @@ C     == Global variables ===
 #include "PARAMS.h"
 #include "GRID.h"
 #ifdef ALLOW_SHAP_FILT
+#include "SHAP_FILT.h"
 #include "SHAP_FILT_UV.h"
 #endif
 
