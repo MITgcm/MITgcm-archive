@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/model/src/external_forcing.F,v 1.13.6.7 2003/06/19 15:22:09 heimbach Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/external_forcing.F,v 1.13.6.8 2003/06/24 23:05:28 heimbach Exp $
 C $Name:  $
 
 #include "CPP_OPTIONS.h"

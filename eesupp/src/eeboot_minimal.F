@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/eesupp/src/eeboot_minimal.F,v 1.8.6.2 2003/05/12 19:52:22 heimbach Exp $
+C $Header: /u/gcmpack/MITgcm/eesupp/src/eeboot_minimal.F,v 1.8.6.3 2003/06/24 23:04:30 heimbach Exp $
 C $Name:  $
 
 #include "CPP_EEOPTIONS.h"

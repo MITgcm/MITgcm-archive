@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/model/src/convective_weights.F,v 1.3.4.1 2003/03/07 23:10:20 heimbach Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/convective_weights.F,v 1.3.4.2 2003/06/24 23:05:28 heimbach Exp $
 C $Name:  $
 
 #include "CPP_OPTIONS.h"

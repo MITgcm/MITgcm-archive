@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/model/src/ini_grid.F,v 1.10.4.2 2003/03/07 23:10:21 heimbach Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/ini_grid.F,v 1.10.4.3 2003/06/24 23:05:29 heimbach Exp $
 C $Name:  $
 
 #include "CPP_OPTIONS.h"

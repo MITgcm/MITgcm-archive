@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/model/src/Attic/freeze.F,v 1.4.6.1 2003/03/07 23:10:20 heimbach Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/Attic/freeze.F,v 1.4.6.2 2003/06/24 23:05:29 heimbach Exp $
 C $Name:  $
 
 #include "CPP_OPTIONS.h"
