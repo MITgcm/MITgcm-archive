@@ -1,4 +1,4 @@
-# $Header: /u/gcmpack/MITgcm/verification/natl_box_adjoint/input/Attic/data.exfa,v 1.1.2.1 2002/02/05 20:34:44 heimbach Exp $
+# $Header: /u/gcmpack/MITgcm/verification/natl_box_adjoint/input/Attic/data.exfa,v 1.1.2.1.2.1 2003/02/11 22:39:49 dimitri Exp $
 #
 # *******************************
 # External Forcing Anomaly Data
@@ -24,4 +24,4 @@
  sfluxafile         = 'PH_pratesfc_ano_020_016_23',
  ustressafile       = 'PH_ustress_ano_020_016_23',
  vstressafile       = 'PH_ustress_ano_020_016_23',
- /
+ &

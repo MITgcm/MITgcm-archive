@@ -1,4 +1,4 @@
-# $Header: /u/gcmpack/MITgcm/verification/natl_box_forward/input/Attic/data.exf,v 1.1.2.2 2002/11/28 14:17:47 heimbach Exp $
+# $Header: /u/gcmpack/MITgcm/verification/natl_box_forward/input/Attic/data.exf,v 1.1.2.2.2.1 2003/02/11 22:39:50 dimitri Exp $
 #
 # *********************
 # External Forcing Data
@@ -59,4 +59,4 @@
 #
  scal_ust    = -1.,
  scal_vst    = -1.,
- /
+ &
