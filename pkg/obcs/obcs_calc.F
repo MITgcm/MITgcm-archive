@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/pkg/obcs/obcs_calc.F,v 1.4 2001/02/28 14:48:25 adcroft Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/obcs/obcs_calc.F,v 1.4.8.1 2002/02/05 20:23:59 heimbach Exp $
 C $Name:  $
 
 #include "OBCS_OPTIONS.h"
@@ -36,12 +36,15 @@ C     == Routine arguments ==
 C     == Local variables ==
       INTEGER I, J , K, I_obc, J_obc
 
+#ifdef ALLOW_OBCS_EAST
 C     Eastern OB
       IF (useOrlanskiEast) THEN
+#ifdef ALLOW_ORLANSKI
         CALL ORLANSKI_EAST(
      &          bi, bj, futureTime, 
      &          uVel, vVel, wVel, theta, salt, 
      &          myThid )
+#endif
       ELSE
         DO K=1,Nr
           DO J=1-Oly,sNy+Oly
@@ -58,13 +61,17 @@ C     Eastern OB
           ENDDO
         ENDDO
       ENDIF
+#endif
 
+#ifdef ALLOW_OBCS_WEST
 C     Western OB
       IF (useOrlanskiWest) THEN
+#ifdef ALLOW_ORLANSKI
         CALL ORLANSKI_WEST(
      &          bi, bj, futureTime, 
      &          uVel, vVel, wVel, theta, salt, 
      &          myThid )
+#endif
       ELSE
         DO K=1,Nr
           DO J=1-Oly,sNy+Oly
@@ -81,13 +88,17 @@ C     Western OB
           ENDDO
         ENDDO
       ENDIF
+#endif
 
+#ifdef ALLOW_OBCS_NORTH
 C         Northern OB
       IF (useOrlanskiNorth) THEN
+#ifdef ALLOW_ORLANSKI
         CALL ORLANSKI_NORTH(
      &          bi, bj, futureTime, 
      &          uVel, vVel, wVel, theta, salt, 
      &          myThid )
+#endif
       ELSE
         DO K=1,Nr
           DO I=1-Olx,sNx+Olx
@@ -104,13 +115,17 @@ C         Northern OB
           ENDDO
         ENDDO
       ENDIF
+#endif
 
+#ifdef ALLOW_OBCS_SOUTH
 C         Southern OB
       IF (useOrlanskiSouth) THEN   
+#ifdef ALLOW_ORLANSKI
         CALL ORLANSKI_SOUTH(
      &          bi, bj, futureTime, 
      &          uVel, vVel, wVel, theta, salt, 
      &          myThid )
+#endif
       ELSE
         DO K=1,Nr
           DO I=1-Olx,sNx+Olx
@@ -127,6 +142,7 @@ C         Southern OB
           ENDDO
         ENDDO
       ENDIF
+#endif
 
 #endif /* ALLOW_OBCS */
       RETURN

@@ -17,37 +17,16 @@ c
 c     started: Christian Eckert eckert@mit.edu  06-Apr-2000
 c
 c     changed: Christian Eckert eckert@mit.edu
-c
+c              heimbach@mit.edu:
+c              only first entry "adfc" retained.
 c
 c     ==================================================================
 c     HEADER ADCOST
 c     ==================================================================
 
       common /adcost_r/
-     &                  adfc,
-     &                  adobjf_hflux,
-     &                  adobjf_sflux,
-     &                  adobjf_tauu,
-     &                  adobjf_tauv,
-     &                  adobjf_hmean,
-     &                  adobjf_h,
-     &                  adobjf_temp,
-     &                  adobjf_salt,
-     &                  adobjf_sst,
-     &                  adobjf_ctds,
-     &                  adobjf_ctdt
+     &                  adfc
       _RL  adfc
-      _RL  adobjf_hflux   (nsx,nsy)
-      _RL  adobjf_sflux   (nsx,nsy)
-      _RL  adobjf_tauu (nsx,nsy)
-      _RL  adobjf_tauv (nsx,nsy)
-      _RL  adobjf_hmean
-      _RL  adobjf_h    (nsx,nsy)
-      _RL  adobjf_temp (nsx,nsy)
-      _RL  adobjf_salt (nsx,nsy)
-      _RL  adobjf_sst  (nsx,nsy)
-      _RL  adobjf_ctds (nsx,nsy)
-      _RL  adobjf_ctdt (nsx,nsy)
 
 c     ==================================================================
 c     END OF HEADER ADCOST

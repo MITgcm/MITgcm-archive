@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/pkg/obcs/obcs_init_fixed.F,v 1.3 2001/05/14 21:36:45 heimbach Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/obcs/obcs_init_fixed.F,v 1.3.6.1 2002/02/05 20:23:59 heimbach Exp $
 C $Name:  $
 
 #include "OBCS_OPTIONS.h"

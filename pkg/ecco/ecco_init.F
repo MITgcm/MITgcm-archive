@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/pkg/ecco/Attic/ecco_init.F,v 1.1 2001/05/14 22:10:37 heimbach Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/ecco/Attic/ecco_init.F,v 1.1.6.1 2002/02/05 20:23:58 heimbach Exp $
 
 #include "CPP_OPTIONS.h"
 
@@ -41,18 +41,22 @@ c     == external ==
 
 c     == end of interface ==
 
+#ifdef INCLUDE_EXTERNAL_FORCING_PACKAGE
+      call exf_init( mythid )
+#endif /* INCLUDE_EXTERNAL_FORCING_PACKAGE */
+
 #ifdef INCLUDE_ECCO_PACKAGE
 
-#ifndef ALLOW_ECCO_FORWARD_RUN
-c--   Map the control variables onto the model state. 
-      call ctrl_Map( mythid )
-      _BARRIER
-
+#ifdef ALLOW_COST
 c--   Initialise the cost function.
       call cost_InitVaria( mythid )
 
 c--   Initialise the time averages.
       call cost_AveragesInit( mythid )
+
+c--   Map the control variables onto the model state. 
+      call ctrl_map( mythid )
+      _BARRIER
 #endif
 
 #ifndef INCLUDE_EXTERNAL_FORCING_PACKAGE

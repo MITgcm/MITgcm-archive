@@ -10,11 +10,11 @@ C
 C o include dump of snap shots for checks
 #undef ALLOW_SNAPSHOTS
 
-#define  ALLOW_ECCO_FORWARD_RUN
+#undef  ALLOW_ECCO_FORWARD_RUN
 #undef  ALLOW_ECCO_DIAGNOSTICS_RUN
-#undef  ALLOW_ECCO_ADJOINT_RUN
-#undef  ALLOW_ECCO_GRADIENT_CHECK
-#undef  ALLOW_ECCO_OPTIMIZATION
+#undef  ALLOW_ADJOINT_RUN
+#undef  ALLOW_GRADIENT_CHECK
+#define  ALLOW_ECCO_OPTIMIZATION
 
 C       >>> Do a long protocol.
 #undef ECCO_VERBOSE
@@ -33,11 +33,11 @@ C ********************************************************************
 C o Include/exclude code in order to be able to automatically
 C   differentiate the MITgcmUV by using the Tangent Linear and
 C   Adjoint Model Compiler (TAMC).
-#undef INCLUDE_AUTODIFF_PACKAGE
+#define INCLUDE_AUTODIFF_PACKAGE
 C
-#undef ALLOW_AUTODIFF_TAMC
+#define ALLOW_AUTODIFF_TAMC
 C       >>> Checkpointing as handled by TAMC
-#undef ALLOW_TAMC_CHECKPOINTING
+#define ALLOW_TAMC_CHECKPOINTING
 
 C o use divided adjoint to split adjoint computations
 #undef ALLOW_DIVIDED_ADJOINT
@@ -64,20 +64,32 @@ C       >>> Use the EGM-96 geoid error covariance.
 C       >>> Use NSCAT data.
 #undef  ALLOW_NSCAT_DATA
 C       >>> Cost function contributions
-#undef ALLOW_HFLUX_COST_CONTRIBUTION
-#undef ALLOW_SFLUX_COST_CONTRIBUTION
-#undef ALLOW_USTRESS_COST_CONTRIBUTION
-#undef ALLOW_VSTRESS_COST_CONTRIBUTION
-#undef ALLOW_THETA_COST_CONTRIBUTION
-#undef ALLOW_SALT_COST_CONTRIBUTION
-#undef ALLOW_SST_COST_CONTRIBUTION
-#undef  ALLOW_SSH_COST_CONTRIBUTION
+#
+#define ALLOW_HFLUX_COST_CONTRIBUTION
+#define ALLOW_SFLUX_COST_CONTRIBUTION
+#define ALLOW_USTRESS_COST_CONTRIBUTION
+#define ALLOW_VSTRESS_COST_CONTRIBUTION
+#
+#define ALLOW_THETA_COST_CONTRIBUTION
+#define ALLOW_SALT_COST_CONTRIBUTION
+#define ALLOW_SST_COST_CONTRIBUTION
+#undef ALLOW_SSS_COST_CONTRIBUTION
+#
+#define ALLOW_SSH_MEAN_COST_CONTRIBUTION
+#define ALLOW_SSH_TPANOM_COST_CONTRIBUTION
+#define ALLOW_SSH_ERSANOM_COST_CONTRIBUTION
+#undef  ALLOW_SPH_PROJECTION
+# if (defined (ALLOW_SSH_MEAN_COST_CONTRIBUTION) || \
+      defined (ALLOW_SSH_TPANOM_COST_CONTRIBUTION) || \
+      defined (ALLOW_SSH_ERSANOM_COST_CONTRIBUTION))
+#define ALLOW_SSH_COST_CONTRIBUTION
+#endif
+#
 #undef ALLOW_CTDT_COST_CONTRIBUTION
 #undef ALLOW_CTDS_COST_CONTRIBUTION
+#undef ALLOW_XBT_COST_CONTRIBUTION
 #undef ALLOW_COST_ATLANTIC
-C       >>> Projection onto Spherical Harmonics
-#undef  ALLOW_SPH_PROJECTION
-
+#
 C ********************************************************************
 C ***               Control vector Package                         ***
 C ********************************************************************
@@ -101,14 +113,14 @@ C       >>> Replace hooks for the control variables.
 #endif
 
 C       >>> Initial values.
-#undef ALLOW_THETA0_CONTROL
-#undef ALLOW_SALT0_CONTROL
+#define ALLOW_THETA0_CONTROL
+#define ALLOW_SALT0_CONTROL
 
 C       >>> Surface fluxes.
-#undef ALLOW_HFLUX_CONTROL
-#undef ALLOW_SFLUX_CONTROL
-#undef ALLOW_USTRESS_CONTROL
-#undef ALLOW_VSTRESS_CONTROL
+#define  ALLOW_HFLUX_CONTROL
+#define  ALLOW_SFLUX_CONTROL
+#define  ALLOW_USTRESS_CONTROL
+#define  ALLOW_VSTRESS_CONTROL
 #undef  ALLOW_SWFLUX_CONTROL
 #undef  ALLOW_LWFLUX_CONTROL
 

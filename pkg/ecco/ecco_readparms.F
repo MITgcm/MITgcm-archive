@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/pkg/ecco/ecco_readparms.F,v 1.2 2001/07/13 13:42:16 heimbach Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/ecco/ecco_readparms.F,v 1.2.6.1 2002/02/05 20:23:58 heimbach Exp $
 
 #include "CPP_OPTIONS.h"
 
@@ -88,7 +88,7 @@ C--   Initialise the ECCO State Estimation package.
 #ifdef ALLOW_CALENDAR
 C--   Initialise the calendar package.
 #ifdef ALLOW_CAL_NENDITER
-      call cal_init(
+      CALL cal_init(
      I               startTime,
      I               endTime,
      I               deltaTclock,
@@ -98,7 +98,7 @@ C--   Initialise the calendar package.
      I               myThid
      &             )
 #else
-      call cal_init(
+      CALL cal_init(
      I               startTime,
      I               endTime,
      I               deltaTclock,
@@ -113,34 +113,33 @@ C--   Initialise the calendar package.
 C--   Custom routine to set forcing fields.
 #ifdef INCLUDE_EXTERNAL_FORCING_PACKAGE
       call exf_readparms  ( mythid )
-      call exf_init( mythid )
 #endif /* INCLUDE_EXTERNAL_FORCING_PACKAGE */
 
 #ifdef ALLOW_ECCO_OPTIMIZATION
 c--   Initialise the optimization-related parts of the ECCO State
 c--   Estimation package.
-      call optim_init( myThid )
+      CALL optim_init( myThid )
       _BARRIER
-#else
-c--   Optimization not enabled.
-#endif
 
-#ifndef ALLOW_ECCO_FORWARD_RUN
 C--   Initialise the cost function.
       call cost_readparms( mythid )
       call cost_init( myThid )
       _BARRIER
 
 C--   Initialise the control vector.
-      call ctrl_init( myThid )
+      CALL ctrl_init( myThid )
       _BARRIER
-#else
-c     not needed for forward run only
+
+#ifdef ALLOW_GRADIENT_CHECK
+C--   Initialise gradient check parameters
+      if (useGrdchk) call grdchk_readparms( myThid )
 #endif
+
+#endif /* ALLOW_ECCO_OPTIMIZATION */
 
 #ifdef ALLOW_ECCO_DIAGNOSTICS_RUN
 c--   Initialise the ECCO diagnostics package.
-      call diagnos_init( myThid )
+      CALL diagnos_init( myThid )
       _BARRIER
 #else
 c--   Diagnostics not enabled.
@@ -151,7 +150,7 @@ c--   Diagnostics not enabled.
 c-------------------------------- ECCO --------------------------------
 
 c--     Summarize the setup of the ECCO release.
-c        call ecco_summary( mythid )
+        call ecco_summary( mythid )
       _END_MASTER( mythid )
 
 c--   Everyone else must wait for the parameters to be loaded and

@@ -1,90 +1,126 @@
-C $Header: /u/gcmpack/MITgcm/pkg/ctrl/ctrl_pack.F,v 1.4 2001/09/28 15:15:55 heimbach Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/ctrl/ctrl_pack.F,v 1.4.6.1 2002/02/05 20:23:58 heimbach Exp $
 
 #include "CTRL_CPPOPTIONS.h"
 
-CBOP
-C     !ROUTINE: ctrl_pack
-C     !INTERFACE:
-      subroutine ctrl_pack( myiter, mytime, mythid )
 
-C     !DESCRIPTION: \bv
-c     *=================================================================
-c     | SUBROUTINE ctrl_pack
-c     | Pack the control vector
-c     | * All control variable and adjoint variable fields are
-c     |   read from disk.
-c     | * Wet points are extracted, and elements are
-c     |   normalized (optional)
-c     | * A single control vector containing only (normalized
-c     |   wet points is written to file.
-c     *=================================================================
-C     \ev
+      subroutine ctrl_pack(
+     I                      myiter,
+     I                      mytime,
+     I                      mythid
+     &                    )
 
-C     !USES:
+c     ==================================================================
+c     SUBROUTINE ctrl_pack
+c     ==================================================================
+c
+c     o Compress the control vector such that only ocean points are
+c       written to file.
+c
+c     started: Christian Eckert eckert@mit.edu  10-Mar=2000
+c
+c     changed: Patrick Heimbach heimbach@mit.edu 06-Jun-2000
+c              - Transferred some filename declarations
+c                from here to namelist in ctrl_init
+c  
+c              Patrick Heimbach heimbach@mit.edu 16-Jun-2000
+c              - single file name convention with or without
+c                ALLOW_ECCO_OPTIMIZATION
+c
+c
+c     ==================================================================
+c     SUBROUTINE ctrl_pack
+c     ==================================================================
+
       implicit none
 
 c     == global variables ==
+
 #include "EEPARAMS.h"
 #include "SIZE.h"
 #include "PARAMS.h"
 #include "GRID.h"
+
+#include "cal.h"
+#include "ecco.h"
 #include "ctrl.h"
 #include "cost.h"
-#include "optim.h"
 
-C     !INPUT/OUTPUT PARAMETERS:
+#ifdef ALLOW_ECCO_OPTIMIZATION
+#include "optim.h"
+#endif
+
 c     == routine arguments ==
+
       integer myiter
       _RL     mytime
       integer mythid
 
-C     !LOCAL VARIABLES:
 c     == local variables ==
 
-      integer bi,bj
-      integer ip,jp
-      integer i,j,k
+#ifndef ALLOW_ECCO_OPTIMIZATION
+      integer optimcycle
+#endif
+
+      integer i, j, k
       integer ii
       integer il
       integer irec
-      integer itlo,ithi
-      integer jtlo,jthi
-      integer jmin,jmax
-      integer imin,imax
-      integer cbuffindex
-      integer cunit
-      integer prec
+      integer ig,jg
+      integer ivartype
 
       logical doglobalread
       logical ladinit
+      integer cbuffindex
 
-      _RL     cbuff( snx*nsx*npx*sny*nsy*npy )
-      _RL     globfld3d( snx,nsx,npx,sny,nsy,npy,nr )
-      _RL     globfld2d( snx,nsx,npx,sny,nsy,npy )
-      _RL     globmsk( snx,nsx,npx,sny,nsy,npy,nr )
+      integer cunit
       _RL     tmpvar
 
       character*(128) cfile
-      character*( 80) fname
+      character*( 80) weighttype
+
+      character*( 80) fname_theta
+      character*( 80) fname_salt
+      character*( 80) fname_hflux
+      character*( 80) fname_sflux
+      character*( 80) fname_tauu
+      character*( 80) fname_tauv
+      character*( 80) adfname_theta
+      character*( 80) adfname_salt
+      character*( 80) adfname_hflux
+      character*( 80) adfname_sflux
+      character*( 80) adfname_tauu
+      character*( 80) adfname_tauv
+      character*( 80)   fname_atemp
+      character*( 80) adfname_atemp
+      character*( 80)   fname_aqh
+      character*( 80) adfname_aqh
+      character*( 80)   fname_uwind
+      character*( 80) adfname_uwind
+      character*( 80)   fname_vwind
+      character*( 80) adfname_vwind
+      character*( 80)   fname_obcsn
+      character*( 80) adfname_obcsn
+      character*( 80)   fname_obcss
+      character*( 80) adfname_obcss
+      character*( 80)   fname_obcsw
+      character*( 80) adfname_obcsw
+      character*( 80)   fname_obcse
+      character*( 80) adfname_obcse
+
+      logical lxxadxx
 
 c     == external ==
+
       integer  ilnblnk
       external ilnblnk
 
 c     == end of interface ==
-CEOP
 
-      prec           = precFloat64
-      tmpvar         = -9999. _d 0
+#ifndef ALLOW_ECCO_OPTIMIZATION
+      optimcycle = 0
+#endif
 
-      jtlo = 1
-      jthi = nsy
-      itlo = 1
-      ithi = nsx
-      jmin = 1
-      jmax = sny
-      imin = 1
-      imax = snx
+      tmpvar = -9999. _d 0
 
 c--   Tiled files are used.
       doglobalread = .false.
@@ -92,21 +128,88 @@ c--   Tiled files are used.
 c--   Initialise adjoint variables on active files.
       ladinit = .false.
 
+c--   Assign file names.
+
+#ifdef ALLOW_THETA0_CONTROL
+      call ctrl_set_fname(
+     &     xx_theta_file, fname_theta, adfname_theta, mythid )
+#endif
+
+#ifdef ALLOW_SALT0_CONTROL
+      call ctrl_set_fname(
+     I     xx_salt_file, fname_salt, adfname_salt, mythid )
+#endif
+
+#ifdef ALLOW_HFLUX_CONTROL
+        call ctrl_set_fname(
+     I       xx_hflux_file, fname_hflux, adfname_hflux, mythid )
+#endif
+
+#ifdef ALLOW_SFLUX_CONTROL
+        call ctrl_set_fname(
+     I       xx_sflux_file, fname_sflux, adfname_sflux, mythid )
+#endif
+
+#ifdef ALLOW_USTRESS_CONTROL
+        call ctrl_set_fname(
+     I       xx_tauu_file, fname_tauu, adfname_tauu, mythid )
+#endif
+
+#ifdef ALLOW_VSTRESS_CONTROL
+        call ctrl_set_fname(
+     I       xx_tauv_file, fname_tauv, adfname_tauv, mythid )
+#endif
+
+#ifdef ALLOW_ATEMP_CONTROL
+        call ctrl_set_fname(
+     I       xx_atemp_file, fname_atemp, adfname_atemp, mythid )
+#endif
+
+#ifdef ALLOW_AQH_CONTROL
+        call ctrl_set_fname(
+     I       xx_aqh_file, fname_aqh, adfname_aqh, mythid )
+#endif
+
+#ifdef ALLOW_UWIND_CONTROL
+        call ctrl_set_fname(
+     I       xx_uwind_file, fname_uwind, adfname_uwind, mythid )
+#endif
+
+#ifdef ALLOW_VWIND_CONTROL
+        call ctrl_set_fname(
+     I       xx_vwind_file, fname_vwind, adfname_vwind, mythid )
+#endif
+
+#ifdef ALLOW_OBCSN_CONTROL
+        call ctrl_set_fname(
+     I       xx_obcsn_file, fname_obcsn, adfname_obcsn, mythid )
+#endif
+
+#ifdef ALLOW_OBCSS_CONTROL
+        call ctrl_set_fname(
+     I       xx_obcss_file, fname_obcss, adfname_obcss, mythid )
+#endif
+
+#ifdef ALLOW_OBCSW_CONTROL
+        call ctrl_set_fname(
+     I       xx_obcsw_file, fname_obcsw, adfname_obcsw, mythid )
+#endif
+
+#ifdef ALLOW_OBCSE_CONTROL
+        call ctrl_set_fname(
+     I       xx_obcse_file, fname_obcse, adfname_obcse, mythid )
+#endif
+
 c
-c--   Only the master thread will do I/O.
+c--     Only the master thread will do I/O.
       _BEGIN_MASTER( mythid )
 
-c--   read global mask file
-          call MDSREADFIELD_3D_GL( "hFacC", 
-     &                           prec, 'RL', Nr, globmsk,
-     &                           1,  mythid)
-
-
 c     >>> Write control vector <<<
+      lxxadxx = .TRUE.
 
           call mdsfindunit( cunit, mythid )
-          write(cfile(1:128),'(2a,i4.4)')
-     &      ctrlname(1:9),'.opt',
+          write(cfile(1:128),'(4a,i4.4)')
+     &      ctrlname(1:9),'_',expId(1:10),'.opt',
      &      optimcycle
 
           open( cunit, file   = cfile,
@@ -137,563 +240,129 @@ c--       Header information.
           write(cunit)
 
 #ifdef ALLOW_THETA0_CONTROL
-
-          il=ilnblnk( xx_theta_file)
-          write(fname(1:80),'(80a)') ' '
-          write(fname(1:80),'(2a,i10.10)')
-     &         xx_theta_file(1:il),'.',optimcycle
-          call MDSREADFIELD_3D_GL( fname, 
-     &                          prec, 'RL', Nr, globfld3d, 
-     &                          1,  mythid)
-
-          write(cunit) ncvarindex(1)
-          write(cunit) 1
-          write(cunit) 1
-          do k = 1,nr
-           cbuffindex = 0
-            do jp = 1,nPy
-             do bj = jtlo,jthi
-              do j = jmin,jmax
-               do ip = 1,nPx
-                do bi = itlo,ithi
-                 do i = imin,imax
-                    if (globmsk(i,bi,ip,j,bj,jp,k)  .ne. 0. ) then
-                       cbuffindex = cbuffindex + 1
-#ifdef ALLOW_NONDIMENSIONAL_CONTROL_IO
-                       cbuff(cbuffindex) = globfld3d(i,bi,ip,j,bj,jp,k)
-     &                      * sqrt(wtheta(k,bi,bj))
-#else
-                       cbuff(cbuffindex) = globfld3d(i,bi,ip,j,bj,jp,k)
-#endif
-                    endif
-                 enddo
-                enddo
-               enddo
-              enddo
-             enddo
-            enddo
-c     --> check cbuffindex.
-            if ( cbuffindex .gt. 0) then
-               write(cunit) cbuffindex
-               write(cunit) k
-               write(cunit) (cbuff(ii), ii=1,cbuffindex)
-            endif
-         enddo
-
+          ivartype = 1
+          call ctrl_set_pack_xyz(
+     &         cunit, ivartype, fname_theta, "hFacC",
+     &         wtheta, lxxadxx, mythid)
 #endif
 
 #ifdef ALLOW_SALT0_CONTROL
-
-          il=ilnblnk( xx_salt_file)
-          write(fname(1:80),'(80a)') ' '
-          write(fname(1:80),'(2a,i10.10)')
-     &         xx_salt_file(1:il),'.',optimcycle
-          call MDSREADFIELD_3D_GL( fname, 
-     &                          prec, 'RL', Nr, globfld3d, 
-     &                          1,  mythid)
-
-          write(cunit) ncvarindex(2)
-          write(cunit) 1
-          write(cunit) 1
-          do k = 1,nr
-           cbuffindex = 0
-            do jp = 1,nPy
-             do bj = jtlo,jthi
-              do j = jmin,jmax
-               do ip = 1,nPx
-                do bi = itlo,ithi
-                 do i = imin,imax
-                    if (globmsk(i,bi,ip,j,bj,jp,k)  .ne. 0. ) then
-                       cbuffindex = cbuffindex + 1
-#ifdef ALLOW_NONDIMENSIONAL_CONTROL_IO
-                       cbuff(cbuffindex) = globfld3d(i,bi,ip,j,bj,jp,k)
-     &                      * sqrt(wsalt(k,bi,bj))
-#else
-                       cbuff(cbuffindex) = globfld3d(i,bi,ip,j,bj,jp,k)
-#endif
-                    endif
-                 enddo
-                enddo
-               enddo
-              enddo
-             enddo
-            enddo
-c     --> check cbuffindex.
-            if ( cbuffindex .gt. 0) then
-               write(cunit) cbuffindex
-               write(cunit) k
-               write(cunit) (cbuff(ii), ii=1,cbuffindex)
-            endif
-         enddo
-            
+          ivartype = 2
+          call ctrl_set_pack_xyz(
+     &         cunit, ivartype, fname_salt, "hFacC",
+     &         wsalt, lxxadxx, mythid)
 #endif
 
-#ifdef ALLOW_TR10_CONTROL
-
-          il=ilnblnk( xx_tr1_file)
-          write(fname(1:80),'(80a)') ' '
-          write(fname(1:80),'(2a,i10.10)')
-     &         xx_tr1_file(1:il),'.',optimcycle
-          call MDSREADFIELD_3D_GL( fname, 
-     &                          prec, 'RL', Nr, globfld3d, 
-     &                          1,  mythid)
-
-          write(cunit) ncvarindex(9)
-          write(cunit) 1
-          write(cunit) 1
-          do k = 1,nr
-           cbuffindex = 0
-            do jp = 1,nPy
-             do bj = jtlo,jthi
-              do j = jmin,jmax
-               do ip = 1,nPx
-                do bi = itlo,ithi
-                 do i = imin,imax
-                    if (globmsk(i,bi,ip,j,bj,jp,k)  .ne. 0. ) then
-                       cbuffindex = cbuffindex + 1
-#ifdef ALLOW_NONDIMENSIONAL_CONTROL_IO
-                       cbuff(cbuffindex) = globfld3d(i,bi,ip,j,bj,jp,k)
-cph     &                      * sqrt(wtr1(k,bi,bj))
-#else
-                       cbuff(cbuffindex) = globfld3d(i,bi,ip,j,bj,jp,k)
-#endif
-                    endif
-                 enddo
-                enddo
-               enddo
-              enddo
-             enddo
-            enddo
-c     --> check cbuffindex.
-            if ( cbuffindex .gt. 0) then
-               write(cunit) cbuffindex
-               write(cunit) k
-               write(cunit) (cbuff(ii), ii=1,cbuffindex)
-            endif
-         enddo
-            
+#ifdef ALLOW_HFLUX_CONTROL
+          ivartype = 3
+          write(weighttype(1:80),'(80a)') ' '
+          write(weighttype(1:80),'(a)') "whflux"
+          call ctrl_set_pack_xy(
+     &         cunit, ivartype, fname_hflux, "hFacC", weighttype,
+     &         lxxadxx, mythid)
 #endif
 
-#ifdef ALLOW_HFLUX0_CONTROL
-
-          il=ilnblnk( xx_hflux_file)
-          write(fname(1:80),'(80a)') ' '
-          write(fname(1:80),'(2a,i10.10)')
-     &         xx_hflux_file(1:il),'.',optimcycle
-#ifdef ALLOW_NONDIMENSIONAL_CONTROL_IO
-          call MDSREADFIELD_2D_GL( "whflux", 
-     &                          prec, 'RL', 1, 
-     &                          globfld2d,
-     &                          1,  mythid)
-#endif
-          call MDSREADFIELD_2D_GL( fname, 
-     &                          prec, 'RL', 1, 
-     &                          globfld3d(1,1,1,1,1,1,1), 
-     &                          1,  mythid)
-
-          write(cunit) ncvarindex(3)
-          write(cunit) 1
-          write(cunit) 1
-          k = 1
-           cbuffindex = 0
-            do jp = 1,nPy
-             do bj = jtlo,jthi
-              do j = jmin,jmax
-               do ip = 1,nPx
-                do bi = itlo,ithi
-                 do i = imin,imax
-                    if (globmsk(i,bi,ip,j,bj,jp,k)  .ne. 0. ) then
-                       cbuffindex = cbuffindex + 1
-#ifdef ALLOW_NONDIMENSIONAL_CONTROL_IO
-                       cbuff(cbuffindex) = globfld3d(i,bi,ip,j,bj,jp,k)
-     &                      * sqrt(globfld2d(i,bi,ip,j,bj,jp))
-#else
-                       cbuff(cbuffindex) = globfld3d(i,bi,ip,j,bj,jp,k)
-#endif
-                    endif
-                 enddo
-                enddo
-               enddo
-              enddo
-             enddo
-            enddo
-c     --> check cbuffindex.
-            if ( cbuffindex .gt. 0) then
-               write(cunit) cbuffindex
-               write(cunit) k
-               write(cunit) (cbuff(ii), ii=1,cbuffindex)
-            endif
-
+#ifdef ALLOW_SFLUX_CONTROL
+          ivartype = 4
+          write(weighttype(1:80),'(80a)') ' '
+          write(weighttype(1:80),'(a)') "wsflux"
+          call ctrl_set_pack_xy(
+     &         cunit, ivartype, fname_sflux, "hFacC", weighttype,
+     &         lxxadxx, mythid)
 #endif
 
-#ifdef ALLOW_SFLUX0_CONTROL
-
-          il=ilnblnk( xx_sflux_file)
-          write(fname(1:80),'(80a)') ' '
-          write(fname(1:80),'(2a,i10.10)')
-     &         xx_sflux_file(1:il),'.',optimcycle
-#ifdef ALLOW_NONDIMENSIONAL_CONTROL_IO
-          call MDSREADFIELD_2D_GL( "wsflux", 
-     &                          prec, 'RL', 1, 
-     &                          globfld2d,
-     &                          1,  mythid)
-#endif
-          call MDSREADFIELD_2D_GL( fname, 
-     &                          prec, 'RL', 1, 
-     &                          globfld3d(1,1,1,1,1,1,1), 
-     &                          1,  mythid)
-
-          write(cunit) ncvarindex(4)
-          write(cunit) 1
-          write(cunit) 1
-          k = 1
-           cbuffindex = 0
-            do jp = 1,nPy
-             do bj = jtlo,jthi
-              do j = jmin,jmax
-               do ip = 1,nPx
-                do bi = itlo,ithi
-                 do i = imin,imax
-                    if (globmsk(i,bi,ip,j,bj,jp,k)  .ne. 0. ) then
-                       cbuffindex = cbuffindex + 1
-#ifdef ALLOW_NONDIMENSIONAL_CONTROL_IO
-                       cbuff(cbuffindex) = globfld3d(i,bi,ip,j,bj,jp,k)
-     &                      * sqrt(globfld2d(i,bi,ip,j,bj,jp))
-#else
-                       cbuff(cbuffindex) = globfld3d(i,bi,ip,j,bj,jp,k)
-#endif
-                    endif
-                 enddo
-                enddo
-               enddo
-              enddo
-             enddo
-            enddo
-c     --> check cbuffindex.
-            if ( cbuffindex .gt. 0) then
-               write(cunit) cbuffindex
-               write(cunit) k
-               write(cunit) (cbuff(ii), ii=1,cbuffindex)
-            endif
-
+#ifdef ALLOW_USTRESS_CONTROL
+          ivartype = 5
+          write(weighttype(1:80),'(80a)') ' '
+          write(weighttype(1:80),'(a)') "wtauu"
+          call ctrl_set_pack_xy(
+     &         cunit, ivartype, fname_tauu, "maskW", weighttype,
+     &         lxxadxx, mythid)
 #endif
 
-#ifdef ALLOW_TAUU0_CONTROL
-
-          il=ilnblnk( xx_tauu_file)
-          write(fname(1:80),'(80a)') ' '
-          write(fname(1:80),'(2a,i10.10)')
-     &         xx_tauu_file(1:il),'.',optimcycle
-#ifdef ALLOW_NONDIMENSIONAL_CONTROL_IO
-          call MDSREADFIELD_2D_GL( "wtauu", 
-     &                          prec, 'RL', 1, 
-     &                          globfld2d,
-     &                          1,  mythid)
-#endif
-          call MDSREADFIELD_2D_GL( fname, 
-     &                          prec, 'RL', 1, 
-     &                          globfld3d(1,1,1,1,1,1,1), 
-     &                          1,  mythid)
-
-          write(cunit) ncvarindex(5)
-          write(cunit) 1
-          write(cunit) 1
-          k = 1
-           cbuffindex = 0
-            do jp = 1,nPy
-             do bj = jtlo,jthi
-              do j = jmin,jmax
-               do ip = 1,nPx
-                do bi = itlo,ithi
-                 do i = imin,imax
-                    if (globmsk(i,bi,ip,j,bj,jp,k)  .ne. 0. ) then
-                       cbuffindex = cbuffindex + 1
-#ifdef ALLOW_NONDIMENSIONAL_CONTROL_IO
-                       cbuff(cbuffindex) = globfld3d(i,bi,ip,j,bj,jp,k)
-     &                      * sqrt(globfld2d(i,bi,ip,j,bj,jp))
-#else
-                       cbuff(cbuffindex) = globfld3d(i,bi,ip,j,bj,jp,k)
-#endif
-                    endif
-                 enddo
-                enddo
-               enddo
-              enddo
-             enddo
-            enddo
-c     --> check cbuffindex.
-            if ( cbuffindex .gt. 0) then
-               write(cunit) cbuffindex
-               write(cunit) k
-               write(cunit) (cbuff(ii), ii=1,cbuffindex)
-            endif
-
+#ifdef ALLOW_VSTRESS_CONTROL
+          ivartype = 6
+          write(weighttype(1:80),'(80a)') ' '
+          write(weighttype(1:80),'(a)') "wtauv"
+          call ctrl_set_pack_xy(
+     &         cunit, ivartype, fname_tauv, "maskS", weighttype,
+     &         lxxadxx, mythid)
 #endif
 
-#ifdef ALLOW_TAUV0_CONTROL
-
-          il=ilnblnk( xx_tauv_file)
-          write(fname(1:80),'(80a)') ' '
-          write(fname(1:80),'(2a,i10.10)')
-     &         xx_tauv_file(1:il),'.',optimcycle
-#ifdef ALLOW_NONDIMENSIONAL_CONTROL_IO
-          call MDSREADFIELD_2D_GL( "wtauv", 
-     &                          prec, 'RL', 1, 
-     &                          globfld2d,
-     &                          1,  mythid)
-#endif
-          call MDSREADFIELD_2D_GL( fname, 
-     &                          prec, 'RL', 1, 
-     &                          globfld3d(1,1,1,1,1,1,1), 
-     &                          1,  mythid)
-
-          write(cunit) ncvarindex(6)
-          write(cunit) 1
-          write(cunit) 1
-          k = 1
-           cbuffindex = 0
-            do jp = 1,nPy
-             do bj = jtlo,jthi
-              do j = jmin,jmax
-               do ip = 1,nPx
-                do bi = itlo,ithi
-                 do i = imin,imax
-                    if (globmsk(i,bi,ip,j,bj,jp,k)  .ne. 0. ) then
-                       cbuffindex = cbuffindex + 1
-#ifdef ALLOW_NONDIMENSIONAL_CONTROL_IO
-                       cbuff(cbuffindex) = globfld3d(i,bi,ip,j,bj,jp,k)
-     &                      * sqrt(globfld2d(i,bi,ip,j,bj,jp))
-#else
-                       cbuff(cbuffindex) = globfld3d(i,bi,ip,j,bj,jp,k)
-#endif
-                    endif
-                 enddo
-                enddo
-               enddo
-              enddo
-             enddo
-            enddo
-c     --> check cbuffindex.
-            if ( cbuffindex .gt. 0) then
-               write(cunit) cbuffindex
-               write(cunit) k
-               write(cunit) (cbuff(ii), ii=1,cbuffindex)
-            endif
-
+#ifdef ALLOW_ATEMP_CONTROL
+          ivartype = 7
+          write(weighttype(1:80),'(80a)') ' '
+          write(weighttype(1:80),'(a)') "watemp"
+          call ctrl_set_pack_xy(
+     &         cunit, ivartype, fname_atemp, "hFacC", weighttype,
+     &         lxxadxx, mythid)
 #endif
 
-#ifdef ALLOW_SST0_CONTROL
-
-          il=ilnblnk( xx_sst_file)
-          write(fname(1:80),'(80a)') ' '
-          write(fname(1:80),'(2a,i10.10)')
-     &         xx_sst_file(1:il),'.',optimcycle
-#ifdef ALLOW_NONDIMENSIONAL_CONTROL_IO
-          call MDSREADFIELD_2D_GL( "wsst", 
-     &                          prec, 'RL', 1, 
-     &                          globfld2d,
-     &                          1,  mythid)
-#endif
-          call MDSREADFIELD_2D_GL( fname, 
-     &                          prec, 'RL', 1, 
-     &                          globfld3d(1,1,1,1,1,1,1), 
-     &                          1,  mythid)
-
-          write(cunit) ncvarindex(7)
-          write(cunit) 1
-          write(cunit) 1
-          k = 1
-           cbuffindex = 0
-            do jp = 1,nPy
-             do bj = jtlo,jthi
-              do j = jmin,jmax
-               do ip = 1,nPx
-                do bi = itlo,ithi
-                 do i = imin,imax
-                    if (globmsk(i,bi,ip,j,bj,jp,k)  .ne. 0. ) then
-                       cbuffindex = cbuffindex + 1
-#ifdef ALLOW_NONDIMENSIONAL_CONTROL_IO
-                       cbuff(cbuffindex) = globfld3d(i,bi,ip,j,bj,jp,k)
-     &                      * sqrt(globfld2d(i,bi,ip,j,bj,jp))
-#else
-                       cbuff(cbuffindex) = globfld3d(i,bi,ip,j,bj,jp,k)
-#endif
-                    endif
-                 enddo
-                enddo
-               enddo
-              enddo
-             enddo
-            enddo
-c     --> check cbuffindex.
-            if ( cbuffindex .gt. 0) then
-               write(cunit) cbuffindex
-               write(cunit) k
-               write(cunit) (cbuff(ii), ii=1,cbuffindex)
-            endif
-
+#ifdef ALLOW_AQH_CONTROL
+          ivartype = 8
+          write(weighttype(1:80),'(80a)') ' '
+          write(weighttype(1:80),'(a)') "waqh"
+          call ctrl_set_pack_xy(
+     &         cunit, ivartype, fname_aqh, "hFacC", weighttype,
+     &         lxxadxx, mythid)
 #endif
 
-#ifdef ALLOW_SSS0_CONTROL
-
-          il=ilnblnk( xx_sss_file)
-          write(fname(1:80),'(80a)') ' '
-          write(fname(1:80),'(2a,i10.10)')
-     &         xx_sss_file(1:il),'.',optimcycle
-#ifdef ALLOW_NONDIMENSIONAL_CONTROL_IO
-          call MDSREADFIELD_2D_GL( "wsss", 
-     &                          prec, 'RL', 1, 
-     &                          globfld2d,
-     &                          1,  mythid)
-#endif
-          call MDSREADFIELD_2D_GL( fname, 
-     &                          prec, 'RL', 1, 
-     &                          globfld3d(1,1,1,1,1,1,1), 
-     &                          1,  mythid)
-
-          write(cunit) ncvarindex(8)
-          write(cunit) 1
-          write(cunit) 1
-          k = 1
-           cbuffindex = 0
-            do jp = 1,nPy
-             do bj = jtlo,jthi
-              do j = jmin,jmax
-               do ip = 1,nPx
-                do bi = itlo,ithi
-                 do i = imin,imax
-                    if (globmsk(i,bi,ip,j,bj,jp,k)  .ne. 0. ) then
-                       cbuffindex = cbuffindex + 1
-#ifdef ALLOW_NONDIMENSIONAL_CONTROL_IO
-                       cbuff(cbuffindex) = globfld3d(i,bi,ip,j,bj,jp,k)
-     &                      * sqrt(globfld2d(i,bi,ip,j,bj,jp))
-#else
-                       cbuff(cbuffindex) = globfld3d(i,bi,ip,j,bj,jp,k)
-#endif
-                    endif
-                 enddo
-                enddo
-               enddo
-              enddo
-             enddo
-            enddo
-c     --> check cbuffindex.
-            if ( cbuffindex .gt. 0) then
-               write(cunit) cbuffindex
-               write(cunit) k
-               write(cunit) (cbuff(ii), ii=1,cbuffindex)
-            endif
-
+#ifdef ALLOW_UWIND_CONTROL
+          ivartype = 9
+          write(weighttype(1:80),'(80a)') ' '
+          write(weighttype(1:80),'(a)') "wuwind"
+          call ctrl_set_pack_xy(
+     &         cunit, ivartype, fname_uwind, "maskW", weighttype,
+     &         lxxadxx, mythid)
 #endif
 
-#ifdef ALLOW_DIFFKR_CONTROL
-
-          il=ilnblnk( xx_diffkr_file)
-          write(fname(1:80),'(80a)') ' '
-          write(fname(1:80),'(2a,i10.10)')
-     &         xx_diffkr_file(1:il),'.',optimcycle
-          call MDSREADFIELD_3D_GL( fname, 
-     &                          prec, 'RL', Nr, globfld3d, 
-     &                          1,  mythid)
-
-          write(cunit) ncvarindex(15)
-          write(cunit) 1
-          write(cunit) 1
-          do k = 1,nr
-           cbuffindex = 0
-            do jp = 1,nPy
-             do bj = jtlo,jthi
-              do j = jmin,jmax
-               do ip = 1,nPx
-                do bi = itlo,ithi
-                 do i = imin,imax
-                    if (globmsk(i,bi,ip,j,bj,jp,k)  .ne. 0. ) then
-                       cbuffindex = cbuffindex + 1
-#ifdef ALLOW_NONDIMENSIONAL_CONTROL_IO
-                       cbuff(cbuffindex) = globfld3d(i,bi,ip,j,bj,jp,k)
-cph     &                      * sqrt(wdiffkr(k,bi,bj))
-#else
-                       cbuff(cbuffindex) = globfld3d(i,bi,ip,j,bj,jp,k)
-#endif
-                    endif
-                 enddo
-                enddo
-               enddo
-              enddo
-             enddo
-            enddo
-c     --> check cbuffindex.
-            if ( cbuffindex .gt. 0) then
-               write(cunit) cbuffindex
-               write(cunit) k
-               write(cunit) (cbuff(ii), ii=1,cbuffindex)
-            endif
-         enddo
-            
+#ifdef ALLOW_VWIND_CONTROL
+          ivartype = 10
+          write(weighttype(1:80),'(80a)') ' '
+          write(weighttype(1:80),'(a)') "wvwind"
+          call ctrl_set_pack_xy(
+     &         cunit, ivartype, fname_vwind, "maskS", weighttype,
+     &         lxxadxx, mythid)
 #endif
 
-#ifdef ALLOW_KAPGM_CONTROL
-
-          il=ilnblnk( xx_kapgm_file)
-          write(fname(1:80),'(80a)') ' '
-          write(fname(1:80),'(2a,i10.10)')
-     &         xx_kapgm_file(1:il),'.',optimcycle
-          call MDSREADFIELD_3D_GL( fname, 
-     &                          prec, 'RL', Nr, globfld3d, 
-     &                          1,  mythid)
-
-          write(cunit) ncvarindex(16)
-          write(cunit) 1
-          write(cunit) 1
-          do k = 1,nr
-           cbuffindex = 0
-            do jp = 1,nPy
-             do bj = jtlo,jthi
-              do j = jmin,jmax
-               do ip = 1,nPx
-                do bi = itlo,ithi
-                 do i = imin,imax
-                    if (globmsk(i,bi,ip,j,bj,jp,k)  .ne. 0. ) then
-                       cbuffindex = cbuffindex + 1
-#ifdef ALLOW_NONDIMENSIONAL_CONTROL_IO
-                       cbuff(cbuffindex) = globfld3d(i,bi,ip,j,bj,jp,k)
-cph     &                      * sqrt(wkapgm(k,bi,bj))
-#else
-                       cbuff(cbuffindex) = globfld3d(i,bi,ip,j,bj,jp,k)
+#ifdef ALLOW_OBCSN_CONTROL
+          ivartype = 11
+          call ctrl_set_pack_xz(
+     &         cunit, ivartype, fname_obcsn, "maskobcsn",
+     &         wobcsn, lxxadxx, mythid)
 #endif
-                    endif
-                 enddo
-                enddo
-               enddo
-              enddo
-             enddo
-            enddo
-c     --> check cbuffindex.
-            if ( cbuffindex .gt. 0) then
-               write(cunit) cbuffindex
-               write(cunit) k
-               write(cunit) (cbuff(ii), ii=1,cbuffindex)
-            endif
-         enddo
-            
+
+#ifdef ALLOW_OBCSS_CONTROL
+          ivartype = 12
+          call ctrl_set_pack_xz(
+     &         cunit, ivartype, fname_obcsn, "maskobcss",
+     &         wobcss, lxxadxx, mythid)
+#endif
+
+#ifdef ALLOW_OBCSW_CONTROL
+          ivartype = 13
+          call ctrl_set_pack_yz(
+     &         cunit, ivartype, fname_obcsw, "maskobcsw",
+     &         wobcsw, lxxadxx, mythid)
+#endif
+
+#ifdef ALLOW_OBCSE_CONTROL
+          ivartype = 14
+          call ctrl_set_pack_yz(
+     &         cunit, ivartype, fname_obcse, "maskobcse",
+     &         wobcse, lxxadxx, mythid)
 #endif
 
           close ( cunit )
 
         _END_MASTER( mythid )
 
-c======================================================================
-
-c--   read global mask file
-          call MDSREADFIELD_3D_GL( "hFacC", 
-     &                           prec, 'RL', Nr, globmsk,
-     &                           1,  mythid)
-
 c     >>> Write gradient vector <<<
+      lxxadxx = .FALSE.
 
           call mdsfindunit( cunit, mythid )
-          write(cfile(1:128),'(2a,i4.4)')
-     &    costname(1:9),'.opt',
+          write(cfile(1:128),'(4a,i4.4)')
+     &    costname(1:9),'_',expId(1:10),'.opt',
      &    optimcycle
 
           open( cunit, file   = cfile,
@@ -723,559 +392,121 @@ c--       Header information.
           write(cunit)
 
 #ifdef ALLOW_THETA0_CONTROL
-
-          il=ilnblnk( xx_theta_file)
-          write(fname(1:80),'(80a)') ' '
-          write(fname(1:80),'(3a,i10.10)')
-     &         yadmark,xx_theta_file(1:il),'.',optimcycle
-
-          call MDSREADFIELD_3D_GL( fname, 
-     &                          prec, 'RL', Nr, 
-     &                          globfld3d, 
-     &                          1,  mythid)
-          
-          write(cunit) ncvarindex(1)
-          write(cunit) 1
-          write(cunit) 1
-          do k = 1,nr
-           cbuffindex = 0
-            do jp = 1,nPy
-             do bj = jtlo,jthi
-              do j = jmin,jmax
-               do ip = 1,nPx
-                do bi = itlo,ithi
-                 do i = imin,imax
-                    if (globmsk(i,bi,ip,j,bj,jp,k)  .ne. 0. ) then
-                       cbuffindex = cbuffindex + 1
-#ifdef ALLOW_NONDIMENSIONAL_CONTROL_IO
-                       cbuff(cbuffindex) = globfld3d(i,bi,ip,j,bj,jp,k)
-     &                      * sqrt(wtheta(k,bi,bj))
-#else
-                       cbuff(cbuffindex) = globfld3d(i,bi,ip,j,bj,jp,k)
-#endif
-                    endif
-                 enddo
-                enddo
-               enddo
-              enddo
-             enddo
-            enddo
-c     --> check cbuffindex.
-            if ( cbuffindex .gt. 0) then
-               write(cunit) cbuffindex
-               write(cunit) k
-               write(cunit) (cbuff(ii), ii=1,cbuffindex)
-            endif
-         enddo
-
+          ivartype = 1
+          call ctrl_set_pack_xyz(
+     &         cunit, ivartype, adfname_theta, "hFacC",
+     &         wtheta, lxxadxx, mythid)
 #endif
 
 #ifdef ALLOW_SALT0_CONTROL
-
-          il=ilnblnk( xx_salt_file)
-          write(fname(1:80),'(80a)') ' '
-          write(fname(1:80),'(3a,i10.10)')
-     &         yadmark,xx_salt_file(1:il),'.',optimcycle
-
-          call MDSREADFIELD_3D_GL( fname, 
-     &                          prec, 'RL', Nr, 
-     &                          globfld3d, 
-     &                          1,  mythid)
-          
-          write(cunit) ncvarindex(2)
-          write(cunit) 1
-          write(cunit) 1
-          do k = 1,nr
-           cbuffindex = 0
-            do jp = 1,nPy
-             do bj = jtlo,jthi
-              do j = jmin,jmax
-               do ip = 1,nPx
-                do bi = itlo,ithi
-                 do i = imin,imax
-                    if (globmsk(i,bi,ip,j,bj,jp,k)  .ne. 0. ) then
-                       cbuffindex = cbuffindex + 1
-#ifdef ALLOW_NONDIMENSIONAL_CONTROL_IO
-                       cbuff(cbuffindex) = globfld3d(i,bi,ip,j,bj,jp,k)
-     &                      * sqrt(wsalt(k,bi,bj))
-#else
-                       cbuff(cbuffindex) = globfld3d(i,bi,ip,j,bj,jp,k)
-#endif
-                    endif
-                 enddo
-                enddo
-               enddo
-              enddo
-             enddo
-            enddo
-c     --> check cbuffindex.
-            if ( cbuffindex .gt. 0) then
-               write(cunit) cbuffindex
-               write(cunit) k
-               write(cunit) (cbuff(ii), ii=1,cbuffindex)
-            endif
-         enddo
-
+          ivartype = 2
+          call ctrl_set_pack_xyz(
+     &         cunit, ivartype, adfname_salt, "hFacC",
+     &         wsalt, lxxadxx, mythid)
 #endif
 
-#ifdef ALLOW_TR10_CONTROL
-
-          il=ilnblnk( xx_tr1_file)
-          write(fname(1:80),'(80a)') ' '
-          write(fname(1:80),'(3a,i10.10)')
-     &         yadmark,xx_tr1_file(1:il),'.',optimcycle
-
-          call MDSREADFIELD_3D_GL( fname, 
-     &                          prec, 'RL', Nr, 
-     &                          globfld3d, 
-     &                          1,  mythid)
-          
-          write(cunit) ncvarindex(9)
-          write(cunit) 1
-          write(cunit) 1
-          do k = 1,nr
-           cbuffindex = 0
-            do jp = 1,nPy
-             do bj = jtlo,jthi
-              do j = jmin,jmax
-               do ip = 1,nPx
-                do bi = itlo,ithi
-                 do i = imin,imax
-                    if (globmsk(i,bi,ip,j,bj,jp,k)  .ne. 0. ) then
-                       cbuffindex = cbuffindex + 1
-#ifdef ALLOW_NONDIMENSIONAL_CONTROL_IO
-                       cbuff(cbuffindex) = globfld3d(i,bi,ip,j,bj,jp,k)
-cph     &                      * sqrt(wtr1(k,bi,bj))
-#else
-                       cbuff(cbuffindex) = globfld3d(i,bi,ip,j,bj,jp,k)
-#endif
-                    endif
-                 enddo
-                enddo
-               enddo
-              enddo
-             enddo
-            enddo
-c     --> check cbuffindex.
-            if ( cbuffindex .gt. 0) then
-               write(cunit) cbuffindex
-               write(cunit) k
-               write(cunit) (cbuff(ii), ii=1,cbuffindex)
-            endif
-         enddo
-
+#ifdef ALLOW_HFLUX_CONTROL
+          ivartype = 3
+          write(weighttype(1:80),'(80a)') ' '
+          write(weighttype(1:80),'(a)') "whflux"
+          call ctrl_set_pack_xy(
+     &         cunit, ivartype, adfname_hflux, "hFacC", weighttype,
+     &         lxxadxx, mythid)
 #endif
 
-#ifdef ALLOW_HFLUX0_CONTROL
-
-          il=ilnblnk( xx_hflux_file)
-          write(fname(1:80),'(80a)') ' '
-          write(fname(1:80),'(3a,i10.10)')
-     &         yadmark,xx_hflux_file(1:il),'.',optimcycle
-#ifdef ALLOW_NONDIMENSIONAL_CONTROL_IO
-          call MDSREADFIELD_2D_GL( "whflux", 
-     &                          prec, 'RL', 1, 
-     &                          globfld2d,
-     &                          1,  mythid)
-#endif
-          call MDSREADFIELD_2D_GL( fname, 
-     &                          prec, 'RL', 1, 
-     &                          globfld3d(1,1,1,1,1,1,1), 
-     &                          1,  mythid)
-
-          write(cunit) ncvarindex(3)
-          write(cunit) 1
-          write(cunit) 1
-          k = 1
-           cbuffindex = 0
-            do jp = 1,nPy
-             do bj = jtlo,jthi
-              do j = jmin,jmax
-               do ip = 1,nPx
-                do bi = itlo,ithi
-                 do i = imin,imax
-                    if (globmsk(i,bi,ip,j,bj,jp,k)  .ne. 0. ) then
-                       cbuffindex = cbuffindex + 1
-#ifdef ALLOW_NONDIMENSIONAL_CONTROL_IO
-                       cbuff(cbuffindex) = globfld3d(i,bi,ip,j,bj,jp,k)
-     &                      * sqrt(globfld2d(i,bi,ip,j,bj,jp))
-#else
-                       cbuff(cbuffindex) = globfld3d(i,bi,ip,j,bj,jp,k)
-#endif
-                    endif
-                 enddo
-                enddo
-               enddo
-              enddo
-             enddo
-            enddo
-c     --> check cbuffindex.
-            if ( cbuffindex .gt. 0) then
-               write(cunit) cbuffindex
-               write(cunit) k
-               write(cunit) (cbuff(ii), ii=1,cbuffindex)
-            endif
-
+#ifdef ALLOW_SFLUX_CONTROL
+          ivartype = 4
+          write(weighttype(1:80),'(80a)') ' '
+          write(weighttype(1:80),'(a)') "wsflux"
+          call ctrl_set_pack_xy(
+     &         cunit, ivartype, adfname_sflux, "hFacC", weighttype,
+     &         lxxadxx, mythid)
 #endif
 
-#ifdef ALLOW_SFLUX0_CONTROL
-
-          il=ilnblnk( xx_sflux_file)
-          write(fname(1:80),'(80a)') ' '
-          write(fname(1:80),'(3a,i10.10)')
-     &         yadmark,xx_sflux_file(1:il),'.',optimcycle
-#ifdef ALLOW_NONDIMENSIONAL_CONTROL_IO
-          call MDSREADFIELD_2D_GL( "wsflux", 
-     &                          prec, 'RL', 1, 
-     &                          globfld2d,
-     &                          1,  mythid)
-#endif
-          call MDSREADFIELD_2D_GL( fname, 
-     &                          prec, 'RL', 1, 
-     &                          globfld3d(1,1,1,1,1,1,1), 
-     &                          1,  mythid)
-
-          write(cunit) ncvarindex(4)
-          write(cunit) 1
-          write(cunit) 1
-          k = 1
-           cbuffindex = 0
-            do jp = 1,nPy
-             do bj = jtlo,jthi
-              do j = jmin,jmax
-               do ip = 1,nPx
-                do bi = itlo,ithi
-                 do i = imin,imax
-                    if (globmsk(i,bi,ip,j,bj,jp,k)  .ne. 0. ) then
-                       cbuffindex = cbuffindex + 1
-#ifdef ALLOW_NONDIMENSIONAL_CONTROL_IO
-                       cbuff(cbuffindex) = globfld3d(i,bi,ip,j,bj,jp,k)
-     &                      * sqrt(globfld2d(i,bi,ip,j,bj,jp))
-#else
-                       cbuff(cbuffindex) = globfld3d(i,bi,ip,j,bj,jp,k)
-#endif
-                    endif
-                 enddo
-                enddo
-               enddo
-              enddo
-             enddo
-            enddo
-c     --> check cbuffindex.
-            if ( cbuffindex .gt. 0) then
-               write(cunit) cbuffindex
-               write(cunit) k
-               write(cunit) (cbuff(ii), ii=1,cbuffindex)
-            endif
-
+#ifdef ALLOW_USTRESS_CONTROL
+          ivartype = 5
+          write(weighttype(1:80),'(80a)') ' '
+          write(weighttype(1:80),'(a)') "wtauu"
+          call ctrl_set_pack_xy(
+     &         cunit, ivartype, adfname_tauu, "maskW", weighttype,
+     &         lxxadxx, mythid)
 #endif
 
-#ifdef ALLOW_TAUU0_CONTROL
-
-          il=ilnblnk( xx_tauu_file)
-          write(fname(1:80),'(80a)') ' '
-          write(fname(1:80),'(3a,i10.10)')
-     &         yadmark,xx_tauu_file(1:il),'.',optimcycle
-#ifdef ALLOW_NONDIMENSIONAL_CONTROL_IO
-          call MDSREADFIELD_2D_GL( "wtauu", 
-     &                          prec, 'RL', 1, 
-     &                          globfld2d,
-     &                          1,  mythid)
-#endif
-          call MDSREADFIELD_2D_GL( fname, 
-     &                          prec, 'RL', 1, 
-     &                          globfld3d(1,1,1,1,1,1,1), 
-     &                          1,  mythid)
-
-          write(cunit) ncvarindex(5)
-          write(cunit) 1
-          write(cunit) 1
-          k = 1
-           cbuffindex = 0
-            do jp = 1,nPy
-             do bj = jtlo,jthi
-              do j = jmin,jmax
-               do ip = 1,nPx
-                do bi = itlo,ithi
-                 do i = imin,imax
-                    if (globmsk(i,bi,ip,j,bj,jp,k)  .ne. 0. ) then
-                       cbuffindex = cbuffindex + 1
-#ifdef ALLOW_NONDIMENSIONAL_CONTROL_IO
-                       cbuff(cbuffindex) = globfld3d(i,bi,ip,j,bj,jp,k)
-     &                      * sqrt(globfld2d(i,bi,ip,j,bj,jp))
-#else
-                       cbuff(cbuffindex) = globfld3d(i,bi,ip,j,bj,jp,k)
-#endif
-                    endif
-                 enddo
-                enddo
-               enddo
-              enddo
-             enddo
-            enddo
-c     --> check cbuffindex.
-            if ( cbuffindex .gt. 0) then
-               write(cunit) cbuffindex
-               write(cunit) k
-               write(cunit) (cbuff(ii), ii=1,cbuffindex)
-            endif
-
+#ifdef ALLOW_VSTRESS_CONTROL
+          ivartype = 6
+          write(weighttype(1:80),'(80a)') ' '
+          write(weighttype(1:80),'(a)') "wtauv"
+          call ctrl_set_pack_xy(
+     &         cunit, ivartype, adfname_tauv, "maskS", weighttype,
+     &         lxxadxx, mythid)
 #endif
 
-#ifdef ALLOW_TAUV0_CONTROL
-
-          il=ilnblnk( xx_tauv_file)
-          write(fname(1:80),'(80a)') ' '
-          write(fname(1:80),'(3a,i10.10)')
-     &         yadmark,xx_tauv_file(1:il),'.',optimcycle
-#ifdef ALLOW_NONDIMENSIONAL_CONTROL_IO
-          call MDSREADFIELD_2D_GL( "wtauv", 
-     &                          prec, 'RL', 1, 
-     &                          globfld2d,
-     &                          1,  mythid)
-#endif
-          call MDSREADFIELD_2D_GL( fname, 
-     &                          prec, 'RL', 1, 
-     &                          globfld3d(1,1,1,1,1,1,1), 
-     &                          1,  mythid)
-
-          write(cunit) ncvarindex(6)
-          write(cunit) 1
-          write(cunit) 1
-          k = 1
-           cbuffindex = 0
-            do jp = 1,nPy
-             do bj = jtlo,jthi
-              do j = jmin,jmax
-               do ip = 1,nPx
-                do bi = itlo,ithi
-                 do i = imin,imax
-                    if (globmsk(i,bi,ip,j,bj,jp,k)  .ne. 0. ) then
-                       cbuffindex = cbuffindex + 1
-#ifdef ALLOW_NONDIMENSIONAL_CONTROL_IO
-                       cbuff(cbuffindex) = globfld3d(i,bi,ip,j,bj,jp,k)
-     &                      * sqrt(globfld2d(i,bi,ip,j,bj,jp))
-#else
-                       cbuff(cbuffindex) = globfld3d(i,bi,ip,j,bj,jp,k)
-#endif
-                    endif
-                 enddo
-                enddo
-               enddo
-              enddo
-             enddo
-            enddo
-c     --> check cbuffindex.
-            if ( cbuffindex .gt. 0) then
-               write(cunit) cbuffindex
-               write(cunit) k
-               write(cunit) (cbuff(ii), ii=1,cbuffindex)
-            endif
-
+#ifdef ALLOW_ATEMP_CONTROL
+          ivartype = 7
+          write(weighttype(1:80),'(80a)') ' '
+          write(weighttype(1:80),'(a)') "watemp"
+          call ctrl_set_pack_xy(
+     &         cunit, ivartype, adfname_atemp, "hFacC", weighttype,
+     &         lxxadxx, mythid)
 #endif
 
-#ifdef ALLOW_SST0_CONTROL
-
-          il=ilnblnk( xx_sst_file)
-          write(fname(1:80),'(80a)') ' '
-          write(fname(1:80),'(3a,i10.10)')
-     &         yadmark,xx_sst_file(1:il),'.',optimcycle
-#ifdef ALLOW_NONDIMENSIONAL_CONTROL_IO
-          call MDSREADFIELD_2D_GL( "wsst", 
-     &                          prec, 'RL', 1, 
-     &                          globfld2d,
-     &                          1,  mythid)
-#endif
-          call MDSREADFIELD_2D_GL( fname, 
-     &                          prec, 'RL', 1, 
-     &                          globfld3d(1,1,1,1,1,1,1), 
-     &                          1,  mythid)
-
-          write(cunit) ncvarindex(7)
-          write(cunit) 1
-          write(cunit) 1
-          k = 1
-           cbuffindex = 0
-            do jp = 1,nPy
-             do bj = jtlo,jthi
-              do j = jmin,jmax
-               do ip = 1,nPx
-                do bi = itlo,ithi
-                 do i = imin,imax
-                    if (globmsk(i,bi,ip,j,bj,jp,k)  .ne. 0. ) then
-                       cbuffindex = cbuffindex + 1
-#ifdef ALLOW_NONDIMENSIONAL_CONTROL_IO
-                       cbuff(cbuffindex) = globfld3d(i,bi,ip,j,bj,jp,k)
-     &                      * sqrt(globfld2d(i,bi,ip,j,bj,jp))
-#else
-                       cbuff(cbuffindex) = globfld3d(i,bi,ip,j,bj,jp,k)
-#endif
-                    endif
-                 enddo
-                enddo
-               enddo
-              enddo
-             enddo
-            enddo
-c     --> check cbuffindex.
-            if ( cbuffindex .gt. 0) then
-               write(cunit) cbuffindex
-               write(cunit) k
-               write(cunit) (cbuff(ii), ii=1,cbuffindex)
-            endif
-
+#ifdef ALLOW_AQH_CONTROL
+          ivartype = 8
+          write(weighttype(1:80),'(80a)') ' '
+          write(weighttype(1:80),'(a)') "waqh"
+          call ctrl_set_pack_xy(
+     &         cunit, ivartype, adfname_aqh, "hFacC", weighttype,
+     &         lxxadxx, mythid)
 #endif
 
-#ifdef ALLOW_SSS0_CONTROL
-
-          il=ilnblnk( xx_sss_file)
-          write(fname(1:80),'(80a)') ' '
-          write(fname(1:80),'(3a,i10.10)')
-     &         yadmark,xx_sss_file(1:il),'.',optimcycle
-#ifdef ALLOW_NONDIMENSIONAL_CONTROL_IO
-          call MDSREADFIELD_2D_GL( "wsss", 
-     &                          prec, 'RL', 1, 
-     &                          globfld2d,
-     &                          1,  mythid)
-#endif
-          call MDSREADFIELD_2D_GL( fname, 
-     &                          prec, 'RL', 1, 
-     &                          globfld3d(1,1,1,1,1,1,1), 
-     &                          1,  mythid)
-
-          write(cunit) ncvarindex(8)
-          write(cunit) 1
-          write(cunit) 1
-          k = 1
-           cbuffindex = 0
-            do jp = 1,nPy
-             do bj = jtlo,jthi
-              do j = jmin,jmax
-               do ip = 1,nPx
-                do bi = itlo,ithi
-                 do i = imin,imax
-                    if (globmsk(i,bi,ip,j,bj,jp,k)  .ne. 0. ) then
-                       cbuffindex = cbuffindex + 1
-#ifdef ALLOW_NONDIMENSIONAL_CONTROL_IO
-                       cbuff(cbuffindex) = globfld3d(i,bi,ip,j,bj,jp,k)
-     &                      * sqrt(globfld2d(i,bi,ip,j,bj,jp))
-#else
-                       cbuff(cbuffindex) = globfld3d(i,bi,ip,j,bj,jp,k)
-#endif
-                    endif
-                 enddo
-                enddo
-               enddo
-              enddo
-             enddo
-            enddo
-c     --> check cbuffindex.
-            if ( cbuffindex .gt. 0) then
-               write(cunit) cbuffindex
-               write(cunit) k
-               write(cunit) (cbuff(ii), ii=1,cbuffindex)
-            endif
-
+#ifdef ALLOW_UWIND_CONTROL
+          ivartype = 9
+          write(weighttype(1:80),'(80a)') ' '
+          write(weighttype(1:80),'(a)') "wuwind"
+          call ctrl_set_pack_xy(
+     &         cunit, ivartype, adfname_uwind, "maskW", weighttype,
+     &         lxxadxx, mythid)
 #endif
 
-#ifdef ALLOW_DIFFKR_CONTROL
-
-          il=ilnblnk( xx_diffkr_file)
-          write(fname(1:80),'(80a)') ' '
-          write(fname(1:80),'(3a,i10.10)')
-     &         yadmark,xx_diffkr_file(1:il),'.',optimcycle
-
-          call MDSREADFIELD_3D_GL( fname, 
-     &                          prec, 'RL', Nr, 
-     &                          globfld3d, 
-     &                          1,  mythid)
-          
-          write(cunit) ncvarindex(9)
-          write(cunit) 1
-          write(cunit) 1
-          do k = 1,nr
-           cbuffindex = 0
-            do jp = 1,nPy
-             do bj = jtlo,jthi
-              do j = jmin,jmax
-               do ip = 1,nPx
-                do bi = itlo,ithi
-                 do i = imin,imax
-                    if (globmsk(i,bi,ip,j,bj,jp,k)  .ne. 0. ) then
-                       cbuffindex = cbuffindex + 1
-#ifdef ALLOW_NONDIMENSIONAL_CONTROL_IO
-                       cbuff(cbuffindex) = globfld3d(i,bi,ip,j,bj,jp,k)
-cph     &                      * sqrt(wdiffkr(k,bi,bj))
-#else
-                       cbuff(cbuffindex) = globfld3d(i,bi,ip,j,bj,jp,k)
-#endif
-                    endif
-                 enddo
-                enddo
-               enddo
-              enddo
-             enddo
-            enddo
-c     --> check cbuffindex.
-            if ( cbuffindex .gt. 0) then
-               write(cunit) cbuffindex
-               write(cunit) k
-               write(cunit) (cbuff(ii), ii=1,cbuffindex)
-            endif
-         enddo
-
+#ifdef ALLOW_VWIND_CONTROL
+          ivartype = 10
+          write(weighttype(1:80),'(80a)') ' '
+          write(weighttype(1:80),'(a)') "wvwind"
+          call ctrl_set_pack_xy(
+     &         cunit, ivartype, adfname_vwind, "maskS", weighttype,
+     &         lxxadxx, mythid)
 #endif
 
-#ifdef ALLOW_KAPGM_CONTROL
-
-          il=ilnblnk( xx_kapgm_file)
-          write(fname(1:80),'(80a)') ' '
-          write(fname(1:80),'(3a,i10.10)')
-     &         yadmark,xx_kapgm_file(1:il),'.',optimcycle
-
-          call MDSREADFIELD_3D_GL( fname, 
-     &                          prec, 'RL', Nr, 
-     &                          globfld3d, 
-     &                          1,  mythid)
-          
-          write(cunit) ncvarindex(9)
-          write(cunit) 1
-          write(cunit) 1
-          do k = 1,nr
-           cbuffindex = 0
-            do jp = 1,nPy
-             do bj = jtlo,jthi
-              do j = jmin,jmax
-               do ip = 1,nPx
-                do bi = itlo,ithi
-                 do i = imin,imax
-                    if (globmsk(i,bi,ip,j,bj,jp,k)  .ne. 0. ) then
-                       cbuffindex = cbuffindex + 1
-#ifdef ALLOW_NONDIMENSIONAL_CONTROL_IO
-                       cbuff(cbuffindex) = globfld3d(i,bi,ip,j,bj,jp,k)
-cph     &                      * sqrt(wkapgm(k,bi,bj))
-#else
-                       cbuff(cbuffindex) = globfld3d(i,bi,ip,j,bj,jp,k)
-#endif
-                    endif
-                 enddo
-                enddo
-               enddo
-              enddo
-             enddo
-            enddo
-c     --> check cbuffindex.
-            if ( cbuffindex .gt. 0) then
-               write(cunit) cbuffindex
-               write(cunit) k
-               write(cunit) (cbuff(ii), ii=1,cbuffindex)
-            endif
-         enddo
-
+#ifdef ALLOW_OBCSN_CONTROL
+          ivartype = 11
+          call ctrl_set_pack_xz(
+     &         cunit, ivartype, adfname_obcsn, "maskobcsn",
+     &         wobcsn, lxxadxx, mythid)
 #endif
 
+#ifdef ALLOW_OBCSS_CONTROL
+          ivartype = 12
+          call ctrl_set_pack_xz(
+     &         cunit, ivartype, adfname_obcss, "maskobcss",
+     &         wobcss, lxxadxx, mythid)
+#endif
+
+#ifdef ALLOW_OBCSW_CONTROL
+          ivartype = 13
+          call ctrl_set_pack_yz(
+     &         cunit, ivartype, adfname_obcsw, "maskobcsw",
+     &         wobcsw, lxxadxx, mythid)
+#endif
+
+#ifdef ALLOW_OBCSE_CONTROL
+          ivartype = 14
+          call ctrl_set_pack_yz(
+     &         cunit, ivartype, adfname_obcse, "maskobcse",
+     &         wobcse, lxxadxx, mythid)
+#endif
 
           close ( cunit )
+
 
       return
       end

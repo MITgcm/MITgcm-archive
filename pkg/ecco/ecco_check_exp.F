@@ -70,7 +70,9 @@ cph#include "CG2D_EXTERNAL.h"
 #include "GRID.h"
 cph#include "cal.h"
 cph#include "exf_clim_param.h"
-cph#include "exf_fields.h"
+#ifdef ALLOW_BULKFORMULAE
+#include "exf_fields.h"
+#endif
 
 #ifdef ALLOW_KPP
 # include "KPP_OPTIONS.h"
@@ -103,8 +105,8 @@ c     == end of interface ==
 
       irec = 0
 
-      if ( mod((mycurrentiter),1) .eq. 0 ) then
-        irec = (mycurrentiter)/1 + 1
+      if ( mod((mycurrentiter),240) .eq. 0 ) then
+        irec = (mycurrentiter)/240 + 1
 
 cph(
 cph        call cal_GetDate(
@@ -252,58 +254,59 @@ cph        call mdswritefield( yprefix//'snapshot_xx_tauv', 32, .false.,
 cph     &                      'RS', 1, xx_tauv, irec,
 cph     &                      mycurrentiter, mythid )
 
-#ifdef ALLOW_BULKFORMULAE
+#if (defined (ALLOW_BULKFORMULAE) && defined (ALLOW_ATM_WIND))
 c--     Atmospheric zonal wind:
         write(yfname,'(128a)') ' '
         write(yfname,'(2a)') yprefix, 'snapshot_uwind'
         call mdswritefield( yfname, 32, .false.,
      &                      'RS', 1, uwind, irec,
      &                      mycurrentiter, mythid )
+#endif
 
+#if (defined (ALLOW_BULKFORMULAE) && defined (ALLOW_ATM_WIND))
 c--     Atmospheric meridional wind:
         write(yfname,'(128a)') ' '
         write(yfname,'(2a)') yprefix, 'snapshot_vwind'
         call mdswritefield( yfname, 32, .false.,
      &                      'RS', 1,vwind, irec,
      &                      mycurrentiter, mythid )
+#endif
 
+#if (defined (ALLOW_BULKFORMULAE) && defined (ALLOW_ATM_TEMP))
 c--     Air temperature:
         write(yfname,'(128a)') ' '
         write(yfname,'(2a)') yprefix, 'snapshot_atemp'
         call mdswritefield( yfname, 32, .false.,
      &                      'RS', 1, atemp, irec,
      &                      mycurrentiter, mythid )
+#endif
 
+#if (defined (ALLOW_BULKFORMULAE) && defined (ALLOW_ATM_TEMP))
 c--     Relative humidity:
         write(yfname,'(128a)') ' '
         write(yfname,'(2a)') yprefix, 'snapshot_aqh'
         call mdswritefield( yfname, 32, .false.,
      &                      'RS', 1, aqh, irec,
      &                      mycurrentiter, mythid )
+#endif
 
+#if (defined (ALLOW_BULKFORMULAE) && defined (ALLOW_ATM_TEMP))
 c--     Precipitation:
         write(yfname,'(128a)') ' '
         write(yfname,'(2a)') yprefix, 'snapshot_precip'
         call mdswritefield( yfname, 32, .false.,
      &                      'RS', 1, precip, irec,
      &                      mycurrentiter, mythid )
-
-#ifndef ALLOW_KPP
-c--     Short wave radiative flux:
-        write(yfname,'(128a)') ' '
-        write(yfname,'(2a)') yprefix, 'snapshot_swflux'
-        call mdswritefield( yfname, 32, .false.,
-     &                      'RS', 1, swflux, irec,
-     &                      mycurrentiter, mythid )
 #endif
 
+#ifdef ALLOW_BULKFORMULAE
 c--     Long wave radiative flux:
-        write(yfname,'(128a)') ' '
-        write(yfname,'(2a)') yprefix, 'snapshot_lwflux'
-        call mdswritefield( yfname, 32, .false.,
-     &                      'RS', 1, lwflux, irec,
-     &                      mycurrentiter, mythid )
-#endif / * ALLOW_BULKFORMULAE * /
+cph        write(yfname,'(128a)') ' '
+cph        write(yfname,'(2a)') yprefix, 'snapshot_lwflux'
+cph        call mdswritefield( yfname, 32, .false.,
+cph     &                      'RS', 1, lwflux, irec,
+cph     &                      mycurrentiter, mythid )
+#endif
 
 #ifdef ALLOW_KPP
 c--     Short wave radiative flux:
