@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/pkg/grdchk/grdchk_getadxx.F,v 1.2.6.6 2003/06/20 19:38:59 heimbach Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/grdchk/grdchk_getadxx.F,v 1.2.6.7 2003/07/07 16:18:18 heimbach Exp $
 
 #include "CTRL_CPPOPTIONS.h"
 
@@ -60,6 +60,8 @@ c     == local variables ==
       logical ladinit
 
       character*(80) fname
+
+      integer i,j,k
 
 c--   == external ==
 
