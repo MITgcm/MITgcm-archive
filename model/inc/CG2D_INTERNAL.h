@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/model/inc/Attic/CG2D_INTERNAL.h,v 1.5.4.1 2002/02/06 15:48:06 heimbach Exp $
+C $Header: /u/gcmpack/MITgcm/model/inc/Attic/CG2D_INTERNAL.h,v 1.5.4.2 2003/03/07 05:31:47 heimbach Exp $
 C $Name:  $
 CBOP
 C     !ROUTINE: CG2D_INTERNAL.h
