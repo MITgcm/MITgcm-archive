@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/model/src/packages_boot.F,v 1.7.2.3 2003/01/31 05:06:50 dimitri Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/packages_boot.F,v 1.7.2.4 2003/05/01 00:01:15 dimitri Exp $
 C $Name:  $
 
 #include "CPP_OPTIONS.h"
@@ -54,7 +54,8 @@ C     data.pkg namelists
      &          useZONAL_FILT,
      &          useFLT,
      &          useSBO,
-     &          useSEAICE
+     &          useSEAICE,
+     &          useDirectSolver
 CEOP
 
       _BEGIN_MASTER(myThid)
