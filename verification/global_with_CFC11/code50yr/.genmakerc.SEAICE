@@ -1,0 +1,11 @@
+# $Header: /u/gcmpack/MITgcm/verification/global_with_CFC11/code50yr/Attic/.genmakerc.SEAICE,v 1.1.2.1 2003/06/17 16:22:56 dimitri Exp $
+# $Name:  $
+
+# Disable packages that are not needed
+set DISABLE=( aim obcs zonal_filt shap_filt autodiff cost ctrl grdchk )
+
+# Enable packages that are needed but are disabled by default
+set ENABLE=( cal exf seaice )
+
+# We can also specify other defaults
+#set ROOTDIR=..

@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/pkg/exf/Attic/EXF_CPPOPTIONS.h,v 1.1.4.2.2.1 2003/05/23 16:35:48 dimitri Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/exf/Attic/EXF_CPPOPTIONS.h,v 1.1.4.2.2.2 2003/06/17 16:22:56 dimitri Exp $
 C
 #include "CPP_OPTIONS.h"
 C 
@@ -24,7 +24,7 @@ c       humidity fields can be read-in from files.
 c                                        
 c   >>> ALLOW_DOWNWARD_RADIATION <<<
 c       If defined, downward long-wave and short-wave radiation
-c       can be read-in form files.
+c       can be read-in form files or computed from lwflux and swflux.
 c
 c   >>> ALLOW_BULKFORMULAE <<<
 c       Allows the use of bulk formulae in order to estimate

@@ -1,10 +1,14 @@
-$Header: /u/gcmpack/MITgcm/doc/tag-index,v 1.53.2.37.2.2 2003/05/23 16:35:47 dimitri Exp $
+$Header: /u/gcmpack/MITgcm/doc/tag-index,v 1.53.2.37.2.3 2003/06/17 16:22:56 dimitri Exp $
 
     Notes on tags used in MITgcmUV
     ==============================
 
 Branch release1_50yr
 Code used for 50-year JPL telescoping integration.
+
+17 jun 03
+ modifications to allow 50-year integration with sea-ice
+ see verification/global_with_CFC11/code50yr/README
 
 o merged with release1_p17 updates:
   modifications to pkg/seaice and verification/lab_sea
