@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/verification/global_with_CFC11/code4x4/Attic/external_forcing_tr.F,v 1.1.2.2 2003/05/04 01:29:48 dimitri Exp $
+C $Header: /u/gcmpack/MITgcm/verification/global_with_CFC11/code4x4/Attic/external_forcing_tr.F,v 1.1.2.3 2003/07/25 18:43:05 dimitri Exp $
 C $Name:  $
 
 #include "CPP_OPTIONS.h"
@@ -17,7 +17,7 @@ C     | o Contains problem specific forcing for tracer Tr1.
 C     *==========================================================*
 C     | Adds terms to gTr1 for forcing by external sources.
 C     | This routine is hardcoded for OCMIP CFC-11 experiment.
-C     | It assumes that myTime = on January 1, 1930.
+C     | It assumes that myTime=0 on January 1, 1930.
 C     | See the OCMIP-2 CFC HOWTO for details.
 C     *==========================================================*
 C     \ev
