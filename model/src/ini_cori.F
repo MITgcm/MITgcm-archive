@@ -1,34 +1,28 @@
-C $Header: /u/gcmpack/MITgcm/model/src/ini_cori.F,v 1.12 2001/09/26 18:09:15 cnh Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/ini_cori.F,v 1.11 2001/06/05 15:30:53 adcroft Exp $
 C $Name:  $
 
 #include "CPP_OPTIONS.h"
 
-CBOP
-C     !ROUTINE: INI_CORI
-C     !INTERFACE:
+CStartOfInterface
       SUBROUTINE INI_CORI( myThid )
-C     !DESCRIPTION: \bv
-C     *==========================================================*
-C     | SUBROUTINE INI_CORI                                       
-C     | o Initialise coriolis term.                               
-C     *==========================================================*
-C     \ev
-
-C     !USES:
+C     /==========================================================\
+C     | SUBROUTINE INI_CORI                                      |
+C     | o Initialise coriolis term.                              |
+C     \==========================================================/
       IMPLICIT NONE
-C     == Global variables ==
+
+C     === Global variables ===
 #include "SIZE.h"
 #include "EEPARAMS.h"
 #include "PARAMS.h"
 #include "GRID.h"
 #include "DYNVARS.h"
 
-C     !INPUT/OUTPUT PARAMETERS:
 C     == Routine arguments ==
 C     myThid -  Number of this instance of INI_CORI
       INTEGER myThid
+CEndOfInterface
 
-C     !LOCAL VARIABLES:
 C     == Local variables ==
 C     bi,bj  - Loop counters
 C     I,J,K
@@ -36,7 +30,6 @@ C     facGrid - Factor for grid to meter conversion
       INTEGER bi, bj
       INTEGER  I,  J, K
       _RL facGrid
-CEOP
 
 C--   Initialise coriolis parameter
       IF     ( useConstantF ) THEN

@@ -1,12 +1,6 @@
-C $Header: /u/gcmpack/MITgcm/eesupp/inc/Attic/JAM_INFO.h,v 1.3 2001/09/21 03:54:36 cnh Exp $
+C $Header: /u/gcmpack/MITgcm/eesupp/inc/Attic/JAM_INFO.h,v 1.2 2001/02/04 14:38:41 cnh Exp $
 C $Name:  $
-CBOP
-C      !ROUTINE: JAM_INFO.h
-C      !INTERFACE:
-C      include "JAM_INFO.h"
-C      !DESCRIPTION:
-C      Global parameters used with JAM.
-CEOP
+C      Parameters used with JAM.
 
        COMMON /JAM_INFO/
      &  jam_pid,     jam_np, jam_exchKey,

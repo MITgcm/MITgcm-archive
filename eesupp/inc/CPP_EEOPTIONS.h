@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/eesupp/inc/CPP_EEOPTIONS.h,v 1.18 2001/09/21 03:54:35 cnh Exp $
+C $Header: /u/gcmpack/MITgcm/eesupp/inc/CPP_EEOPTIONS.h,v 1.17 2001/03/09 19:36:39 adcroft Exp $
 C $Name:  $
 
   These lines are here to deliberately cause a compile-time error.
@@ -8,15 +8,10 @@ C $Name:  $
   You need to place you own copy of CPP_EEOPTIONS.h in the include
   path for the model.
 
-CBOP
-C     !ROUTINE: CPP_EEOPTIONS.h
-C     !INTERFACE:
-C     include "CPP_EEOPTIONS.h"
 C
-C     !DESCRIPTION:
-C     *==========================================================*
+C     /==========================================================\
 C     | CPP_EEOPTIONS.h                                          |
-C     *==========================================================*
+C     |==========================================================|
 C     | C preprocessor "execution environment" supporting        |
 C     | flags. Use this file to set flags controlling the        |
 C     | execution environment in which a model runs - as opposed |
@@ -35,8 +30,7 @@ C     |       set all options as selectable at runtime but then  |
 C     |       once an experimental configuration has been        |
 C     |       identified, rebuild the code with the appropriate  |
 C     |       options set at compile time.                       |
-C     *==========================================================*
-CEOP
+C     \==========================================================/
 
 #ifndef _CPP_EEOPTIONS_H_
 #define _CPP_EEOPTIONS_H_
