@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/model/src/ini_theta.F,v 1.17 2003/10/23 07:14:49 dimitri Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/ini_theta.F,v 1.17.2.1 2004/11/01 20:03:35 dimitri Exp $
 C $Name:  $
 
 #include "CPP_OPTIONS.h"
@@ -101,7 +101,7 @@ C--   Apply mask and test consistancy
       ENDIF
 
 C--   Check that there are no values of temperature below freezing point.
-      Tfreezing=-1.9
+      Tfreezing=-3
       IF ( allowFreezing ) THEN
        DO bj = myByLo(myThid), myByHi(myThid)
         DO bi = myBxLo(myThid), myBxHi(myThid)

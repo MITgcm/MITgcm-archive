@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/model/src/Attic/freeze.F,v 1.7 2003/10/23 07:14:49 dimitri Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/Attic/freeze.F,v 1.7.2.1 2004/11/01 20:03:34 dimitri Exp $
 C $Name:  $
 
 #include "CPP_OPTIONS.h"
@@ -36,7 +36,7 @@ C     Tfreezing :: Freezing threshold temperature.
       _RL Tfreezing
 CEOP
 
-      Tfreezing=-1.9
+      Tfreezing=-3
 
 C     Check for water that should have frozen
       DO bj=myByLo(myThid),myByHi(myThid)
