@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/verification/global_with_CFC11/code50yr/Attic/TR1.h,v 1.1.2.1 2003/05/03 04:27:34 dimitri Exp $
+C $Header: /u/gcmpack/MITgcm/verification/global_with_CFC11/code50yr/Attic/TR1.h,v 1.1.2.2 2003/05/04 23:19:18 dimitri Exp $
 C $Name:  $
 C
 CBOP
@@ -21,10 +21,11 @@ C     TR1     :: tracer concentration (tr per unit volume).
 C     GTR1    :: tracer concentration (TR1 per second).
 C     GTR1NM1 :: tracer concentration (TR1 per second).
 
-      COMMON /TR1_R/ tr1, gTr1, gTr1NM1
+      COMMON /TR1_R/ tr1, gTr1, gTr1NM1, surfaceTendencyTr1
       _RL  tr1     (1-OLx:sNx+OLx,1-OLy:sNy+OLy,Nr,nSx,nSy)
       _RL  gTr1    (1-OLx:sNx+OLx,1-OLy:sNy+OLy,Nr,nSx,nSy)
       _RL  gTr1NM1 (1-OLx:sNx+OLx,1-OLy:sNy+OLy,Nr,nSx,nSy)
+      _RS  surfaceTendencyTr1(1-OLx:sNx+OLx,1-OLy:sNy+OLy,nSx,nSy)
 
       COMMON /TR1_S/ fice, fice0, fice1,
      &                xkw,  xkw0,  xkw1,

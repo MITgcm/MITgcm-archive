@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/verification/global_with_CFC11/code50yr/Attic/external_forcing_tr.F,v 1.1.2.2 2003/05/04 01:29:48 dimitri Exp $
+C $Header: /u/gcmpack/MITgcm/verification/global_with_CFC11/code50yr/Attic/external_forcing_tr.F,v 1.1.2.3 2003/05/04 23:19:18 dimitri Exp $
 C $Name:  $
 
 #include "CPP_OPTIONS.h"
@@ -174,7 +174,7 @@ C
                ALPHA = sol_cfc(TMP1,TMP2,11)
                CSAT  = ALPHA * PCFC * patm(i,j,bi,bj)
                TMP1  = KW * ( CSAT - Tr1(i,j,1,bi,bj) )
-               gTr1(i,j,1,bi,bj) = gTr1(i,j,1,bi,bj) +
+               surfaceTendencyTr1(i,j,bi,bj) =
      &              TMP1 * recip_drF(1) * recip_hFacC(i,j,1,bi,bj)
             ENDDO
          ENDDO

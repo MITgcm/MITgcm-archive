@@ -1,4 +1,4 @@
-c $Header: /u/gcmpack/MITgcm/pkg/exf/Attic/exf_param.h,v 1.1.4.8 2003/05/01 06:10:19 dimitri Exp $
+c $Header: /u/gcmpack/MITgcm/pkg/exf/Attic/exf_param.h,v 1.1.4.8.2.1 2003/05/04 23:19:18 dimitri Exp $
 c
 c
 c     ==================================================================
@@ -318,9 +318,9 @@ c     Southwest B-grid U and V points.
       LOGICAL             EXFwindOnBgrid
       COMMON /EXF_PARM_L/ EXFwindOnBgrid
 
-c for lat interpolation, arraysize currently set to 200 max data values
+c for lat interpolation, arraysize currently set to 250 max data values
        integer MAX_LAT_INC
-       parameter(MAX_LAT_INC = 200)
+       parameter(MAX_LAT_INC = 250)
       _RL ustress_lon0, ustress_lon_inc
       _RL ustress_lat0, ustress_lat_inc(MAX_LAT_INC)
       INTEGER ustress_nlon, ustress_nlat
