@@ -1,4 +1,4 @@
-c $Header: /u/gcmpack/MITgcm/pkg/exf/exf_getffieldrec.F,v 1.1.6.2 2003/03/06 00:51:39 heimbach Exp $
+c $Header: /u/gcmpack/MITgcm/pkg/exf/exf_getffieldrec.F,v 1.1.6.3 2003/03/07 03:33:24 heimbach Exp $
 
 #include "CPP_OPTIONS.h"
 

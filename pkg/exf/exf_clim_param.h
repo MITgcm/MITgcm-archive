@@ -1,4 +1,4 @@
-c $Header: /u/gcmpack/MITgcm/pkg/exf/Attic/exf_clim_param.h,v 1.1.6.1 2003/03/04 00:17:40 heimbach Exp $
+c $Header: /u/gcmpack/MITgcm/pkg/exf/Attic/exf_clim_param.h,v 1.1.6.2 2003/03/07 03:33:24 heimbach Exp $
 c
 c
 c     ==================================================================
