@@ -1,4 +1,4 @@
-c $Header: /u/gcmpack/MITgcm/pkg/exf/exf_summary.F,v 1.1.6.3 2003/02/14 23:10:35 dimitri Exp $
+c $Header: /u/gcmpack/MITgcm/pkg/exf/exf_summary.F,v 1.1.6.4 2003/02/19 06:00:56 dimitri Exp $
 
 #include "EXF_CPPOPTIONS.h"
 
@@ -126,7 +126,7 @@ c--   Print settings of some CPP flags.
      &                    SQUEEZE_RIGHT , mythid)
 #else
       write(msgbuf,'(a)')
-     &'// DOWNWARD_RADIATION:             NOT defined'
+     &'// ALLOW_DOWNWARD_RADIATION:       NOT defined'
       call print_message( msgbuf, standardmessageunit,
      &                    SQUEEZE_RIGHT , mythid)
 #endif
