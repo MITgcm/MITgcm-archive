@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/model/src/config_summary.F,v 1.60 2004/10/13 04:37:37 edhill Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/config_summary.F,v 1.58 2004/09/15 21:23:32 edhill Exp $
 C $Name:  $
 
 #include "CPP_OPTIONS.h"

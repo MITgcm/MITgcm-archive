@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/model/src/initialise_fixed.F,v 1.36 2004/10/13 04:37:37 edhill Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/initialise_fixed.F,v 1.34 2004/09/10 12:19:30 edhill Exp $
 C $Name:  $
 
 #include "PACKAGES_CONFIG.h"

@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/model/src/ini_grid.F,v 1.23 2004/10/13 04:37:37 edhill Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/ini_grid.F,v 1.21 2004/09/15 21:23:32 edhill Exp $
 C $Name:  $
 
 #include "PACKAGES_CONFIG.h"
@@ -20,12 +20,12 @@ C     !USES:
 #include "SIZE.h"
 #include "EEPARAMS.h"
 #include "PARAMS.h"
-#ifdef ALLOW_MNC
-#include "MNC_PARAMS.h"
-#endif
 #include "GRID.h"
 #ifdef ALLOW_MONITOR
 #include "MONITOR.h"
+#endif
+#ifdef ALLOW_MNC
+#include "MNC_PARAMS.h"
 #endif
 
 C     !INPUT/OUTPUT PARAMETERS:
