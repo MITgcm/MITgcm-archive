@@ -1,7 +1,5 @@
-C $Header: /u/gcmpack/MITgcm/pkg/aim/Attic/phy_convmf.F,v 1.4 2001/09/25 19:50:28 jmc Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/aim/Attic/phy_convmf.F,v 1.3 2001/05/29 19:28:53 cnh Exp $
 C $Name:  $
-
-#include "AIM_OPTIONS.h"
 
 cmolt      SUBROUTINE CONVMF (PSA,SE,QA,QSAT,
       SUBROUTINE CONVMF (PSA,TA,QA,QSAT,
@@ -192,11 +190,8 @@ C       Cloud-base mass flux
 C
 C       Upward fluxes at upper boundary
 cch        FUS=FMASS*SE(J,K)
-#ifdef OLD_AIM_INTERFACE 
-        FUQ=FMASS*QSAT(J,K)
-#else 
+C_jmc      FUQ=FMASS*QSAT(J,K)
         FUQ=FMASS*MAX( QSAT(J,K), MIN(QB,QA(J,K)) )
-#endif
 C
 C       Downward fluxes at upper boundary
 cch        FDS=FMASS*SB

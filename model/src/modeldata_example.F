@@ -1,39 +1,29 @@
-C $Header: /u/gcmpack/MITgcm/model/src/Attic/modeldata_example.F,v 1.9 2001/09/26 18:09:16 cnh Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/Attic/modeldata_example.F,v 1.8 2001/02/04 14:38:48 cnh Exp $
 C $Name:  $
 
 #include "CPP_OPTIONS.h"
 
-CBOP
-C     !ROUTINE: MODELDATA_EXAMPLE
-C     !INTERFACE:
       SUBROUTINE MODELDATA_EXAMPLE( myThid )
-
-C     !DESCRIPTION: \bv
-C     *==========================================================*
-C     | S/R MODELDATA_EXAMPLE                                     
-C     | o Write example data file                                 
-C     *==========================================================*
-C     | Notes                                                     
-C     | =====                                                     
-C     | Some systems require & as the namelist terminator.        
-C     | Other systems use a / character.                          
-C     *==========================================================*
-C     \ev
-
-C     !USES:
+C     /==========================================================\
+C     | S/R MODELDATA_EXAMPLE                                    |
+C     | o Write example data file                                |
+C     |==========================================================|
+C     | Notes                                                    |
+C     | =====                                                    |
+C     | Some systems require & as the namelist terminator.       |
+C     | Other systems use a / character.                         |
+C     \==========================================================/
       IMPLICIT NONE
+
 #include "SIZE.h"
 #include "EEPARAMS.h"
 #include "PARAMS.h"
 
-C     !INPUT/OUTPUT PARAMETERS:
-C     == Routine arguments ==
+C     -- Routine arguments --
       INTEGER myThid
 
-C     !LOCAL VARIABLES:
-C     == Local variables ==
+C     -- Local variables --
       CHARACTER*(MAX_LEN_MBUF) msgBuf
-CEOP
       
       WRITE(msgBuf,'(A)') '// Shown below is an example "data" file.'
       CALL PRINT_MESSAGE( msgBuf,standardMessageUnit,SQUEEZE_RIGHT,1)

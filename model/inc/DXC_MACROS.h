@@ -1,20 +1,13 @@
-C $Header: /u/gcmpack/MITgcm/model/inc/DXC_MACROS.h,v 1.4 2001/09/21 15:13:31 cnh Exp $
+C $Header: /u/gcmpack/MITgcm/model/inc/DXC_MACROS.h,v 1.3 2001/02/04 14:38:44 cnh Exp $
 C $Name:  $
 C
-CBOP
-C    !ROUTINE: DXC_MACROS.h
-C    !INTERFACE:
-C    include DXC_MACROS.h
-C    !DESCRIPTION: \bv
-C     *==========================================================*
-C     | DXC_MACROS.h                                              
-C     *==========================================================*
-C     | These macros are used to reduce memory requirement and/or 
-C     | memory references when variables are fixed along a given  
-C     | axis or axes.                                             
-C     *==========================================================*
-C     \ev
-CEOP
+C     /==========================================================\
+C     | DXC_MACROS.h                                             |
+C     |==========================================================|
+C     | These macros are used to reduce memory requirement and/or|
+C     | memory references when variables are fixed along a given |
+C     | axis or axes.                                            |
+C     \==========================================================/
 
 #ifdef DXC_CONST
 #define  _dxC(i,j,bi,bj) dxC(1,1,1,1)

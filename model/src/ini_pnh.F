@@ -1,27 +1,20 @@
-C $Header: /u/gcmpack/MITgcm/model/src/Attic/ini_pnh.F,v 1.2 2001/09/26 18:09:15 cnh Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/Attic/ini_pnh.F,v 1.1 2001/06/29 17:14:49 adcroft Exp $
 C $Name:  $
 
 #include "CPP_OPTIONS.h"
 
-CBOP
-C     !ROUTINE: INI_PNH
-C     !INTERFACE:
       SUBROUTINE INI_PNH( myThid )
-
-C     !DESCRIPTION: \bv
-C     *==========================================================*
-C     | SUBROUTINE INI_PNH                                        
-C     | o Set model initial non-hydrostatic pressure.             
-C     *==========================================================*
-C     | There are several options for setting the initial         
-C     | surface displacement (r unit) field.                      
-C     |  1. Inline code                                           
-C     |  2. Two-dimensional data from a file.                     
-C     *==========================================================*
-C     \ev
-
-C     !USES:
+C     /==========================================================\
+C     | SUBROUTINE INI_PNH                                       |
+C     | o Set model initial non-hydrostatic pressure.            |
+C     |==========================================================|
+C     | There are several options for setting the initial        |
+C     | surface displacement (r unit) field.                     |
+C     |  1. Inline code                                          |
+C     |  2. Two-dimensional data from a file.                    |
+C     \==========================================================/
       IMPLICIT NONE
+
 C     === Global variables ===
 #include "SIZE.h"
 #include "EEPARAMS.h"
@@ -29,15 +22,12 @@ C     === Global variables ===
 #include "GRID.h"
 #include "DYNVARS.h"
 
-C     !INPUT/OUTPUT PARAMETERS:
 C     == Routine arguments ==
 C     myThid -  Number of this instance of INI_PSURF 
       INTEGER myThid
 
-C     !LOCAL VARIABLES:
 C     == Local variables ==
       INTEGER bi,bj,I,J,K
-CEOP
 
 #ifdef ALLOW_NONHYDROSTATIC
 
