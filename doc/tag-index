@@ -1,10 +1,13 @@
-$Header: /u/gcmpack/MITgcm/doc/tag-index,v 1.53.6.3 2003/01/24 05:00:36 dimitri Exp $
+$Header: /u/gcmpack/MITgcm/doc/tag-index,v 1.53.6.4 2003/02/07 03:52:57 dimitri Exp $
 
     Notes on tags used in MITgcmUV
     ==============================
 
 Branch release1_coupled contains code for coupling
 to UCLA atmospheric model:
+
+updated useSingleCpuIO option in mdsio_writefield.F
+to work with multi-field files, e.g., the pickup files
 
 Added lower bound diffusivity to kpp_routines.F (see !!!NOTE!!!).
 
