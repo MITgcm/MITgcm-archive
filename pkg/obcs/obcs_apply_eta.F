@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/pkg/obcs/obcs_apply_eta.F,v 1.1 2002/01/30 04:22:31 jmc Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/obcs/obcs_apply_eta.F,v 1.1.4.1 2002/04/08 20:10:39 heimbach Exp $
 C $Name:  $
 
 #include "OBCS_OPTIONS.h"

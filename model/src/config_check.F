@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/model/src/config_check.F,v 1.3 2002/02/10 00:35:30 jmc Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/config_check.F,v 1.3.4.1 2002/04/08 20:10:37 heimbach Exp $
 C $Name:  $
 
 #include "CPP_OPTIONS.h"
