@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/model/src/ini_theta.F,v 1.6.2.1 1998/06/19 04:55:13 cnh Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/ini_theta.F,v 1.6.2.2 1998/06/20 21:04:59 cnh Exp $
 
 #include "CPP_EEOPTIONS.h"
 
@@ -97,7 +97,7 @@ C           the theta* scheme used.
          DO J=1,sNy
           DO I=1,sNx
            gt   (I,J,K,bi,bj) = 0. _d 0
-           gtNM1(I,J,K,bi,bj) = theta(I,J,K,bi,bj)
+           gtNM1(I,J,K,bi,bj) = 0. _d 0
           ENDDO
          ENDDO
         ENDDO

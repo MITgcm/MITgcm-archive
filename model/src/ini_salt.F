@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/model/src/ini_salt.F,v 1.5.2.1 1998/06/19 04:55:13 cnh Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/ini_salt.F,v 1.5.2.2 1998/06/20 21:04:59 cnh Exp $
 
 #include "CPP_EEOPTIONS.h"
 
@@ -73,7 +73,7 @@ C     Note: gSNm1 == salt to be consistent with salt* implementation
          DO J=1,sNy
           DO I=1,sNx
            gs   (I,J,K,bi,bj) = 0. _d 0
-           gsNM1(I,J,K,bi,bj) = salt(I,J,K,bi,bj)
+           gsNM1(I,J,K,bi,bj) = 0. _d 0
           ENDDO
          ENDDO
         ENDDO

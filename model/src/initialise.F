@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/model/src/Attic/initialise.F,v 1.4 1998/06/10 02:41:10 cnh Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/Attic/initialise.F,v 1.4.2.1 1998/06/20 21:04:59 cnh Exp $
 
 #include "CPP_EEOPTIONS.h"
 
@@ -54,7 +54,7 @@ C     stored files.
       _BARRIER
 
 C--   Initialise time-stepping (predictor variables are carried in G)
-      CALL INIT_PREDICTOR( myThid )
+      CALL INI_PREDICTOR( myThid )
       _BARRIER
 
 C--   Set coriolis operators
