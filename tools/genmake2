@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# $Header: /u/gcmpack/MITgcm/tools/genmake2,v 1.11.2.11 2003/10/04 13:56:40 edhill Exp $
+# $Header: /u/gcmpack/MITgcm/tools/genmake2,v 1.11.2.12 2003/10/04 14:21:58 edhill Exp $
 #
 # Makefile generator for MITgcm UV codes
 #   created  by cnh 03/98
@@ -327,6 +327,7 @@ EXECUTABLE=
 EXEHOOK=
 EXEDIR=
 PACKAGES_CONF=
+IEEE=
 if test "x$MITGCM_IEEE" != x ; then
     IEEE=$MITGCM_IEEE
 fi
