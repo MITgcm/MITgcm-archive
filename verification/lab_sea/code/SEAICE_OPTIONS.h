@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/verification/lab_sea/code/SEAICE_OPTIONS.h,v 1.3.2.2 2003/10/06 04:31:47 edhill Exp $
+C $Header: /u/gcmpack/MITgcm/verification/lab_sea/code/SEAICE_OPTIONS.h,v 1.3.2.3 2003/10/07 20:50:31 adcroft Exp $
 
 C     /==========================================================\
 C     | SEAICE_OPTIONS.h                                         |
@@ -40,6 +40,10 @@ C     open-ocean.  When this flag is set, these variables are computed
 C     in a separate external package, for example, pkg/exf, and then
 C     modified for sea-ice effects by pkg/seaice.
 #undef SEAICE_EXTERNAL_FLUXES
+
+C-- This include is necessary because of awkward dependancies with pkg/exf
+#define INCLUDE_EXTERNAL_FORCING_PACKAGE
+#include "EXF_OPTIONS.h"
 
 #endif /* ALLOW_SEAICE */
 #endif /* SEAICE_OPTIONS_H */

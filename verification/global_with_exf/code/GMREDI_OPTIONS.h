@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/verification/global_with_exf/code/Attic/GMREDI_OPTIONS.h,v 1.4.2.1 2003/10/06 20:14:01 edhill Exp $
+C $Header: /u/gcmpack/MITgcm/verification/global_with_exf/code/Attic/GMREDI_OPTIONS.h,v 1.4.2.2 2003/10/07 20:50:30 adcroft Exp $
 C $Name:  $
 
 C CPP options file for GM/Redi package
@@ -12,7 +12,7 @@ C Use this file for selecting options within the GM/Redi package
 
 #include "CPP_OPTIONS.h"
 
-C Design to simplify the Ajoint code: 
+C Designed to simplify the Ajoint code:
 C  exclude the clipping/tapering part of the code that is not used
 C #define GM_EXCLUDE_CLIPPING
 C #define GM_EXCLUDE_AC02_TAP
