@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/model/src/ini_parms.F,v 1.71.2.4.2.1 2005/08/25 16:38:10 dimitri Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/ini_parms.F,v 1.71.2.4.2.2 2005/08/25 16:47:13 dimitri Exp $
 C $Name:  $
 
 #include "CPP_OPTIONS.h"
@@ -104,6 +104,7 @@ C--   Continuous equation parameters
      & diffKhT, diffKzT, diffK4T, 
      & diffKhS, diffKzS, diffK4S,
      & tRef, sRef, eosType, Integr_GeoPot,
+     & atm_Cp, atm_Rd, atm_Rq,
      & no_slip_sides,no_slip_bottom,
      & momViscosity,  momAdvection, momForcing, useCoriolis,
      & momPressureForcing, metricTerms, vectorInvariantMomentum,
