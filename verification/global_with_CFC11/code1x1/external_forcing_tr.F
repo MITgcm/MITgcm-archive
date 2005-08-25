@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/verification/global_with_CFC11/code1x1/Attic/external_forcing_tr.F,v 1.1.2.1 2005/08/25 16:22:17 dimitri Exp $
+C $Header: /u/gcmpack/MITgcm/verification/global_with_CFC11/code1x1/Attic/external_forcing_tr.F,v 1.1.2.2 2005/08/25 18:21:17 dimitri Exp $
 C $Name:  $
 
 #include "CPP_OPTIONS.h"
@@ -90,18 +90,18 @@ C   For low-resolution, less that 1-deg, it's best to generate files
 C   separately because of sea-ice fraction.
 C   Caution: CFC_USE_INTERP as used is not thread-safe.
 #ifdef CFC_USE_INTERP
-            CALL NEW_INTERP( FiceFile,readBinaryPrec,fice0,intime0,
-     &           xC,yC,lon0,lon_inc,lat0,lat_inc,nlon,nlat,mythid )
-            CALL NEW_INTERP( FiceFile,readBinaryPrec,fice1,intime1,
-     &           xC,yC,lon0,lon_inc,lat0,lat_inc,nlon,nlat,mythid )
-            CALL NEW_INTERP( XkwFile,readBinaryPrec,xkw0,intime0,
-     &           xC,yC,lon0,lon_inc,lat0,lat_inc,nlon,nlat,mythid )
-            CALL NEW_INTERP( XkwFile,readBinaryPrec,xkw1,intime1,
-     &           xC,yC,lon0,lon_inc,lat0,lat_inc,nlon,nlat,mythid )
-            CALL NEW_INTERP( PatmFile,readBinaryPrec,patm0,intime0,
-     &           xC,yC,lon0,lon_inc,lat0,lat_inc,nlon,nlat,mythid )
-            CALL NEW_INTERP( PatmFile,readBinaryPrec,patm1,intime1,
-     &           xC,yC,lon0,lon_inc,lat0,lat_inc,nlon,nlat,mythid )
+            CALL EXF_INTERP( FiceFile,readBinaryPrec,fice0,intime0,
+     &           xC,yC,lon0,lon_inc,lat0,lat_inc,nlon,nlat,1,mythid )
+            CALL EXF_INTERP( FiceFile,readBinaryPrec,fice1,intime1,
+     &           xC,yC,lon0,lon_inc,lat0,lat_inc,nlon,nlat,1,mythid )
+            CALL EXF_INTERP( XkwFile,readBinaryPrec,xkw0,intime0,
+     &           xC,yC,lon0,lon_inc,lat0,lat_inc,nlon,nlat,1,mythid )
+            CALL EXF_INTERP( XkwFile,readBinaryPrec,xkw1,intime1,
+     &           xC,yC,lon0,lon_inc,lat0,lat_inc,nlon,nlat,1,mythid )
+            CALL EXF_INTERP( PatmFile,readBinaryPrec,patm0,intime0,
+     &           xC,yC,lon0,lon_inc,lat0,lat_inc,nlon,nlat,1,mythid )
+            CALL EXF_INTERP( PatmFile,readBinaryPrec,patm1,intime1,
+     &           xC,yC,lon0,lon_inc,lat0,lat_inc,nlon,nlat,1,mythid )
 #else
             CALL MDSREADFIELD ( FiceFile, readBinaryPrec,
      &           'RS', 1, fice0, intime0, myThid )

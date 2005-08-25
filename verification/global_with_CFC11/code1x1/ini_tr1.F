@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/verification/global_with_CFC11/code1x1/Attic/ini_tr1.F,v 1.1.2.1 2005/08/25 16:22:17 dimitri Exp $
+C $Header: /u/gcmpack/MITgcm/verification/global_with_CFC11/code1x1/Attic/ini_tr1.F,v 1.1.2.2 2005/08/25 18:21:17 dimitri Exp $
 C $Name:  $
 
 #include "CPP_OPTIONS.h"
@@ -129,19 +129,24 @@ c_ RCS lines preceded by "c_ "
 c_ ---------------------------------------------------------------------
 c_
 c_ $Source: /u/gcmpack/MITgcm/verification/global_with_CFC11/code1x1/Attic/ini_tr1.F,v $
-c_ $Revision: 1.1.2.1 $
-c_ $Date: 2005/08/25 16:22:17 $   ;  $State: Exp $
+c_ $Revision: 1.1.2.2 $
+c_ $Date: 2005/08/25 18:21:17 $   ;  $State: Exp $
 c_ $Author: dimitri $ ;  $Locker:  $
 c_
 c_ ---------------------------------------------------------------------
 c_ $Log: ini_tr1.F,v $
+c_ Revision 1.1.2.2  2005/08/25 18:21:17  dimitri
+c_ updating verification/global_with_CFC11/code1x1/external_forcing_tr.F
+c_ and verification/global_with_CFC11/code1x1/ini_tr1.F
+c_ for release1_50yr
+c_
 c_ Revision 1.1.2.1  2005/08/25 16:22:17  dimitri
 c_ adding ecco1x1 verification/global_with_CFC11 experiment
 c_
 c_ Revision 1.1.2.1  2003/05/03 04:27:34  dimitri
 c_ Branched off release1_p15
 c_ Modified pkg/exf/exf_clim_param.h, exf_clim_readparms.F,
-c_    exf_set_climsss.F, and exf_set_climsst.F to add new_interp
+c_    exf_set_climsss.F, and exf_set_climsst.F to add exf_interp
 c_    capability to SST and SSS
 c_ Added verification/global_with_CFC11/code50yr and input50yr
 c_
