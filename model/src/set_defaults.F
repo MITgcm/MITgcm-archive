@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/model/src/set_defaults.F,v 1.30.2.4 2003/05/02 14:25:29 dimitri Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/set_defaults.F,v 1.30.2.4.2.1 2005/08/25 16:38:10 dimitri Exp $
 C $Name:  $
 
 #include "CPP_OPTIONS.h"
@@ -138,6 +138,7 @@ C--   Set default "physical" parameters
       multiDimAdvection   = .TRUE.
       useEnergyConservingCoriolis = .FALSE.
       useJamartWetPoints  = .FALSE.
+      debugLevel          = debLevA
 
 C--   Set (free)surface-related parameters
       implicitFreeSurface = .TRUE.

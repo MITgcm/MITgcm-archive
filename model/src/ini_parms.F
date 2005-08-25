@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/model/src/ini_parms.F,v 1.71.2.4 2003/05/02 14:25:29 dimitri Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/ini_parms.F,v 1.71.2.4.2.1 2005/08/25 16:38:10 dimitri Exp $
 C $Name:  $
 
 #include "CPP_OPTIONS.h"
@@ -122,7 +122,7 @@ C--   Continuous equation parameters
      & nonHydrostatic, globalFiles, useSingleCpuIO,
      & allowFreezing, ivdc_kappa,
      & bottomDragLinear,bottomDragQuadratic,
-     & usePickupBeforeC35, debugMode, 
+     & usePickupBeforeC35, debugMode, debugLevel,
      & readPickupWithTracer, writePickupWithTracer,
      & tempAdvScheme, saltAdvScheme, tracerAdvScheme,
      & multiDimAdvection, useEnergyConservingCoriolis,
