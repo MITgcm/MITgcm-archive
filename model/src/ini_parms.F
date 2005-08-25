@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/model/src/ini_parms.F,v 1.71.2.4.2.2 2005/08/25 16:47:13 dimitri Exp $
+C $Header: /u/gcmpack/MITgcm/model/src/ini_parms.F,v 1.71.2.4.2.3 2005/08/25 20:19:03 dimitri Exp $
 C $Name:  $
 
 #include "CPP_OPTIONS.h"
@@ -870,6 +870,8 @@ C     being combined and a single frame of reference is needed.
       IF ( zCoordInputData ) usingZCoords = .TRUE.
       IF ( pCoordInputData ) usingPCoords = .TRUE.
 
+c-- gradually replacing debugMode by debugLevel
+      IF ( debugMode ) debugLevel = debLevB
 C
       CLOSE(iUnit)
 
