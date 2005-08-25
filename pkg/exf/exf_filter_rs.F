@@ -1,6 +1,6 @@
-c $Header: /u/gcmpack/MITgcm/pkg/exf/Attic/exf_filter_rs.F,v 1.1.4.3 2003/01/12 08:20:10 dimitri Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/exf/Attic/exf_filter_rs.F,v 1.1.4.3.2.1 2005/08/25 16:06:10 dimitri Exp $
 
-#include "EXF_CPPOPTIONS.h"
+#include "EXF_OPTIONS.h"
 
       subroutine exf_filter_rs(
      I                          arr,
@@ -53,7 +53,7 @@ c     == end of interface ==
       itlo = mybxlo(mythid)
       ithi = mybxhi(mythid)
 
-c     Don't filter with pkg/seaice because of B/C-grid interpolation
+c     Do not filter with pkg/seaice because of B/C-grid interpolation
       IF ( .NOT. useSEAICE ) THEN
 
 c     filter forcing field array

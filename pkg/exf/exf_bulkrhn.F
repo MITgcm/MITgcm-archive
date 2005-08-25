@@ -1,6 +1,6 @@
-c $Header: /u/gcmpack/MITgcm/pkg/exf/Attic/exf_bulkrhn.F,v 1.1.4.2 2003/01/12 08:20:10 dimitri Exp $
+c $Header: /u/gcmpack/MITgcm/pkg/exf/Attic/exf_bulkrhn.F,v 1.1.4.2.2.1 2005/08/25 16:06:09 dimitri Exp $
 
-#include "EXF_CPPOPTIONS.h"
+#include "EXF_OPTIONS.h"
 
 
       _RL function exf_BulkRhn(
@@ -31,7 +31,7 @@ c     ==================================================================
 
       implicit none
 
-#if (defined (ALLOW_BULKFORMULAE) && defined (ALLOW_ATM_TEMP))
+#if (defined (ALLOW_BULKFORMULAE))
 
 c     == global variables ==
 

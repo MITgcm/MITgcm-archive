@@ -1,5 +1,7 @@
+C $Header: /u/gcmpack/MITgcm/pkg/cal/cal_readparms.F,v 1.1.4.1.2.1 2005/08/25 16:06:08 dimitri Exp $
+C $Name:  $
 
-#include "CAL_CPPOPTIONS.h"
+#include "CAL_OPTIONS.h"
 
       subroutine cal_readparms( mythid )
 

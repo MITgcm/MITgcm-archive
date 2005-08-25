@@ -1,4 +1,4 @@
-c $Header: /u/gcmpack/MITgcm/pkg/exf/Attic/exf_clim_fields.h,v 1.1.4.1 2002/11/07 17:07:56 heimbach Exp $
+c $Header: /u/gcmpack/MITgcm/pkg/exf/Attic/exf_clim_fields.h,v 1.1.4.1.2.1 2005/08/25 16:06:09 dimitri Exp $
 c
 c
 c     ==================================================================

@@ -1,6 +1,7 @@
-C $Header: /u/gcmpack/MITgcm/pkg/cal/cal_printdate.F,v 1.1 2001/05/14 22:07:27 heimbach Exp $
+C $Header: /u/gcmpack/MITgcm/pkg/cal/cal_printdate.F,v 1.1.18.1 2005/08/25 16:06:08 dimitri Exp $
+C $Name:  $
 
-#include "CAL_CPPOPTIONS.h"
+#include "CAL_OPTIONS.h"
 
       subroutine cal_PrintDate(
      I                          caldate,

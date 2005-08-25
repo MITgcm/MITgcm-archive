@@ -1,6 +1,6 @@
-c $Header: /u/gcmpack/MITgcm/pkg/exf/exf_getclim.F,v 1.1.4.1 2002/11/07 17:07:56 heimbach Exp $
+c $Header: /u/gcmpack/MITgcm/pkg/exf/exf_getclim.F,v 1.1.4.1.2.1 2005/08/25 16:06:10 dimitri Exp $
 
-#include "EXF_CPPOPTIONS.h"
+#include "EXF_OPTIONS.h"
 
 
       subroutine exf_getclim(
@@ -15,7 +15,7 @@ c     ==================================================================
 c
 c     o Get the climatogy fields for the current time step. The switches
 c       for the inclusion of the individual forcing components have to
-c       be set in EXF_CPPOPTIONS.h .
+c       be set in EXF_OPTIONS.h .
 c
 c       A note on surface fluxes:
 c

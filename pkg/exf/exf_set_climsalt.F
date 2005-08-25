@@ -1,6 +1,6 @@
-c $Header: /u/gcmpack/MITgcm/pkg/exf/Attic/exf_set_climsalt.F,v 1.1.4.5 2003/02/09 16:27:56 dimitri Exp $
+c $Header: /u/gcmpack/MITgcm/pkg/exf/Attic/exf_set_climsalt.F,v 1.1.4.5.2.1 2005/08/25 16:06:11 dimitri Exp $
 
-#include "EXF_CPPOPTIONS.h"
+#include "EXF_OPTIONS.h"
 
 
       subroutine exf_set_climsalt( 
