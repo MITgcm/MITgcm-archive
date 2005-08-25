@@ -1,0 +1,11 @@
+# $Header: /u/gcmpack/MITgcm/verification/global_with_CFC11/code1x1/Attic/.genmakerc,v 1.1.2.1 2005/08/25 16:22:16 dimitri Exp $
+# $Name:  $
+
+# Disable packages that are not needed
+set DISABLE=( aim obcs zonal_filt shap_filt autodiff cost ctrl grdchk )
+
+# Enable packages that are needed but are disabled by default
+set ENABLE=( cal exf )
+
+# We can also specify other defaults
+#set ROOTDIR=..
