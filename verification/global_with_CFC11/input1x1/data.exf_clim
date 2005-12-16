@@ -1,4 +1,4 @@
-# $Header: /u/gcmpack/MITgcm/verification/global_with_CFC11/input1x1/Attic/data.exf_clim,v 1.1.2.1 2005/08/25 16:22:17 dimitri Exp $
+# $Header: /u/gcmpack/MITgcm/verification/global_with_CFC11/input1x1/Attic/data.exf_clim,v 1.1.2.2 2005/12/16 23:13:36 dimitri Exp $
 #
 # *********************************
 # External Forcing Climatology Data
@@ -25,7 +25,7 @@
     1.9042, 1.9042, 1.9039, 1.9034, 1.9024, 1.9000, 1.8888, 1.8888
  climsst_nlon     = 192,
  climsst_nlat     = 94,
- climsstfile      = 'NCEP_R_tmp_92-02.bin',
+ climsstfile      = 'NCEP_R_tmp_92-05.bin',
 #
  climsss_lon0     = 0.5
  climsss_lon_inc  = 1
