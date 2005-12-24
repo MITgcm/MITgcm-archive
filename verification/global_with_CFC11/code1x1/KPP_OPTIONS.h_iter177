@@ -1,4 +1,4 @@
-C $Header: /u/gcmpack/MITgcm/verification/global_with_CFC11/code1x1/Attic/KPP_OPTIONS.h_iter177,v 1.1.2.1 2005/12/24 01:34:25 dimitri Exp $
+C $Header: /u/gcmpack/MITgcm/verification/global_with_CFC11/code1x1/Attic/KPP_OPTIONS.h_iter177,v 1.1.2.2 2005/12/24 04:59:16 dimitri Exp $
 C $Name:  $
 C     /==========================================================\
 C     | KPP_OPTIONS.h                                            |
@@ -27,11 +27,11 @@ C   same whether FRUGAL_KPP is turned on or off.
 
 C o When set, smooth zonal shear meridionally and
 C   meridional shear zonally with 121 filters
-#undef KPP_SMOOTH_SHSQ
+#define KPP_SMOOTH_SHSQ
 #undef KPP_SMOOTH_DVSQ
 
 C o When set, smooth dbloc KPP variable horizontally
-#undef KPP_SMOOTH_DBLOC
+#define KPP_SMOOTH_DBLOC
 
 C o When set, smooth all KPP density variables horizontally
 #undef KPP_SMOOTH_DENS

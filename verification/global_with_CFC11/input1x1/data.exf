@@ -1,11 +1,11 @@
-# $Header: /u/gcmpack/MITgcm/verification/global_with_CFC11/input1x1/Attic/data.exf,v 1.1.2.1 2005/08/25 16:22:17 dimitri Exp $
+# $Header: /u/gcmpack/MITgcm/verification/global_with_CFC11/input1x1/Attic/data.exf,v 1.1.2.2 2005/12/24 04:59:16 dimitri Exp $
 #
 # *********************
 # External Forcing Data
 # *********************
  &EXF_NML
 #
-# repeat period is 3650 days (10 years, 1992-2001)
+# repeat period is 4015 days (11 years, 1992-2002)
  RepeatPeriod = 346896000
 #
  hfluxstartdate1   = 19911231,
